@@ -2,3 +2,9 @@
 !guitar-fretboard.pdf
 *.log
 *.aux
+*.idx
+*.out
+*.toc
+*.listing
+/_minted-guitar-fretboard/
+README
