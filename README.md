@@ -43,7 +43,7 @@ You can build the whole package using the `make` command.
 
 ## Installation
 
-To install the `tkiz-page` package copy its directory to either to:
+To install the `guitar-fretboard` package copy its directory to either to:
 
 - `$TEXHOME/tex/latex/`
 - `$TEXMFHOME/tex/latex/`
