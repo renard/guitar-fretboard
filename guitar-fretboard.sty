@@ -60,7 +60,9 @@
 \tikzset{
   fretboard/.style = {yscale=-1.3,xscale=2.6,
     background rectangle/.style={fill=white}, show background rectangle},
-  legend/.style = { anchor=south, align=center,yshift=2.5em,font=\Huge }, 
+  legend/.style = { anchor=center, align=center,font=\Huge },
+  legend position chord/.style = {shift = {(-1.5, 0)} },
+  legend position/.style = {shift = {(0,1.5)} },
   fret/.style = {  line width = 2pt, },
   string/.style = {  },
   fret numbers/.style = {font=\Large },
@@ -102,6 +104,8 @@
 \newif\iffb@fret@numbers@visible
 \newif\iffb@transpose@pitch
 \newif\iffb@show@tuning
+\newif\iffb@chord
+
 \pgfkeys{
   /fb/.cd,
   fretboard/.store in = \fb@fretboard@style,
@@ -122,12 +126,17 @@
   transpose/.initial = 0,
   transpose pitch/.is if = fb@transpose@pitch,
   transpose pitch = false,
-  %             
+  %
+  chord/.is if = fb@chord,
+  chord = false,
+  chord style/.store in = \fb@chord@style,
+  chord style,
+  %
   string/.store in = \fb@string@style,
   string,
   %
   string width/.initial = 0.5pt,
-  string factor/.initial = 0.5pt,
+  string factor/.initial = 0.75pt,
   %
   fret/.store in = \fb@fret@style,
   fret,
@@ -199,13 +208,25 @@
     \pgfkeysvalueof{/fb/frets max} + \pgfkeysvalueof{/fb/frets after}}
   \pgfmathtruncatemacro{\fb@canvas@x@max@plusone}{\fb@canvas@x@max+1}
 
+
+  \def\@@rotate{0}
+  \tikzset{ @@chord/.style = {}, }
+  \iffb@chord
+  \def\@@rotate{-90}%
+  \tikzset{@@chord/.append style = {
+      chord, @em=\fb@chord@style,
+    }
+  }
+  \fi
+
   
   % String list
   \edef\fb@strings{\pgfkeysvalueof{/fb/tuning}}
   \getlen{\fb@strings@count}{\fb@strings}
-  \begin{adjustbox}{scale={\pgfkeysvalueof{/fb/scale}}}
+  \begin{adjustbox}{rotate=\@@rotate,scale={\pgfkeysvalueof{/fb/scale}}}
   \begin{tikzpicture} [fretboard, @em=\fb@fretboard@style]
 
+    
     % Draw the frets and put fret number
     \foreach \fret [count=\@ifret from \fb@canvas@x@min]
     in {\fb@canvas@x@min,...,\fb@canvas@x@max@plusone}{%
@@ -214,7 +235,7 @@
       % Do not draw last fret number
       \iffb@fret@numbers@visible{%
         \ifnum\fret < \fb@canvas@x@max@plusone{%
-          \node[fret numbers, @em=\fb@fret@numbers@style] at
+          \node[fret numbers, @em=\fb@fret@numbers@style,@@chord] at
           (\@ifret,\fb@strings@count+\pgfkeysvalueof{/fb/fret numbers position})
                {\@ifret};
         }\fi
@@ -245,9 +266,14 @@
 
   %% Add a legend
   \ifthenelse{\equal{\pgfkeysvalueof{/fb/legend text}}{}}{}{%
-    \node[anchor=south west] (l) at (\fb@canvas@x@min, 1) {};
-    \node[anchor=south east] (r) at (\fb@canvas@x@max, 1) {};
-    \node[legend,@em=\fb@legend@style] at ($(l)!0.5!(r)$) {\pgfkeysvalueof{/fb/legend text}};
+    \iffb@chord
+    \node[legend position chord] (l) at (\fb@canvas@x@min-\pgfkeysvalueof{/fb/frets offset}, 1) {};
+    \node[legend position chord] (r) at (\fb@canvas@x@min-\pgfkeysvalueof{/fb/frets offset}, \fb@strings@count) {};
+    \else
+    \node[legend position] (l) at (\fb@canvas@x@min, 1) {};
+    \node[legend position] (r) at (\fb@canvas@x@max, 1) {};
+    \fi
+    \node[legend,@em=\fb@legend@style,@@chord] at ($(l)!0.5!(r)$) {\pgfkeysvalueof{/fb/legend text}};
   }%
 
   \iffb@show@tuning
@@ -336,7 +362,7 @@
 \newcommand{\@setup@note@style}[2][]{
  \pgfkeys{/notes/#2/.cd, #1}%
   %% Define a dynamic local style to handle several cases (including highlight)
-  \tikzset{@@note/.style={note,@em=\fb@note@style,/notes/#2/style}}
+  \tikzset{@@note/.style={note,@em=\fb@note@style,/notes/#2/style, @@chord}}
   %% Check for hightight
   \iftrue\csname iffb@note@#2@highlight\endcsname%
   \tikzset{@@note/.append style = {
