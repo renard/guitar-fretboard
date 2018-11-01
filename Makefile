@@ -8,7 +8,7 @@ cleanext := $(wildcard *.dvi *.aux *.glo *.ilg *.ind *.toc *.hd *.idx *.listing 
 
 listings := $(wildcard $(PACKAGE)-*.tex wildcard $(PACKAGE)-*.md5 wildcard $(PACKAGE)-*.pdf)
 
-objects := $(PACKAGE).pdf
+objects := $(PACKAGE).pdf standalone.png
 
 LATEX := $(shell which latex)
 PDFLATEX := $(shell which pdflatex)
@@ -19,13 +19,17 @@ PDF_PROCESSOR := $(XELATEX)
 
 CTANDIR := $(PACKAGE)
 CTANDIST = Makefile README.md README \
-	$(PACKAGE).pdf $(PACKAGE).dtx $(PACKAGE).sty
+	$(PACKAGE).pdf $(PACKAGE).sty \
+	standalone.tex standalone.pdf
 
 all: $(objects) README
 
 #%.sty:
 # 	$(RM) -f $@
 # 	$(LATEX) '\let\install=y\input{$<}'
+
+standalone.png: standalone.tex
+	$(PDF_PROCESSOR) -shell-escape $<
 
 %.pdf: %.tex
 	$(PDF_PROCESSOR) -shell-escape $<
@@ -37,7 +41,7 @@ clean:
 	$(RM) -fr $(cleanext) $(listings) $(PACKAGE).zip
 
 distclean: clean
-	$(RM) -rf $(objects) README $(CTANDIR)
+	$(RM) -rf $(objects) README $(CTANDIR) standalone.pdf
 
 README: README.md
 	$(PANDOC) -t plain -o $@ $<
