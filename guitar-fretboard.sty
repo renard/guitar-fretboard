@@ -29,7 +29,7 @@
 
 %% Include all required packages
 \RequirePackage{tikz}
-\usetikzlibrary{shapes,positioning,calc,shapes.multipart}
+\usetikzlibrary{shapes,positioning,calc,shapes.multipart,backgrounds}
 \RequirePackage{xcolor}
 \RequirePackage{ifthen}
 \RequirePackage{xspace}
@@ -58,7 +58,8 @@
 
 % Some default values
 \tikzset{
-  fretboard/.style = {yscale=-1.3,xscale=2.6},
+  fretboard/.style = {yscale=-1.3,xscale=2.6,
+    background rectangle/.style={fill=white}, show background rectangle},
   legend/.style = { anchor=south, align=center,yshift=2.5em,font=\Huge }, 
   fret/.style = {  line width = 2pt, },
   string/.style = {  },
