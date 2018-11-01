@@ -1,0 +1,485 @@
+\documentclass[a4paper]{article}
+
+\usepackage[english]{babel}
+\usepackage{fontenc}
+\usepackage[utf8]{inputenc}
+
+\usepackage{tcolorbox}
+\tcbuselibrary{listings,documentation}
+\tcbuselibrary{documentation,listings,minted}
+\tcbuselibrary{breakable}
+\tcbuselibrary{skins,raster}
+\tcbset{%
+  listing engine=minted,%
+  index actual=~,
+}
+\usepackage{url}
+\usepackage{minted}
+\usepackage{calc}
+\usepackage{makeidx}
+
+\usepackage{multicol}
+\tcbset{
+  doc-code/.style = {%
+    boxrule=0.1pt,
+    colframe=red!75!black,
+    left=8mm,
+    width=\linewidth,
+    breakable=true,
+    colback=white,
+    enhanced,
+  },
+}
+
+
+\newminted[macrocode]{latex}{
+  breaklines,
+  breakafter=()/+-\,
+  baselinestretch=0.5,
+  fontsize=\footnotesize,
+  linenos,
+  numbersep=3mm,
+  firstnumber=last}
+\BeforeBeginEnvironment{macrocode}{%
+  \begin{tcolorbox}[doc-code]
+  }%
+\AfterEndEnvironment{macrocode}{
+\end{tcolorbox}
+}%
+
+
+\newminted[example]{latex}{
+  breaklines,
+  breakafter=()/+-\,
+  baselinestretch=0.5,
+  fontsize=\footnotesize}
+\BeforeBeginEnvironment{example}{%
+  \begin{tcolorbox}[doc-code]}
+\AfterEndEnvironment{example}{
+\end{tcolorbox}
+}%
+
+\usepackage{guitar-fretboard}
+
+\makeindex
+
+\usepackage[super]{nth}
+
+\newcommand{\pkg}[1]{\texttt{#1}}
+
+\newif\ifintroduction
+\introductiontrue
+
+\begin{document}
+
+\title{the \pkg{guitar-fretboard} package }
+\author {Sébastien Gross <seb -at- chezwam -dot- org>}
+\date{This file describes version \fbfileversion\  (\fbfiledate)}
+\maketitle
+\tableofcontents
+
+\ifintroduction
+
+\section{Introduction}
+
+The \pkg{guitar-fretboard} package can be used to generate some nice-looking
+guitar fretboard diagrams. Those diagrams can highlight scales, arpeggios or
+more generic intervals on the guitar neck.
+
+It comes with all battery included to allow you to:
+
+\begin{itemize}
+  \item Create scale diagrams in any tonality for any strung instruments
+    (including guitar, bass, ukulele) in both right and left handed
+    configuration.
+  \item Transpose notes or scales.
+  \item Create diagrams in alternate tuning.
+  \item Create generic diagrams with normal, shaded and highlighted notes.
+  \item and more.
+\end{itemize}
+
+As an example here is the Major scale in key of \pG:
+
+\begin{tcblisting}{doc-code,text above listing}
+  \begin{fb}[frets before = 2, frets after = 2,
+      legend text = {Major scale (1,2,3,4,5,6,7)},
+      fret numbers visible]
+    \foreach \i in {1, 2, 3, 4, 5, 6, 7} {
+      \note[lower]{\i}
+    }
+  \end{fb}
+\end{tcblisting}
+
+The major scale consists of following intervals from the tonic (root) note:
+perfect unison, major second, major third, perfect fourth, perfect fifth,
+major sixth and major seventh. These intervals are represented as
+\brackets{1,2,3,4,5,6,7}. Each interval has its own color for an easier
+lookup and memorization.
+
+The note names can be displayed instead of intervals. The \pF Major scale is
+composed of \pF,\pG,\pA,\pBb,\pC,\pD and \pE:
+
+\begin{tcblisting}{doc-code,text above listing}
+  \begin{fb}[frets before = 2, frets after = 2,
+      transpose = 5,
+      transpose pitch,
+      legend text = {F Major scale (\pF, \pG, \pA, \pBb, \pC, \pD, \pE)},
+      fret numbers visible]
+    \foreach \i in { C, D, E, F, G, F, A, B} {
+      \note[lower]{\i}
+    }
+  \end{fb}
+\end{tcblisting}
+
+The \pF scale is the same as the \pC one but we raise it by 5 semi
+tones. \pkg{guitar-fretboard} is able to convert the pitch name as well. The
+pitch transposition is based on semi-tones and may not be always accurate in
+terms of harmony since not intervals are used in the process.
+
+Chords can also be displayed. In that case you can easily see new \pC chord
+shapes showing up. If you are playing in \pC Major, the scale can also be
+displayed. This helps you to find new embellishments when soloing:
+
+\begin{tcblisting}{doc-code,text above listing}
+  \begin{fb}[frets before = 2, frets after = 2,
+      legend text = {C Chord (and C major scale)},
+      fret numbers visible]
+    \foreach \i in {C, E, G} {
+      \note{\i}
+    }
+    \foreach \i in {D, F, A, B} {
+      \note[shade]{\i}
+    }
+  \end{fb}
+\end{tcblisting}
+
+The classical \pC open chord can also be displayed. In that case the
+\meta{limit} option is used to only place the G on the \nth{3} string.
+
+\begin{tcblisting}{doc-code,text above listing}
+  \begin{fb}[frets min = 0, frets max = 3,
+      legend text = {\pC Chord},
+      fret numbers visible]
+    \note{C} \note{E} \note[limit={3}]{G}
+  \end{fb}
+\end{tcblisting}
+
+The same chord in open \pG{} tuning. Again \pkg{guitar-fretboard} does all
+the magic for you as long as you ask nicely.
+
+\begin{tcblisting}{doc-code,text above listing}
+  \begin{fb}[frets min = 0, frets max = 3,
+      tuning={2,7,2,7,11,2},
+      legend text = {\pC Chord in open \pG tuning},
+      fret numbers visible]
+    \note{C} \note[limit={1,4}]{E} \note{G}
+  \end{fb}
+\end{tcblisting}
+
+And the \pC M7 arpeggio within the whole scale in open \pG tuning:
+
+\begin{tcblisting}{doc-code,text above listing}
+  \begin{fb}[frets before = 2, frets after = 2,
+      tuning={2,7,2,7,11,2},
+      legend text = {\pC M7 arpeggio in open \pG tuning},
+      fret numbers visible]
+    \foreach \i in {C, E, G, B} {
+      \note{\i}
+    }
+    \foreach \i in {D, F, A} {
+      \note[shade]{\i}
+    }
+  \end{fb}
+\end{tcblisting}
+
+
+
+If you want to display a scale mode you can also emphasis the characteristic
+notes (the note that colors the mode, you want to play that note). Here is
+an example with a generic Phrygian mode:
+
+\begin{tcblisting}{doc-code,text above listing}
+  \begin{fb}[frets min=3, frets max=6,
+      transpose = -5,
+      legend text = {Phrygian scale}]
+    \foreach \i in {1,b2,b3,5,b6,b7} {
+      \note{\i}
+    }
+    \foreach \i in {b2,b3} {
+      \note[limit={1},shade]{\i}
+    }
+    \note[highlight]{4}
+  \end{fb}
+\end{tcblisting}
+\fi
+
+\section{Definitions}
+
+Under the hood all computation is done using semitones (from 0 to 11)
+relative to \pC.
+
+
+\begin{center}
+  \begin{tabular}[t]{clll}
+    Semitone & Note & Internal name & Note command\\
+    \hline
+    0  & \pC           & C        & \cs{pC}             \\
+    1  & \pCS{} / \pDb & CS / Db  & \cs{pCS} / \cs{pDb} \\
+    2  & \pD           & D        & \cs{pD}             \\
+    3  & \pDS{} / \pEb & DS / Eb  & \cs{pDS} / \cs{pEb} \\
+    4  & \pE           & E        & \cs{pE}             \\
+    5  & \pF           & F        & \cs{pF}             \\
+    6  & \pFS{} / \pGb & FS / Gb  & \cs{pFS} / \cs{pGb} \\
+    7  & \pG           & G        & \cs{pG}             \\
+    8  & \pGS{} / \pAb & GS / Ab  & \cs{pGS} / \cs{pAb} \\
+    9  & \pA           & A        & \cs{pA}             \\
+    10 & \pAS{} / \pBb & AS / Bb  & \cs{pAS} / \cs{pBb} \\
+    11 & \pB           & B        & \cs{pB}             \\
+  \end{tabular}
+\end{center}
+
+From here we won't distinguish a note from an interval since they are
+defined from semitones.
+
+\subsection{Fretboard definition}
+
+\begin{docEnvironment}{fb}{\oarg{options}}
+
+This is the main environment to create a fretboard. Several \oarg{options}
+can be passed to customize the environment.
+
+\begin{docKey}[fb][]{fretboard}{=\meta{style}}{}
+  Style applied to the main \pkg{tikz} environment.
+\end{docKey}
+
+\begin{docKey}[fb][]{scale}{=\meta{scale}}{0.3}
+  Scale factor applied to the \pkg{tikz} environment.
+\end{docKey}
+
+\begin{docKey}[fb][]{frets min}{=\meta{frets min}}{0}
+  Lowest fret to be displayed.
+\end{docKey}
+
+\begin{docKey}[fb][]{frets max}{=\meta{frets max}}{12}
+  Highest fret to be displayed.
+\end{docKey}
+
+\begin{docKey}[fb][]{frets before}{=\meta{frets before}}{0}
+  Number of frets displayed before the lowest one. This area will be
+  shaded. This is useful for a larger view of the neck while focusing on
+  small part.
+\end{docKey}
+
+\begin{docKey}[fb][]{frets after}{=\meta{frets after}}{0}
+  Same as \refKey{/fb/frets before} but after highest fret.
+\end{docKey}
+
+\begin{docKey}[fb][]{frets offset}{=\meta{frets offset}}{0.5}
+  Offset to shift the frets on the x axis. You probably don't want to play
+  with this setting.
+\end{docKey}
+
+\begin{docKey}[fb][]{tuning}{=\meta{tuning}}{{4, 9, 2, 7, 11, 4}}
+  The instrument tuning from lowest (\nth{6}) to highest (\nth{1})
+  string. Keep in mind that all is matter of semitones relative to \pC. For
+  a bass you probably want to use \brackets{4, 9, 2, 7}, for Dropped \pD, 
+  \brackets{2, 9, 2, 7, 11, 4}, etc.
+\end{docKey}
+
+\begin{docKey}[fb][]{transpose}{=\meta{semitones}}{0}
+  Number of semitones to apply to current fretboard definition.
+\end{docKey}
+
+\begin{docKey}[fb][]{transpose pitch}{=\meta{transpose pitch}}{false}
+  If true the note pitches will also be transposed. Note this is non-sense
+  for intervals.
+\end{docKey}
+
+\begin{docKey}[fb][]{string}{=\meta{style}}{0}
+  String drawing style.
+\end{docKey}
+
+\begin{docKey}[fb][]{string width}{=\meta{string width}}{0.5pt}
+  Initial width of the highest (thinnest) string (\nth{1}).
+\end{docKey}
+
+\begin{docKey}[fb][]{string factor}{=\meta{string factor}}{0.5pt}
+  A growth factor to be applied when drawing strings from the highest
+  (\nth{1}) to the lowest (biggest one).
+\end{docKey}
+
+\begin{docKey}[fb][]{frets}{=\meta{style}}{}
+  Style for drawn frets.
+\end{docKey}
+
+\begin{docKey}[fb][]{fret numbers}{=\meta{style}}{}
+  Style for fret numbers.
+\end{docKey}
+
+\begin{docKey}[fb][]{fret numbers position}{=\meta{fret numbers position}}{0.75}
+  Fret numbers position below fretboard.
+\end{docKey}
+
+\begin{docKey}[fb][]{note}{=\meta{style}}{}
+  Default style for note (See \refKey{/notes/NOTE/style}).
+\end{docKey}
+
+\begin{docKey}[fb][]{split note}{=\meta{style}}{}
+  Default style for split note (See \refKey{/notes/NOTE/split style}).
+\end{docKey}
+
+\begin{docKey}[fb][]{highlight note}{=\meta{style}}{}
+  Default style for highlighted note (See \refKey{/notes/NOTE/highlight style}).
+\end{docKey}
+
+\begin{docKey}[fb][]{overlay}{=\meta{style}}{}
+  Style for overlay mask applied over \refKey{/fb/frets before} and
+  \refKey{/fb/frets after}.
+\end{docKey}
+
+\begin{docKey}[fb][]{legend text}{=\meta{text}}{}
+  The fretboard legend.
+\end{docKey}
+
+\begin{docKey}[fb][]{legend}{=\meta{style}}{}
+  The fretboard legend style.
+\end{docKey}
+
+
+\end{docEnvironment}
+
+
+\begin{docCommand}{note}{\oarg{options}\marg{name}}
+  Place note \meta{name} on the fretboard. This command only makes sense in
+  a \refEnv{fb} environment.
+
+  \oarg{options} are the same as \refCom{newnote} and can be overridden.
+
+  Examples:
+  \begin{example}
+    % Display a squared unisson.
+    \note[style/.append style={shape=rectangle}]{1}
+  \end{example}
+  
+  \begin{example}
+    % Display shaded notes
+    \foreach \i in {D, F, A, B} {
+      \note[shade]{\i}
+    }
+  \end{example}
+
+  \begin{example}
+    % Display a C open chord
+    \note[style/.append style={rectangle}]{C}
+    \note{E}
+    \note[limit={3}]{G}
+  \end{example}
+  
+\end{docCommand}
+
+
+\subsection{Color definition}
+
+(todo)
+
+\subsection{Note definition}
+
+\pkg{guitar-fretboard} comes with a lot of interval and pitch
+definitions. Still you can add your owns.
+
+\begin{docCommand}{newnote}{\oarg{options}\marg{name}}
+  Creates a new note \meta{name} relatively from \pC. The new note can be
+  referred by \meta{name} when displaying it on the fretboard. \meta{name}
+  will be a part of a \pkg{PGF} key thus some characters such as sharp(\#)
+  cannot be used. By an arbitrary convention a note is designed by
+  \notename{X}, the flatten \notename{X}\accidental{b} and the sharped
+  \notename{X}\accidental{S}.
+
+  For a new note a new PFG tree is created under \docAuxKey[notes]{NOTE}.
+
+  \begin{docKey}[notes/NOTE][]{semitones}{=\meta{semitones}}{0}
+    Number of semitones from \pC.
+  \end{docKey}
+
+  \begin{docKey}[notes/NOTE][]{text}{=\meta{text}}{\marg{name}}
+    Displayed note name. For pitches, you can use the \cs{pX} shortcuts such
+    as \cs{pA}, \cs{pBb} \cs{pFS} and so on.
+  \end{docKey}
+
+  \begin{docKey}[notes/NOTE][]{lower text}{=\meta{lower text}}{}
+    Same as \refKey{/notes/NOTE/text} but for lower part text.
+  \end{docKey}
+
+  \begin{docKey}[notes/NOTE][]{limit}{=\meta{limit}}{}
+    Set a string limit when placing the notes. This can be useful when
+    drawing a chord. You may only want to use this option when displaying
+    note using \refCom{note}.
+  \end{docKey}
+
+  \begin{docKey}[notes/NOTE][]{style}{=\meta{style}}{}
+    A style definition to be applied to the note when the lower part is
+    omitted.
+  \end{docKey}
+
+  \begin{docKey}[notes/NOTE][]{split style}{=\meta{split style}}{}
+    A style definition to be applied to the note when the lower part is
+    displayed.
+  \end{docKey}
+
+  \begin{docKey}[notes/NOTE][]{highlight style}{=\meta{highlight style}}{}
+    A style definition to be applied to emphasis the displayed note. This is
+    useful for target or characteristic notes.
+  \end{docKey}
+
+  \begin{docKey}[notes/NOTE][]{lower}{=\meta{boolean}}{false}
+    Set to true is you want to display both text and lower text.
+  \end{docKey}
+
+  \begin{docKey}[notes/NOTE][]{shade}{=\meta{boolean}}{false}
+    Set to true if you want to shade the note to make it less important than
+    others.
+  \end{docKey}
+
+  Examples:
+  \begin{example}
+    % Definition of C
+    \newnote[semitones=0,
+      text=\pC,
+      style/.append style={fill=bg1, text=fg1}%
+    ]{C}
+  \end{example}
+
+  \begin{example}
+    % Definition of D#/Eb
+    \newnote[semitones=3,
+      text=\pDS,
+      lower text=\pEb,,
+      style/.append style={fill=bg2s, text=fg2s}%
+    ]{DS}
+  \end{example}  
+\end{docCommand}
+
+
+\begin{docCommand}{copynote}{\oarg{options}\marg{from}\marg{to}}
+  Copies note from \meta{from} to \meta{to}.
+
+  \oarg{options} are the same as \refCom{newnote}.
+
+  Examples:
+  \begin{example}
+    % Definition of Unison (1) which is C.
+    \copynote[text=1,]{C}{1}
+  \end{example}
+  
+  \begin{example}
+    % Definition of Major Third which is E. The inversed interval is a minor
+    % sixth.
+    \copynote[text=M3,lower text=m6]{E}{M3}
+  \end{example}
+
+\end{docCommand}
+
+
+
+
+\end{document}

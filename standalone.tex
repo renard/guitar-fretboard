@@ -1,0 +1,14 @@
+\documentclass[convert]{standalone}
+\usepackage{guitar-fretboard}
+\begin{document}
+  \begin{fb}[frets before = 2, frets after = 2,
+      transpose = 5,
+      transpose pitch,
+      scale = 1,
+      legend text = {\pF Major scale (\pF, \pG, \pA, \pBb, \pC, \pD, \pE)},
+      fret numbers visible]
+    \foreach \i in { C, D, E, F, G, F, A, B} {
+      \note[lower]{\i}
+    }
+  \end{fb}
+\end{document}
