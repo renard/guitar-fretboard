@@ -164,13 +164,16 @@ The classical \pC open chord can also be displayed. In that case the
   \end{fb}
 \end{tcblisting}
 
-The same chord in open \pG{} tuning. Again \pkg{guitar-fretboard} does all
-the magic for you as long as you ask nicely.
+This chord representation is not common and can be difficult to read. Then
+you can use the \pkg{chord} option to display the chord in a more common
+way. The same chord in open \pG{} tuning. Again \pkg{guitar-fretboard} does
+all the magic for you as long as you ask nicely.
 
 \begin{tcblisting}{doc-code,text above listing}
   \begin{fb}[frets min = 0, frets max = 3,
       tuning={2,7,2,7,11,2},
-      legend text = {\pC Chord in open \pG tuning},
+      chord,
+      legend text = {\pC Chord (open \pG)},
       fret numbers visible]
     \note{C} \note[limit={1,4}]{E} \note{G}
   \end{fb}
@@ -286,6 +289,14 @@ can be passed to customize the environment.
   \brackets{2, 9, 2, 7, 11, 4}, etc.
 \end{docKey}
 
+\begin{docKey}[fb][]{tuning style}{=\meta{style}}{}
+  Style for the string tuning display.
+\end{docKey}
+
+\begin{docKey}[fb][]{show tuning}{=\meta{boolean}}{true}
+  Display the string tuning in front of all strings.
+\end{docKey}
+
 \begin{docKey}[fb][]{transpose}{=\meta{semitones}}{0}
   Number of semitones to apply to current fretboard definition.
 \end{docKey}
@@ -294,6 +305,12 @@ can be passed to customize the environment.
   If true the note pitches will also be transposed. Note this is non-sense
   for intervals.
 \end{docKey}
+
+\begin{docKey}[fb][]{chord}{=\meta{boolean}}{false}
+  Display the diagram as a classical chord. The whole picture is rotated 90°
+  counter clockwise.
+\end{docKey}
+
 
 \begin{docKey}[fb][]{string}{=\meta{style}}{0}
   String drawing style.
