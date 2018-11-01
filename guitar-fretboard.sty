@@ -83,14 +83,18 @@
     draw=black!20,
   },
   string tuning/.style = {
-    %% fill = black,
-    %% text= white,
-    anchor=north,
+    rotate=90,
+    anchor=center,
     align=center,
     font=\LARGE,
-    rotate=90,
+  },
+  %% transformations should be done in a separate scope
+  string tuning position/.style = {
+    shift = {(-0.65, 1)},
   },
   chord/.style = {
+    rotate=90,
+  },
 }
 
 
@@ -247,13 +251,15 @@
   }%
 
   \iffb@show@tuning
+  \begin{scope}[string tuning position]
   \foreach \s [count = \is ] in \fb@strings {
     \node[string tuning, @em=\fb@tuning@style]
-    at (\fb@canvas@x@min-0.85, \fb@strings@count-\is+1 ) {%
+    at (\fb@canvas@x@min, \fb@strings@count-\is ) {%
       \pgfmathparse{array({\@pitches}, Mod(\s,12))}%
       \pgfkeysvalueof{/notes/\pgfmathresult/text}%
     };
   }
+  \end{scope}
   \fi
 
   \end{tikzpicture}
