@@ -82,12 +82,22 @@
   note shade/.style = {fill = white, opacity=0.85, text = black!30,
     draw=black!20,
   },
+  string tuning/.style = {
+    %% fill = black,
+    %% text= white,
+    anchor=north,
+    align=center,
+    font=\LARGE,
+    rotate=90,
+  },
+  chord/.style = {
 }
 
 
 %% Define the keys
 \newif\iffb@fret@numbers@visible
 \newif\iffb@transpose@pitch
+\newif\iffb@show@tuning
 \pgfkeys{
   /fb/.cd,
   fretboard/.store in = \fb@fretboard@style,
@@ -100,6 +110,11 @@
   frets offset/.initial = 0.5,
   %
   tuning/.initial = {4, 9, 2, 7, 11, 4},
+  tuning style/.store in = \fb@tuning@style,
+  tuning style,
+  show tuning/.is if = fb@show@tuning,
+  show tuning = true,
+  %
   transpose/.initial = 0,
   transpose pitch/.is if = fb@transpose@pitch,
   transpose pitch = false,
@@ -230,6 +245,16 @@
     \node[anchor=south east] (r) at (\fb@canvas@x@max, 1) {};
     \node[legend,@em=\fb@legend@style] at ($(l)!0.5!(r)$) {\pgfkeysvalueof{/fb/legend text}};
   }%
+
+  \iffb@show@tuning
+  \foreach \s [count = \is ] in \fb@strings {
+    \node[string tuning, @em=\fb@tuning@style]
+    at (\fb@canvas@x@min-0.85, \fb@strings@count-\is+1 ) {%
+      \pgfmathparse{array({\@pitches}, Mod(\s,12))}%
+      \pgfkeysvalueof{/notes/\pgfmathresult/text}%
+    };
+  }
+  \fi
 
   \end{tikzpicture}
   \end{adjustbox}
