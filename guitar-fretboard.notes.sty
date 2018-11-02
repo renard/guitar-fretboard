@@ -36,12 +36,12 @@
     text/.initial = #1,
     lower text/.initial =,
     limit/.initial = \pgfkeys@empty,
-    style/.style = {},
-    style/.append style={##1},
+    note style/.style = {},
+    note style/.append style={##1},
     split style/.style = {},
-    split style/.append style={##1},
+    split note style/.append style={##1},
     highlight style/.style = {},
-    highlight style/.append style={##1},
+    highlight note style/.append style={##1},
     highlight/.is if = fb@note@#1@highlight,
     highlight = false,
     lower/.is if = fb@note@#1@lower,
@@ -74,7 +74,7 @@
     %% See https://tex.stackexchange.com/questions/402611
     lower = \iftrue\csname fi\endcsname\csname iffb@note@#2@lower\endcsname true\else false\fi,
     shade = \iftrue\csname fi\endcsname\csname iffb@note@#2@shade\endcsname true\else false\fi,
-    style/.style = /notes/#2/style,
+    note style/.style = /notes/#2/note style,
     split style/.style = /notes/#2/split style,
     highlight style/.style = /notes/#2/highlight style,
     #1
@@ -132,47 +132,47 @@
 
 
 
-\newnote[semitones=10, style/.append style={fill=bg1bb, text=fg1bb,}]{*1bb}
-\newnote[semitones=11, style/.append style={fill=bg1b,  text=fg1b, }]{*1b}
-\newnote[semitones=0,  style/.append style={fill=bg1,   text=fg1,  }]{*1}
-\newnote[semitones=1,  style/.append style={fill=bg1s,  text=fg1s, }]{*1S}
-\newnote[semitones=2,  style/.append style={fill=bg1ss, text=fg1ss,}]{*1SS}
+\newnote[semitones=10, note style/.append style={fill=bg1bb, text=fg1bb,}]{*1bb}
+\newnote[semitones=11, note style/.append style={fill=bg1b,  text=fg1b, }]{*1b}
+\newnote[semitones=0,  note style/.append style={fill=bg1,   text=fg1,  }]{*1}
+\newnote[semitones=1,  note style/.append style={fill=bg1s,  text=fg1s, }]{*1S}
+\newnote[semitones=2,  note style/.append style={fill=bg1ss, text=fg1ss,}]{*1SS}
 
-\newnote[semitones=0,  style/.append style={fill=bg2bb, text=fg2bb,}]{*2bb}
-\newnote[semitones=1,  style/.append style={fill=bg2b,  text=fg2b, }]{*2b}
-\newnote[semitones=2,  style/.append style={fill=bg2,   text=fg2,  }]{*2}
-\newnote[semitones=3,  style/.append style={fill=bg2s,  text=fg2s, }]{*2S}
-\newnote[semitones=4,  style/.append style={fill=bg2ss, text=fg2ss,}]{*2SS}
+\newnote[semitones=0,  note style/.append style={fill=bg2bb, text=fg2bb,}]{*2bb}
+\newnote[semitones=1,  note style/.append style={fill=bg2b,  text=fg2b, }]{*2b}
+\newnote[semitones=2,  note style/.append style={fill=bg2,   text=fg2,  }]{*2}
+\newnote[semitones=3,  note style/.append style={fill=bg2s,  text=fg2s, }]{*2S}
+\newnote[semitones=4,  note style/.append style={fill=bg2ss, text=fg2ss,}]{*2SS}
 
-\newnote[semitones=2,  style/.append style={fill=bg3bb, text=fg3bb,}]{*3bb}
-\newnote[semitones=3,  style/.append style={fill=bg3b,  text=fg3b, }]{*3b}
-\newnote[semitones=4,  style/.append style={fill=bg3,   text=fg3,  }]{*3}
-\newnote[semitones=5,  style/.append style={fill=bg3s,  text=fg3s, }]{*3S}
-\newnote[semitones=6,  style/.append style={fill=bg3ss, text=fg3ss,}]{*3SS}
+\newnote[semitones=2,  note style/.append style={fill=bg3bb, text=fg3bb,}]{*3bb}
+\newnote[semitones=3,  note style/.append style={fill=bg3b,  text=fg3b, }]{*3b}
+\newnote[semitones=4,  note style/.append style={fill=bg3,   text=fg3,  }]{*3}
+\newnote[semitones=5,  note style/.append style={fill=bg3s,  text=fg3s, }]{*3S}
+\newnote[semitones=6,  note style/.append style={fill=bg3ss, text=fg3ss,}]{*3SS}
 
-\newnote[semitones=3,  style/.append style={fill=bg4bb, text=fg4bb,}]{*4bb}
-\newnote[semitones=4,  style/.append style={fill=bg4b,  text=fg4b, }]{*4b}
-\newnote[semitones=5,  style/.append style={fill=bg4,   text=fg4,  }]{*4}
-\newnote[semitones=6,  style/.append style={fill=bg4s,  text=fg4s, }]{*4S}
-\newnote[semitones=7,  style/.append style={fill=bg4ss, text=fg4ss,}]{*4SS}
+\newnote[semitones=3,  note style/.append style={fill=bg4bb, text=fg4bb,}]{*4bb}
+\newnote[semitones=4,  note style/.append style={fill=bg4b,  text=fg4b, }]{*4b}
+\newnote[semitones=5,  note style/.append style={fill=bg4,   text=fg4,  }]{*4}
+\newnote[semitones=6,  note style/.append style={fill=bg4s,  text=fg4s, }]{*4S}
+\newnote[semitones=7,  note style/.append style={fill=bg4ss, text=fg4ss,}]{*4SS}
 
-\newnote[semitones=5,  style/.append style={fill=bg5bb, text=fg5bb,}]{*5bb}
-\newnote[semitones=6,  style/.append style={fill=bg5b,  text=fg5b, }]{*5b}
-\newnote[semitones=7,  style/.append style={fill=bg5,   text=fg5,  }]{*5}
-\newnote[semitones=8,  style/.append style={fill=bg5s,  text=fg5s, }]{*5S}
-\newnote[semitones=9,  style/.append style={fill=bg5ss, text=fg5ss,}]{*5SS}
+\newnote[semitones=5,  note style/.append style={fill=bg5bb, text=fg5bb,}]{*5bb}
+\newnote[semitones=6,  note style/.append style={fill=bg5b,  text=fg5b, }]{*5b}
+\newnote[semitones=7,  note style/.append style={fill=bg5,   text=fg5,  }]{*5}
+\newnote[semitones=8,  note style/.append style={fill=bg5s,  text=fg5s, }]{*5S}
+\newnote[semitones=9,  note style/.append style={fill=bg5ss, text=fg5ss,}]{*5SS}
 
-\newnote[semitones=7,  style/.append style={fill=bg6bb, text=fg6bb,}]{*6bb}
-\newnote[semitones=8,  style/.append style={fill=bg6b,  text=fg6b, }]{*6b}
-\newnote[semitones=9,  style/.append style={fill=bg6,   text=fg6,  }]{*6}
-\newnote[semitones=10, style/.append style={fill=bg6s,  text=fg6s, }]{*6S}
-\newnote[semitones=11, style/.append style={fill=bg6ss, text=fg6ss,}]{*6SS}
+\newnote[semitones=7,  note style/.append style={fill=bg6bb, text=fg6bb,}]{*6bb}
+\newnote[semitones=8,  note style/.append style={fill=bg6b,  text=fg6b, }]{*6b}
+\newnote[semitones=9,  note style/.append style={fill=bg6,   text=fg6,  }]{*6}
+\newnote[semitones=10, note style/.append style={fill=bg6s,  text=fg6s, }]{*6S}
+\newnote[semitones=11, note style/.append style={fill=bg6ss, text=fg6ss,}]{*6SS}
 
-\newnote[semitones=9,  style/.append style={fill=bg7bb, text=fg7bb,}]{*7bb}
-\newnote[semitones=10, style/.append style={fill=bg7b,  text=fg7b, }]{*7b}
-\newnote[semitones=11, style/.append style={fill=bg7,   text=fg7,  }]{*7}
-\newnote[semitones=0,  style/.append style={fill=bg7s,  text=fg7s, }]{*7S}
-\newnote[semitones=1,  style/.append style={fill=bg7ss, text=fg7ss,}]{*7SS}
+\newnote[semitones=9,  note style/.append style={fill=bg7bb, text=fg7bb,}]{*7bb}
+\newnote[semitones=10, note style/.append style={fill=bg7b,  text=fg7b, }]{*7b}
+\newnote[semitones=11, note style/.append style={fill=bg7,   text=fg7,  }]{*7}
+\newnote[semitones=0,  note style/.append style={fill=bg7s,  text=fg7s, }]{*7S}
+\newnote[semitones=1,  note style/.append style={fill=bg7ss, text=fg7ss,}]{*7SS}
 
 %%%	           M/m              A/d                   
 %%%		----------	----------	|	----------	----------
@@ -192,7 +192,7 @@
 %%%	12	C	P8	B#	A7	|	C	P1	Dbb	d2
 
 \copynote[text=d1,      lower text=A8,] {*1b} {d1}
-\copynote[text=1,       lower text=, style/.append style={rectangle} ] {*1}  {1}
+\copynote[text=1,       lower text=, note style/.append style={rectangle} ] {*1}  {1}
 \copynote[text=1,       lower text=8, ] {1}  {8}
 \copynote[text=A1,      lower text=d8,] {*1S} {A1}
 

@@ -68,7 +68,7 @@
   string/.style = {  },
   fret numbers/.style = {font=\Large },
   overlay/.style = { color=white, opacity=0.85},
-  note/.style = {
+  note style/.style = {
     circle,
     inner sep = 0.2em,
     draw,
@@ -149,8 +149,8 @@
   fret numbers visible/.is if = fb@fret@numbers@visible,
   fret numbers visible = false,
   %
-  note/.store in = \fb@note@style,
-  note,
+  note style/.store in = \fb@note@style,
+  note style,
   %
   split style/.store in = \fb@split@note@style,
   split style,
@@ -311,7 +311,7 @@
 \newcommand{\@setup@note@style}[2][]{
  \pgfkeys{/notes/#2/.cd, #1}%
   %% Define a dynamic local style to handle several cases (including highlight)
-  \tikzset{@@note/.style={note,/notes/#2/style,@em=\fb@note@style, @@chord}}
+  \tikzset{@@note/.style={note style,@em=\fb@note@style,/notes/#2/note style, @@chord}}
   %% Check for hightight
   \iftrue\csname fi\endcsname\csname iffb@note@#2@highlight\endcsname%
   \tikzset{@@note/.append style = {
