@@ -21,8 +21,8 @@
 \RequirePackage{xcolor}
 \RequirePackage{pgfkeys}
 \RequirePackage{guitar-fretboard.colors}
-\RequirePackage{lilyglyphs}
 \RequirePackage{xparse,expl3}
+\RequirePackage{lilyglyphs}
 
 \makeatletter
 
@@ -70,8 +70,10 @@
     semitones/.initial = \pgfkeysvalueof{/notes/#2/semitones},
     text/.initial = #3,
     lower text/.initial = \pgfkeysvalueof{/notes/#2/lower text},
-    lower = \iftrue\csname iffb@note@#2@lower\endcsname true\else false\fi,
-    shade = \iftrue\csname iffb@note@#2@shade\endcsname true\else false\fi,
+    %% Make parser happy
+    %% See https://tex.stackexchange.com/questions/402611
+    lower = \iftrue\csname fi\endcsname\csname iffb@note@#2@lower\endcsname true\else false\fi,
+    shade = \iftrue\csname fi\endcsname\csname iffb@note@#2@shade\endcsname true\else false\fi,
     style/.style = /notes/#2/style,
     split style/.style = /notes/#2/split style,
     highlight style/.style = /notes/#2/highlight style,

@@ -33,7 +33,7 @@
 \RequirePackage{ifthen}
 \RequirePackage{xspace}
 \RequirePackage{fontspec}
-\RequirePackage{pdftexcmds}
+%% \RequirePackage{pdftexcmds}
 \RequirePackage{etoolbox}
 %\RequirePackage{adjustbox}
 \RequirePackage{guitar-fretboard.notes}
@@ -42,6 +42,8 @@
 %% \usepackage[full]{leadsheets}
 %% \useleadsheetslibraries{musicsymbols}
 \RequirePackage{xparse,expl3}
+
+
 
 \makeatletter
 
@@ -311,7 +313,7 @@
   %% Define a dynamic local style to handle several cases (including highlight)
   \tikzset{@@note/.style={note,/notes/#2/style,@em=\fb@note@style, @@chord}}
   %% Check for hightight
-  \iftrue\csname iffb@note@#2@highlight\endcsname%
+  \iftrue\csname fi\endcsname\csname iffb@note@#2@highlight\endcsname%
   \tikzset{@@note/.append style = {
       note highlight,
       @em=\fb@note@highlight@style,
@@ -319,7 +321,7 @@
   \fi%
 
   %% Check for lower node
-  \iftrue\csname iffb@note@#2@lower\endcsname%
+  \iftrue\csname fi\endcsname\csname iffb@note@#2@lower\endcsname%
   \iffb@note@haslower
   \tikzset{@@note/.append style = {
       split note,
@@ -347,7 +349,7 @@
   
   %% If the node should be shaded
   %% https://tex.stackexchange.com/questions/46377
-  \iftrue\csname iffb@note@#2@shade\endcsname{%
+  \iftrue\csname fi\endcsname\csname iffb@note@#2@shade\endcsname{%
     \node[@@note, note shade ] at (#3, #4) {
     \getnotename{#2}{text}%
     \nodepart[]{lower}\getnotename{#2}{lower text}%
@@ -447,7 +449,6 @@
     }
   }
 }
-
 
 
 
