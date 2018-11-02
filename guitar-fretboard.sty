@@ -546,11 +546,6 @@
 \newcommand\msharp{\raisebox{0.5ex}{\scalebox{0.6}{\sharp}}\@ifstar{\accidental{}}{}}
 \newcommand\mflat{\raisebox{0.25ex}{\scalebox{0.7}{\flat}}\@ifstar{\accidental{}}{}}
 
-
-\newcommand\msharpa[1]{\msharp\accidental#1}
-\newcommand\mflata[1]{\mflat\accidental#1}
-
-
 \newcommand\mdoubleflat{\raisebox{0.25ex}{\protect\scalebox{0.7}{\flatflat}}\@ifstar{\accidental{}}{}}
 \newcommand\mdoublesharp{\raisebox{0.5ex}{\protect\scalebox{0.7}{\doublesharp}}\@ifstar{\accidental{}}{}}
 \newcommand\mnatural{\raisebox{0.45ex}{\protect\scalebox{0.6}{\natural}}\@ifstar{\accidental{}}{}}
@@ -701,25 +696,25 @@
 \copynote[text=A1,      lower text=d8,] {*1S} {A1}
 
 \copynote[text=d2,      lower text=A7,] {*2bb}{d2}
-\copynote[text=\mflata2, lower text=M7, ] {*2b} {b2}
+\copynote[text=\mflat*{2}, lower text=M7, ] {*2b} {b2}
 \copynote[text=m2,      lower text=7, ] {*2b} {m2}
 \copynote[text=2,       lower text=m7,] {*2}  {2}
 \copynote[text=A2,      lower text=d7,] {*2S} {A2}
 %
-\copynote[text=\mflata9,  lower text=, ] {*2b} {b9}
+\copynote[text=\mflat*{9},  lower text=, ] {*2b} {b9}
 \copynote[text=m9,       lower text=, ] {*2b} {m9}
 \copynote[text=9,        lower text= ,] {*2}  {9}
 \copynote[text=A9,       lower text=, ] {*2S} {A9}
-\copynote[text=\msharpa9, lower text=, ] {*2S} {S9}
+\copynote[text=\msharp*{9}, lower text=, ] {*2S} {S9}
 
 
 \copynote[text=d3,      lower text=A6,] {*3bb}{d3}
-\copynote[text=\mflata3,lower text=M6,] {*3b} {b3}
-\copynote[text=\mflata3,lower text=M6,] {*3b} {b3}
+\copynote[text=\mflat*{3},lower text=M6,] {*3b} {b3}
+\copynote[text=\mflat*{3},lower text=M6,] {*3b} {b3}
 \copynote[text=m3,      lower text=6, ] {*3b} {m3}
 \copynote[text=3,       lower text=m6,] {*3}  {3}
 \copynote[text=A3,      lower text=d6,] {*3S} {A3}
-\copynote[text=\msharp3,lower text=d6,] {*3S} {S3}
+\copynote[text=\msharp*{3},lower text=d6,] {*3S} {S3}
 
 
 \copynote[text=d4,      lower text=A5,] {*4b} {d4}
@@ -727,36 +722,37 @@
 \copynote[text=A4,      lower text=d5,] {*4S} {A4}
 \copynote[text=A4,      lower text=d5, highlight] {*4S} {A4*}
 %
-\copynote[text=\mflata11,  lower text=, ] {*4b} {b11}
+\copynote[text=\mflat*{11},  lower text=, ] {*4b} {b11}
 \copynote[text=m11,       lower text=, ] {*4b} {m11}
 \copynote[text=11,        lower text= ,] {*4}  {11}
 \copynote[text=A11,       lower text=, ] {*4S} {A11}
-\copynote[text=\msharpa11,  lower text=, ] {*4S} {S11}
+\copynote[text=\msharp*{11},  lower text=, ] {*4S} {S11}
 
-\copynote[text=\mflata5,lower text=\msharpa4,] {*5b} {b5}
+\copynote[text=\mflat*{5}, lower text=\msharp*{4},] {*5b} {b5}
 \copynote[text=d5,      lower text=A4,] {*5b} {d5}
 \copynote[text=5,       lower text=4, ] {*5}  {5}
 \copynote[text=A5,      lower text=d4,] {*5S} {A5}
-\copynote[text=\msharpa5,lower text=d4,] {*5S} {S5}
+\copynote[text=\msharp*{5}, lower text=d4,] {*5S} {S5}
 
 \copynote[text=d6,      lower text=A3,] {*6bb}{d6}
-\copynote[text=\mflata6, lower text=M3, ] {*6b} {b6}
+\copynote[text=\mflat*{6}, lower text=M3, ] {*6b} {b6}
 \copynote[text=m6,      lower text=3, ] {*6b} {m6}
 \copynote[text=6,       lower text=m3,] {*6}  {6}
 \copynote[text=A6,      lower text=m3,] {*6S} {A6}
 %
-\copynote[text=\mflata13, lower text=, ] {*6b} {b13}
+\copynote[text=\mflat*{13}, lower text=, ] {*6b} {b13}
 \copynote[text=m13,       lower text=, ] {*6b} {m13}
 \copynote[text=13,        lower text= ,] {*6}  {13}
 \copynote[text=A13,       lower text=, ] {*6S} {A13}
-\copynote[text=\msharpa13,lower text=, ] {*6S} {S13}
+\copynote[text=\msharp*{13},lower text=, ] {*6S} {S13}
 
+\copynote[text=\mdoubleflat*{7},      lower text=A2,] {*7bb}{bb7}
 \copynote[text=d7,      lower text=A2,] {*7bb}{d7}
-\copynote[text=\mflata7, lower text=M2,] {*7b} {b7}
+\copynote[text=\mflat*{7}, lower text=M2,] {*7b} {b7}
 \copynote[text=m7,      lower text=2, ] {*7b} {m7}
 \copynote[text=7,       lower text=m2,] {*7}  {7}
 \copynote[text=A7,      lower text=d2,] {*7S} {A7}
-%% Nonsense \copynote[text=\msharpa7,      lower text=d2,] {*7S} {S7}
+%% Nonsense \copynote[text=\msharp*{7},      lower text=d2,] {*7S} {S7}
 
 \copynote[text=\pCb,    lower text=\pB, ] {d1} {Cb}
 \copynote[text=\pC,     lower text=,    ] {1}  {C}
