@@ -265,7 +265,7 @@
   (\pgfkeysvalueof{/fb/frets max}+\pgfkeysvalueof{/fb/frets offset}+0.07, \fb@strings@count+1);
 
   %% Add a legend
-  \ifthenelse{\equal{\pgfkeysvalueof{/fb/legend text}}{}}{}{%
+  \expandafter\notblank\expandafter{\pgfkeysvalueof{/fb/legend text}}{%
     \iffb@chord
     \node[legend position chord] (l) at (\fb@canvas@x@min-\pgfkeysvalueof{/fb/frets offset}, 1) {};
     \node[legend position chord] (r) at (\fb@canvas@x@min-\pgfkeysvalueof{/fb/frets offset}, \fb@strings@count) {};
@@ -431,18 +431,21 @@
 \newcommand{\note}[2][]{
   \pgfkeys{/notes/#2/.cd, #1}%
 
+  %% \notblank requires a macro and not a command result
+  \pgfkeysgetvalue{/notes/#2/lower text}{\@@lower@text}
+
   %% Do we need to transpose the note?
   \let\newpitch=#2
   \iffb@transpose@pitch  
   \transposepitch{#2}{\pgfkeysvalueof{/fb/transpose}}
+  \pgfkeysgetvalue{/notes/\newpitch/lower text}{\@@lower@text}
   \fi
   
   % Check if the lower part is defined for future usage
-  \ifnum\pdf@strcmp{\getnotename{#2}{lower text}}{}=0
   \fb@note@haslowerfalse%
-  \else%
-  \fb@note@haslowertrue%
-  \fi%
+  \expandafter\notblank\expandafter{\@@lower@text}{%
+    \fb@note@haslowertrue%
+  }
 
   % limit note display
   \edef\note@limit{\pgfkeysvalueof{/notes/#2/limit}}
