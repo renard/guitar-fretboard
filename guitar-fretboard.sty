@@ -542,16 +542,18 @@
 \newcommand\notename[1]{\textsf{#1}}
 \newcommand\accidental[1]{\hspace*{0.1ex}#1}
 
-\newcommand\msharp{\raisebox{0.5ex}{\scalebox{0.6}{\sharp}}}
-\newcommand\mflat{\raisebox{0.25ex}{\scalebox{0.7}{\flat}}}
+\newcommand\msharp{\raisebox{0.5ex}{\scalebox{0.6}{\sharp}}\@ifstar{\accidental{}}{}}
+\newcommand\mflat{\raisebox{0.25ex}{\scalebox{0.7}{\flat}}\@ifstar{\accidental{}}{}}
+
 
 \newcommand\msharpa[1]{\msharp\accidental#1}
 \newcommand\mflata[1]{\mflat\accidental#1}
 
 
-\newcommand\mdoubleflat{\raisebox{0.25ex}{\scalebox{0.7}{\flatflat}}}
-\newcommand\mdoublesharp{\raisebox{0.5ex}{\scalebox{0.7}{\doublesharp}}}
-\newcommand\mnatural{\raisebox{0.45ex}{\scalebox{0.6}{\natural}}}
+\newcommand\mdoubleflat{\raisebox{0.25ex}{\protect\scalebox{0.7}{\flatflat}}\@ifstar{\accidental{}}{}}
+\newcommand\mdoublesharp{\raisebox{0.5ex}{\protect\scalebox{0.7}{\doublesharp}}\@ifstar{\accidental{}}{}}
+\newcommand\mnatural{\raisebox{0.45ex}{\protect\scalebox{0.6}{\natural}}\@ifstar{\accidental{}}{}}
+
 
 \ExplSyntaxOn
 \NewDocumentCommand{\p}{m}
