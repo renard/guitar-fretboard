@@ -30,7 +30,6 @@
 %% Include all required packages
 \RequirePackage{tikz}
 \usetikzlibrary{shapes,positioning,calc,shapes.multipart,backgrounds}
-\RequirePackage{xcolor}
 \RequirePackage{ifthen}
 \RequirePackage{xspace}
 \RequirePackage{fontspec}
@@ -38,7 +37,7 @@
 \RequirePackage{pdftexcmds}
 \RequirePackage{etoolbox}
 \RequirePackage{adjustbox}
-
+\RequirePackage{guitar-fretboard.colors}
 %% \usepackage[minimal]{leadsheets}
 %% \useleadsheetslibraries{chords,musicsymbols}
 %% \usepackage[full]{leadsheets}
@@ -363,7 +362,7 @@
 \newcommand{\@setup@note@style}[2][]{
  \pgfkeys{/notes/#2/.cd, #1}%
   %% Define a dynamic local style to handle several cases (including highlight)
-  \tikzset{@@note/.style={note,@em=\fb@note@style,/notes/#2/style, @@chord}}
+  \tikzset{@@note/.style={note,/notes/#2/style,@em=\fb@note@style, @@chord}}
   %% Check for hightight
   \iftrue\csname iffb@note@#2@highlight\endcsname%
   \tikzset{@@note/.append style = {
@@ -503,41 +502,6 @@
 }
 
 
-\newif\iffb@color@derive
-\pgfkeys{
-  /fb/colors/.cd,
-  limit/.initial = 0.5,
-  model/.initial = HTML,
-  derive/.is if = fb@color@derive,
-  derive = false,
-}
-
-%% #1 /fb/colors
-%% #2 color index
-%% #3 color definition
-\newcommand{\setcolor}[3][]{
-  \pgfkeys{/fb/colors/.cd,
-    derive = false,
-    #1}
-  \iffb@color@derive%
-  \colorlet{bg#2}{#3}
-  \else
-  \definecolor{bg#2}{\pgfkeysvalueof{/fb/colors/model}}{#3}
-  \fi
-
-  % Compute foreground
-  %% https://tex.stackexchange.com/questions/379893
-  \extractcolorspecs{bg#2}{\modelspec}{\grayscale}
-  \pgfmathparse{(
-    array({\grayscale},0)*0.2126+
-    array({\grayscale},1)*0.7152+
-    array({\grayscale},2)*0.0722)>=\pgfkeysvalueof{/fb/colors/limit}?int(1):int(0)}
-  \ifnum\pgfmathresult>0%
-  \colorlet{fg#2}{black}
-  \else % Less bright
-  \colorlet{fg#2}{white}
-  \fi
-}
 
 
 \newcommand\notename[1]{\textsf{#1}}
@@ -586,48 +550,6 @@
 
 \makeatother
 
-\setcolor{1}{000000}      
-\setcolor[derive]{1b} {bg1!10}
-\setcolor[derive]{1bb}{bg1b!10}
-\setcolor[derive]{1s} {bg1!10}
-\setcolor[derive]{1ss}{bg1s!10}
-
-
-\setcolor{2}{377EB8}
-\setcolor[derive]{2b} {bg2!70!black}
-\setcolor[derive]{2bb}{bg2b!70!black}
-\setcolor[derive]{2s} {bg2!30!white}
-\setcolor[derive]{2ss}{bg2s!30!white}
-
-\setcolor[limit=0.59]{3}{4DAF4A}
-\setcolor[derive]{3b} {bg3!70!black}
-\setcolor[derive]{3bb}{bg3b!70!black}
-\setcolor[derive]{3s} {bg3!30!white}
-\setcolor[derive]{3ss}{bg3s!30!white}
-
-\setcolor{4}{984EA3}
-\setcolor[derive]{4b} {bg4!70!black}
-\setcolor[derive]{4bb}{bg4b!70!black}
-\setcolor[derive]{4s} {bg4!30!white}
-\setcolor[derive]{4ss}{bg4s!30!white}
-
-\setcolor{5}{E41A1C}
-\setcolor[derive]{5b} {bg5!70!black}
-\setcolor[derive]{5bb}{bg5b!70!black}
-\setcolor[derive]{5s} {bg5!30!white}
-\setcolor[derive]{5ss}{bg5s!30!white}
-
-\setcolor{6}{FFFF33}
-\setcolor[derive]{6b} {bg6!70!black}
-\setcolor[derive]{6bb}{bg6b!70!black}
-\setcolor[derive]{6s} {bg6!30!white}
-\setcolor[derive]{6ss}{bg6s!30!white}
-
-\setcolor{7}{A65628}
-\setcolor[derive]{7b} {bg7!70!black}
-\setcolor[derive]{7bb}{bg7b!70!black}
-\setcolor[derive]{7s} {bg7!30!white}
-\setcolor[derive]{7ss}{bg7s!30!white}
 
 
 
