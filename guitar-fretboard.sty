@@ -416,6 +416,7 @@
 %  #4 Y
 %
 \newcommand{\placenote}[4][]{
+  \tikzset{ @@chord/.style = {}, }
   \@setup@note@style[#1]{#2}
   \@placenote[#1]{#2}{#3}{#4}
 }  
