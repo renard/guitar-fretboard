@@ -62,7 +62,7 @@
   fretboard/.style = {yscale=-1.3,xscale=2.6,
     background rectangle/.style={fill=white}, show background rectangle},
   legend/.style = { anchor=south, align=center,font=\Huge },
-  legend position chord/.style = {shift = {(-1.5, 0)} },
+  legend position chord/.style = {shift = {(-0.75, 0)} },
   legend position/.style = {shift = {(0,0.75)} },
   fret/.style = {  line width = 2pt, },
   string/.style = {  },
@@ -211,12 +211,19 @@
 
 
   \def\@@rotate{0}%
-  \tikzset{ @@chord/.style = {},}%
+  \tikzset{%
+    @@chord/.style = {},
+    @@fb/.style = {},
+  }%
   \iffb@chord%
   \def\@@rotate{-90}%
   \tikzset{@@chord/.append style = {%
       chord, @em=\fb@chord@style,%
-    }%
+    },%
+    @@fb/.append style = {%
+      yscale=1,%
+      xscale=1.6/2.6%
+    },
   }%
   \fi%
 
@@ -225,7 +232,7 @@
   \edef\fb@strings{\pgfkeysvalueof{/fb/tuning}}%
   \getlen{\fb@strings@count}{\fb@strings}%
   \begin{adjustbox}{rotate=\@@rotate,scale={\pgfkeysvalueof{/fb/scale}}}%
-  \begin{tikzpicture} [fretboard, @em=\fb@fretboard@style]
+  \begin{tikzpicture} [fretboard, @em=\fb@fretboard@style,@@fb]
 
     
     % Draw the frets and put fret number
