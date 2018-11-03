@@ -266,7 +266,8 @@
   (\pgfkeysvalueof{/fb/frets max}+\pgfkeysvalueof{/fb/frets offset}+0.07, \fb@strings@count+1);
 
   %% Add a legend
-  \expandafter\notblank\expandafter{\pgfkeysvalueof{/fb/legend text}}{%
+  \pgfkeysgetvalue{/fb/legend text}{\@@fb@legend}
+  \expandafter\notblank\expandafter{\@@fb@legend}{%
     \iffb@chord
     \node[legend position chord] (l) at (\fb@canvas@x@min-\pgfkeysvalueof{/fb/frets offset}, 1) {};
     \node[legend position chord] (r) at (\fb@canvas@x@min-\pgfkeysvalueof{/fb/frets offset}, \fb@strings@count) {};
