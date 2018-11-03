@@ -203,28 +203,28 @@
   \pgfkeys{/fb/.cd, #1}%
 
   %% compute some values
-  \pgfmathtruncatemacro{\fb@canvas@x@min}{
-    \pgfkeysvalueof{/fb/frets min} - \pgfkeysvalueof{/fb/frets before}}
-  \pgfmathtruncatemacro{\fb@canvas@x@max}{
-    \pgfkeysvalueof{/fb/frets max} + \pgfkeysvalueof{/fb/frets after}}
-  \pgfmathtruncatemacro{\fb@canvas@x@max@plusone}{\fb@canvas@x@max+1}
+  \pgfmathtruncatemacro{\fb@canvas@x@min}{%
+    \pgfkeysvalueof{/fb/frets min} - \pgfkeysvalueof{/fb/frets before}}%
+  \pgfmathtruncatemacro{\fb@canvas@x@max}{%
+    \pgfkeysvalueof{/fb/frets max} + \pgfkeysvalueof{/fb/frets after}}%
+  \pgfmathtruncatemacro{\fb@canvas@x@max@plusone}{\fb@canvas@x@max+1}%
 
 
-  \def\@@rotate{0}
-  \tikzset{ @@chord/.style = {}, }
-  \iffb@chord
+  \def\@@rotate{0}%
+  \tikzset{ @@chord/.style = {},}%
+  \iffb@chord%
   \def\@@rotate{-90}%
-  \tikzset{@@chord/.append style = {
-      chord, @em=\fb@chord@style,
-    }
-  }
-  \fi
+  \tikzset{@@chord/.append style = {%
+      chord, @em=\fb@chord@style,%
+    }%
+  }%
+  \fi%
 
-  
+
   % String list
-  \edef\fb@strings{\pgfkeysvalueof{/fb/tuning}}
-  \getlen{\fb@strings@count}{\fb@strings}
-  \begin{adjustbox}{rotate=\@@rotate,scale={\pgfkeysvalueof{/fb/scale}}}
+  \edef\fb@strings{\pgfkeysvalueof{/fb/tuning}}%
+  \getlen{\fb@strings@count}{\fb@strings}%
+  \begin{adjustbox}{rotate=\@@rotate,scale={\pgfkeysvalueof{/fb/scale}}}%
   \begin{tikzpicture} [fretboard, @em=\fb@fretboard@style]
 
     
@@ -293,9 +293,8 @@
   }
   \end{scope}
   \fi
-
   \end{tikzpicture}
-  \end{adjustbox}
+  \end{adjustbox}%
 }
 
 
