@@ -16,6 +16,8 @@ It comes with all battery included to allow you to:
 
 See [guitar-fretboard.pdf](guitar-fretboard.pdf) for further help.
 
+This is an early release. APIs and options are suject to change.
+
 ## Usage example
 
 ```latex
