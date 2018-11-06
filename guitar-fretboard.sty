@@ -27,25 +27,28 @@
 \NeedsTeXFormat{LaTeX2e}
 
 
+\newif\iffb@split
+
 %% Include all required packages
+\RequirePackage{guitar-fretboard.colors}
 \RequirePackage{tikz}
 \usetikzlibrary{shapes,positioning,calc,shapes.multipart,backgrounds}
 \RequirePackage{ifthen}
 \RequirePackage{xspace}
 \RequirePackage{fontspec}
-%% \RequirePackage{pdftexcmds}
 \RequirePackage{etoolbox}
-%\RequirePackage{adjustbox}
-\RequirePackage{guitar-fretboard.notes}
-%% \usepackage[minimal]{leadsheets}
-%% \useleadsheetslibraries{chords,musicsymbols}
-%% \usepackage[full]{leadsheets}
-%% \useleadsheetslibraries{musicsymbols}
+\RequirePackage{guitar-fretboard.intervals}
+%\RequirePackage{guitar-fretboard.notes}
+\RequirePackage{guitar-fretboard.pitches}
+\RequirePackage{guitar-fretboard.chords}
 \RequirePackage{xparse,expl3}
 
-
-
 \makeatletter
+
+\def\notefont{\bfseries}
+\def\fretfont{\sffamily}
+\def\stringfont{\sffamily\bfseries}
+\def\legendfont{\sffamily}
 
 \pgfkeys{/tikz/.cd,
   % Execute style
@@ -54,75 +57,136 @@
   @em/.style = {@es/.expand once=#1}
 }
 
-
-%\newfontfamily\notefont{Noto Sans Display Medium}
-
-% Some default values
 \tikzset{
-  fretboard/.style = {yscale=-1.3,xscale=2.6,
-    background rectangle/.style={fill=white}, show background rectangle},
-  legend/.style = { anchor=south, align=center,font=\Huge },
-  legend position chord/.style = {shift = {(-0.75, 0)} },
-  legend position/.style = {shift = {(0,0.75)} },
-  fret/.style = {  line width = 2pt, },
-  string/.style = {  },
-  fret numbers/.style = {font=\Large },
-  overlay/.style = { color=white, opacity=0.85},
-  note style/.style = {
-    circle,
-    inner sep = 0.2em,
-    draw,
-    align=center,
-    minimum size=3.4em,
-    fill = white,
-    font=\huge,
+  fretboard/.style = {
+    yscale=-1,
+    xscale=2,
+    background rectangle/.style={
+      fill=white,
+      inner sep = 0pt,
+      outer sep=0pt,
+    },
+    show background rectangle,
   },
-  split style/.style = {
-    circle split,
-    font=\large,
+  %
+  fret/.style = { line width = 2pt, },
+  fret numbers/.style = {
+    font=\fretfont,
   },
-  note highlight/.style = {draw=red, line width=3pt},
-  note shade/.style = {fill = white, opacity=0.85, text = black!30,
-    draw=black!20,
-  },
+  fret numbers position/.style = {shift={(0,0.75)}},
+  %
   string tuning/.style = {
     rotate=90,
     anchor=center,
     align=center,
-    font=\LARGE,
+    font=\stringfont\Large,
   },
-  %% transformations should be done in a separate scope
   string tuning position/.style = {
-    shift = {(-0.65, 1)},
+    shift = {(-0.75, 1)},
+  }, 
+  %
+  string/.style = {  },
+  %
+  overlay/.style = {
+    color=white,
+    opacity=0.85,
+    line width = 0pt,
+    outer sep=0pt,
   },
-  chord/.style = {
-    rotate=90,
+  legend/.style = {
+    anchor=south,
+    align=center,
+    font=\legendfont\Huge
+  },
+  legend position/.style = {
+    shift = {(0, -0.75)},
+  },
+  %
+  note/.style = {
+    circle,
+    inner sep = 0.2em,
+    draw,
+    align=center,
+    minimum size = 2.3em,
+    fill = red!20,
+    font=\notefont\Large
+  },
+  note split/.style = {
+    circle split,
+    inner sep = 0.1em,
+    font=\notefont\normalsize,
+  },
+  note shade/.style = {
+    fill = white,
+    opacity=0.85,
+    text = black!30,
+    draw=black!20,
+  },
+  note highlight/.style = {
+    draw=bg5,
+    %% double=bg5,
+    %% double distance=2pt,
+    line width=2pt,
   },
 }
 
+%% https://en.wikipedia.org/wiki/List_of_guitar_tunings
+\pgfkeys{
+  /fb/tunings/guitar/.cd,
+  standard/.initial = {4, 9, 2, 7, 11, 4},
+  drop d/.initial = {2, 9, 2, 7, 11, 4},
+  double drop d/.initial = {2, 9, 2, 7, 11, 2},
+  open g/.initial = { 2, 7, 2, 7, 11, 2},
+  7 strings/.initial = {11, 4, 9, 2, 7, 11, 4},
+}
 
-%% Define the keys
-\newif\iffb@fret@numbers@visible
-\newif\iffb@transpose@pitch
+\pgfkeys{
+  /fb/tunings/ukulele/.cd,
+  standard/.initial = {7, 0, 4, 9},
+}
+
+\pgfkeys{
+  /fb/tunings/bass/.cd,
+  standard/.initial = {4, 9, 2, 7},
+}
+
+\newcommand{\tuning}[1]{
+  \pgfkeysvalueof{/fb/tunings/#1}
+}
+
+
+%% Should fret numbers be displayed? 
+\newif\iffb@fret@numbers
 \newif\iffb@show@tuning
+\newif\iffb@split
+\newif\iffb@transpose@pitch
 \newif\iffb@chord
+\newif\iffb@left@handed
 
 \pgfkeys{
   /fb/.cd,
-  fretboard/.store in = \fb@fretboard@style,
-  fretboard,
-  scale/.initial = 0.3,
+  %
+  tuning/.initial = \tuning{guitar/standard},
+  %
   frets min/.initial = 0,
   frets max/.initial = 12,
   frets before/.initial = 0,
   frets after/.initial = 0,
   frets offset/.initial = 0.5,
   %
-  tuning/.initial = {4, 9, 2, 7, 11, 4},
-  tuning style/.store in = \fb@tuning@style,
-  tuning style,
+  fret numbers/.is if = fb@fret@numbers,
+  fret numbers = false,
+  %
+  string width/.initial = 0.5pt,
+  string factor/.initial = 0.75pt,
+  %
   show tuning/.is if = fb@show@tuning,
   show tuning = true,
+  %
+  split/.is if = fb@split,
+  split = false,
+  %
+  legend/.initial = {},
   %
   transpose/.initial = 0,
   transpose pitch/.is if = fb@transpose@pitch,
@@ -130,41 +194,29 @@
   %
   chord/.is if = fb@chord,
   chord = false,
-  chord style/.store in = \fb@chord@style,
-  chord style,
   %
-  string/.store in = \fb@string@style,
-  string,
+  scale/.initial = 1,
   %
-  string width/.initial = 0.5pt,
-  string factor/.initial = 0.75pt,
-  %
-  fret/.store in = \fb@fret@style,
-  fret,
-  %
-  fret numbers/.store in = \fb@fret@numbers@style,
-  fret numbers,
-  fret numbers position/.initial = 0.75,
-  %
-  fret numbers visible/.is if = fb@fret@numbers@visible,
-  fret numbers visible = false,
-  %
-  note style/.store in = \fb@note@style,
-  note style,
-  %
-  split style/.store in = \fb@split@note@style,
-  split style,
-  %
-  highlight note/.store in = \fb@note@highlight@style,
-  highlight note,
-  %
-  overlay/.store in = \fb@overlay@style,
-  overlay,
-  %
-  legend text/.initial = {},
-  legend/.store in = \fb@legend@style,
-  legend,
+  left handed/.is if = fb@left@handed,
+  left handed = false,
 }
+
+
+% Store a the list of strings in a conviniant way for \foreach
+\def\fb@strings{}
+% Since there is no simple way to get the size of an array, store the number
+% of strings.
+\def\fb@strings@count{}
+
+%% Pitch order used to when showing the string names
+\def\@pitches{"C","CS","D","Eb","E","F","FS","G","GS","A","Bb","B"}
+\newcommand{\transposepitch}[2]{%
+  \pgfmathparse{array({\@pitches},
+    Mod(\pgfkeysvalueof{/intervals/#1/semitones}+#2,12))}
+    \let\newpitch=\pgfmathresult%
+}%
+
+
 
 %% Computes the length of given array.
 %
@@ -172,7 +224,7 @@
 % #2 - The array
 %
 % Taken from https://tex.stackexchange.com/questions/66121
-\def\getlen#1#2{%
+\def\@getlen#1#2{%
   \pgfmathsetmacro{\lenarray}{0}% 
   \foreach \i in #2{%
     \pgfmathtruncatemacro{\lenarray}{\lenarray+1}%
@@ -182,258 +234,194 @@
 }%
 
 
-%% Evaluates an expression and stores it in a macro
-%
-% #1 destination macro
-% #2 a math expression
-\def\pgfmatheval#1#2{%
-  \pgfmathparse{#2}%
-  \let#1=\pgfmathresult%
-}%
-
-\def\@pitches{"C","CS","D","Eb","E","F","FS","G","GS","A","Bb","B"}
-\newcommand{\transposepitch}[2]{%
-  \pgfmatheval{\newpitch}{array({\@pitches},
-    Mod(\pgfkeysvalueof{/notes/#1/semitones}+#2,12))}
-}%
-
-
 \newenvironment{fb}[1][]{%
-
   \pgfkeys{/fb/.cd, #1}%
 
-  %% compute some values
+  \edef\fb@strings{\pgfkeysvalueof{/fb/tuning}}%
+  \@getlen{\fb@strings@count}{\fb@strings}%
+
+  %% Compute the canvas size on x axis.
   \pgfmathtruncatemacro{\fb@canvas@x@min}{%
     \pgfkeysvalueof{/fb/frets min} - \pgfkeysvalueof{/fb/frets before}}%
   \pgfmathtruncatemacro{\fb@canvas@x@max}{%
     \pgfkeysvalueof{/fb/frets max} + \pgfkeysvalueof{/fb/frets after}}%
+  %% Add a +1 value for conviniance.
   \pgfmathtruncatemacro{\fb@canvas@x@max@plusone}{\fb@canvas@x@max+1}%
 
-
-  \def\@@rotate{0}%
-  \tikzset{%
-    @@chord/.style = {},
-    @@fb/.style = {},
-  }%
   \iffb@chord%
-  \def\@@rotate{-90}%
-  \tikzset{@@chord/.append style = {%
-      chord, @em=\fb@chord@style,%
-    },%
-    @@fb/.append style = {%
-      yscale=1,%
-      xscale=1.6/2.6%
+  \tikzset{%
+    fretboard/.append style = {
+      rotate=90,
+      yscale=1/2,
+      xscale=1.2,
+    },
+    string tuning/.append style = {
+      rotate = -90,
+      shift = {(0, 0.15)},
+    },
+    legend position/.append style = {
+      shift = {(-0.75, 0.75)},
     },
   }%
   \fi%
 
+  \iffb@left@handed%
+  \iffb@chord
+  \tikzset{%
+    fretboard/.append style = {
+      yscale=-1,
+      xscale=1,
+    },
+  }
+  \else
+  \tikzset{%
+    fretboard/.append style = {
+      yscale=1,
+      xscale=-1,
+    },
+    string tuning/.append style = {
+      rotate = 180,
+    },
+  }
+  \fi
+  \fi%
+  
+  \begin{adjustbox}{scale={\pgfkeysvalueof{/fb/scale}}}%
+  \begin{tikzpicture}[fretboard]%
 
-  % String list
-  \edef\fb@strings{\pgfkeysvalueof{/fb/tuning}}%
-  \getlen{\fb@strings@count}{\fb@strings}%
-  \begin{adjustbox}{rotate=\@@rotate,scale={\pgfkeysvalueof{/fb/scale}}}%
-  \begin{tikzpicture} [fretboard, @em=\fb@fretboard@style,@@fb]
-
-    
     % Draw the frets and put fret number
     \foreach \fret [count=\@ifret from \fb@canvas@x@min]
     in {\fb@canvas@x@min,...,\fb@canvas@x@max@plusone}{%
-      \pgfmatheval{\@fret}{\fret-\pgfkeysvalueof{/fb/frets offset}}
-      \draw [fret, @em=\fb@fret@style] (\@fret,1) -- (\@fret,\fb@strings@count);
+      %% Frets are offset from the regular grid
+      \pgfmathparse{\fret-\pgfkeysvalueof{/fb/frets offset}}
+      \let\@fret@x=\pgfmathresult
+      \draw [fret] (\@fret@x,1) -- (\@fret@x,\fb@strings@count);
+
       % Do not draw last fret number
-      \iffb@fret@numbers@visible{%
+      \iffb@fret@numbers{%
         \ifnum\fret < \fb@canvas@x@max@plusone{%
-          \node[fret numbers, @em=\fb@fret@numbers@style,@@chord] at
-          (\@ifret,\fb@strings@count+\pgfkeysvalueof{/fb/fret numbers position})
-               {\@ifret};
+          \begin{scope}[fret numbers position]
+            \node[fret numbers] at (\@ifret,\fb@strings@count) {\@ifret};
+          \end{scope}
         }\fi
       }\fi
     }
 
     % Draw the strings
     \foreach \is in {1,...,\fb@strings@count} {
-      \draw[string, @em=\fb@string@style,
+      \draw[string,
         line width=\pgfkeysvalueof{/fb/string width} +
-        \is*\pgfkeysvalueof{/fb/string factor}]
+        \is*\pgfkeysvalueof{/fb/string factor}
+      ]
       (\fb@canvas@x@min-\pgfkeysvalueof{/fb/frets offset}, \is) --
       (\fb@canvas@x@max@plusone-\pgfkeysvalueof{/fb/frets offset}, \is);
     }
     
-}{
+}{%
 
   % Draw the opacity mask
   \ifnum\pgfkeysvalueof{/fb/frets before}>0
-  \fill [overlay,@em=\fb@overlay@style]
+  \fill [overlay]
   (\fb@canvas@x@min-\pgfkeysvalueof{/fb/frets offset}-0.07,0)
   rectangle
-  (\pgfkeysvalueof{/fb/frets min}-\pgfkeysvalueof{/fb/frets offset}-0.07, \fb@strings@count+1);
+  (\pgfkeysvalueof{/fb/frets min}-\pgfkeysvalueof{/fb/frets offset}-0.07,
+  \fb@strings@count+1);
   \fi
-  
+
   \ifnum\pgfkeysvalueof{/fb/frets after}>0
-  \fill [overlay,@em=\fb@overlay@style]
+  \fill [overlay]
   (\fb@canvas@x@max+\pgfkeysvalueof{/fb/frets offset}+0.07,0)
   rectangle
-  (\pgfkeysvalueof{/fb/frets max}+\pgfkeysvalueof{/fb/frets offset}+0.07, \fb@strings@count+1);
+  (\pgfkeysvalueof{/fb/frets max}+\pgfkeysvalueof{/fb/frets offset}+0.07,
+  \fb@strings@count+1);
   \fi
-  
-  %% Add a legend
-  \pgfkeysgetvalue{/fb/legend text}{\@@fb@legend}
-  \expandafter\notblank\expandafter{\@@fb@legend}{%
-    \iffb@chord
-    \node[legend position chord] (l) at (\fb@canvas@x@min-\pgfkeysvalueof{/fb/frets offset}, 1) {};
-    \node[legend position chord] (r) at (\fb@canvas@x@min-\pgfkeysvalueof{/fb/frets offset}, \fb@strings@count) {};
-    \else
-    \node[legend position] (l) at (\fb@canvas@x@min, 1) {};
-    \node[legend position] (r) at (\fb@canvas@x@max, 1) {};
-    \fi
-    \node[legend,@em=\fb@legend@style,@@chord] at ($(l)!0.5!(r)$) {\pgfkeysvalueof{/fb/legend text}};
-  }%
 
+  %% Add a legend
+  \pgfkeysgetvalue{/fb/legend}{\@@fb@legend}
+  \expandafter\notblank\expandafter{\@@fb@legend}{%
+    \begin{scope}[legend position]
+      \iffb@chord
+      \node (l) at (\fb@canvas@x@min-\pgfkeysvalueof{/fb/frets offset}, 1) {};
+      \node (r) at (\fb@canvas@x@min-\pgfkeysvalueof{/fb/frets offset}, \fb@strings@count) {};
+      \else
+      \node[] (l) at (\fb@canvas@x@min, 1) {};
+      \node[] (r) at (\fb@canvas@x@max, 1) {};
+      \fi
+      \node[legend] at ($(l)!0.5!(r)$)%
+           {\pgfkeysvalueof{/fb/legend}};
+    \end{scope}
+  }%
+  
+  % Show string names
   \iffb@show@tuning
-  \begin{scope}[string tuning position]
-  \foreach \s [count = \is ] in \fb@strings {
-    \node[string tuning, @em=\fb@tuning@style]
-    at (\fb@canvas@x@min, \fb@strings@count-\is ) {%
-      \pgfmathparse{array({\@pitches}, Mod(\s,12))}%
-      \pgfkeysvalueof{/notes/\pgfmathresult/text}%
-    };
-  }
+  \begin{scope}[string tuning position]%
+    \foreach \s [count = \is ] in \fb@strings {%
+      \node[string tuning] at (\fb@canvas@x@min, \fb@strings@count-\is) {%
+        \pgfmathparse{array({\@pitches}, Mod(\s,12))}%
+        \expandafter\csname P\pgfmathresult\endcsname%
+      };
+    }
   \end{scope}
   \fi
+             
   \end{tikzpicture}
-  \end{adjustbox}%
-}
-
-
-
-\newif\iffb@note@haslower
-
-
-
-\newcommand{\getnotename}[2]{%
-  \iffb@transpose@pitch%
-  \pgfkeysvalueof{/notes/\newpitch/#2}%
-  \else%
-  \pgfkeysvalueof{/notes/#1/#2}%
-  \fi%
+  \end{adjustbox}
 }%
+%% fb environment ends here
 
+\newif\iffb@note@has@reversed
 
-\newcommand{\@setup@note@style}[2][]{
- \pgfkeys{/notes/#2/.cd, #1}%
-  %% Define a dynamic local style to handle several cases (including highlight)
-  \tikzset{@@note/.style={note style,@em=\fb@note@style,/notes/#2/note style, @@chord}}
-  %% Check for hightight
-  \iftrue\csname fi\endcsname\csname iffb@note@#2@highlight\endcsname%
-  \tikzset{@@note/.append style = {
-      note highlight,
-      @em=\fb@note@highlight@style,
-      /notes/#2/highlight style}}
-  \fi%
-
-  %% Check for lower node
-  \iftrue\csname fi\endcsname\csname iffb@note@#2@lower\endcsname%
-  \iffb@note@haslower
-  \tikzset{@@note/.append style = {
-      split style,
-      %% this is the global setting in the fb environment
-      @em=\fb@split@note@style,
-      /notes/#2/split style}}
-  \fi
-  \fi%
-}
-
-%% Generic low level command to place a note.
-%
-%  #1 note style override
-%  #2 The note to place (as defined with newnote)
-%  #3 X
-%  #4 Y
-%
-% You might want use \placenote instead
-\newcommand{\@placenote}[4][]{
-  %% place the note. Since the split is determined by style, we always place
-  %% the lower part.
-  \node[@@note] at (#3, #4) {%
-    \getnotename{#2}{text}%
-    \nodepart[]{lower}\getnotename{#2}{lower text}%
-  };
-  
-  %% If the node should be shaded
-  %% https://tex.stackexchange.com/questions/46377
-  \iftrue\csname fi\endcsname\csname iffb@note@#2@shade\endcsname{%
-    \node[@@note, note shade ] at (#3, #4) {
-    \getnotename{#2}{text}%
-    \nodepart[]{lower}\getnotename{#2}{lower text}%
-    };
-  }\fi
-}
-
-%% Generic high level command to place a note.
-%
-%  #1 note style override
-%  #2 The note to place (as defined with newnote)
-%  #3 X
-%  #4 Y
-%
-\newcommand{\placenote}[4][]{
-  \tikzset{ @@chord/.style = {}, }
-  \@setup@note@style[#1]{#2}
-  \@placenote[#1]{#2}{#3}{#4}
-}  
-
-\def\newpitch{C}
-
-
-
-%% place note #2 on all defined strings.
-%%
-%% Style #1 is used to override default note style
 \newcommand{\note}[2][]{
-  \pgfkeys{/notes/#2/.cd, #1}%
+  \begin{scope}
+  \pgfkeys{/intervals/#2/.cd, #1}
+
 
   %% \notblank requires a macro and not a command result
-  \pgfkeysgetvalue{/notes/#2/lower text}{\@@lower@text}
+  \pgfkeysgetvalue{/intervals/#2/reversed}{\@note@reversed@text}
 
   %% Do we need to transpose the note?
   \let\newpitch=#2
   \iffb@transpose@pitch  
   \transposepitch{#2}{\pgfkeysvalueof{/fb/transpose}}
-  \pgfkeysgetvalue{/notes/\newpitch/lower text}{\@@lower@text}
+  \pgfkeysgetvalue{/intervals/\newpitch/reversed}{\@note@reversed@text}
   \fi
+
   
-  % Check if the lower part is defined for future usage
-  \fb@note@haslowerfalse%
-  \expandafter\notblank\expandafter{\@@lower@text}{%
-    \fb@note@haslowertrue%
+  % Check if the note has an inversion
+  \fb@note@has@reversedfalse%
+  \expandafter\notblank\expandafter{\@note@reversed@text}{%
+    \iffb@split
+    \fb@note@has@reversedtrue%
+    \fi
   }
 
-  % limit note display
-  \edef\note@limit{\pgfkeysvalueof{/notes/#2/limit}}
-  \getlen{\note@limit@count}{\note@limit}
-  %% Check if a string limit is defined, build a list of all string otherwise.
+
+  
+  % Check if the note is limited to a specific string or not
+  \edef\note@limit{\getInterval{#2}{limit}}
+  \@getlen{\note@limit@count}{\note@limit}
   \ifnum\note@limit@count >0%
-    \edef\@strings@limit{\pgfkeysvalueof{/notes/#2/limit}}
+    \edef\@strings@limit{\getInterval{#2}{limit}}
     \else
     \edef\@strings@limit{1,...,\fb@strings@count}
   \fi
 
+  
   %% Setup note style before looping over strings and octaves
   \@setup@note@style[#1]{#2}
 
-
+  
   %% Compute note placement:
   %% X = semitone + transpose - string + octave
   %
   % First compute static parts:
   \pgfmathtruncatemacro{\@base@semitones}{
     %% Add note semitones from C
-    \pgfkeysvalueof{/notes/#2/semitones}
+    \getInterval{#2}{semitones}
     %% Finaly apply a transposition if needed.
     +\pgfkeysvalueof{/fb/transpose}
   }
-    
-  
+
   %% \str is the string index
   \foreach \str in \@strings@limit {
     %% Compute note placement:
@@ -444,6 +432,7 @@
       %% Substract the string tuning (Convert string tuning to C).
       -array({\fb@strings},\fb@strings@count-\str)
     }
+    % Compute all octaves
     \foreach \oct in { -24, -12, 0, 12, 24 } {
       %% Compute note position
       %
@@ -456,11 +445,64 @@
       \pgfmathparse{(\@x>=\fb@canvas@x@min) && (\@x<=\fb@canvas@x@max)?int(1):int(0)}
       %% If the note if within our fret range
       \ifnum\pgfmathresult>0{%
+        \iffb@transpose@pitch  
+        \@placenote[#1]{\newpitch}{\@x}{\str}
+        \else
         \@placenote[#1]{#2}{\@x}{\str}
+        \fi
       }\fi
     }
   }
+  \end{scope}
+}
+
+
+\newcommand{\@setup@note@style}[2][]{
+  %% initialize note style
+  \tikzset{
+    note/.append style = {/intervals/#2/style},
+  }
+  \iftrue\csname fi\endcsname\csname iffb@note@#2@highlight\endcsname%
+  \tikzset{note/.append style = {
+      note highlight,
+      /intervals/#2/highlight style}}
+  \fi%
+  \iffb@note@has@reversed
+  \tikzset{note/.append style = {note split}}
+  \fi
+}
+
+
+%% Generic low level command to place a note.
+%
+%  #1 note style override
+%  #2 The note to place (as defined with newnote)
+%  #3 X
+%  #4 Y
+%
+%% place the note. Since the split is determined by style, we always place
+% You might want use \placenote instead
+\newcommand{\@placenote}[4][]{
+  \node[note] at (#3, #4){%
+    \getInterval{#2}{tex small}%
+    \iffb@note@has@reversed%
+    \nodepart[]{lower}\getInterval{\@note@reversed@text}{tex small}%
+    \fi%
+  };%
+  
+  %% If the node should be shaded
+  %% https://tex.stackexchange.com/questions/46377
+  \iftrue\csname fi\endcsname\csname iffb@note@#2@shade\endcsname{%
+    \node[note, note shade] at (#3, #4) {
+    \getInterval{#2}{tex small}%
+    \iffb@note@has@reversed%
+    \nodepart[]{lower}\getInterval{\@note@reversed@text}{tex small}%
+    \fi%
+    };
+  }\fi
 }
 
 
 
+
+\makeatother

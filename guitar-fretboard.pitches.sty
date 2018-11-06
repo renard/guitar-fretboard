@@ -1,0 +1,472 @@
+\RequirePackage{pgfkeys}
+\RequirePackage{lilyglyphs}
+
+
+
+\newcommand\accidental[1]{\hspace*{0.1ex}#1}
+
+\newcommand\msharp{\raisebox{0.5ex}{\scalebox{0.6}{\sharp}}\@ifstar{\accidental{}}{}}
+\newcommand\mflat{\raisebox{0.25ex}{\scalebox{0.7}{\flat}}\@ifstar{\accidental{}}{}}
+
+\newcommand\mdoubleflat{\raisebox{0.25ex}{\protect\scalebox{0.7}{\flatflat}}\@ifstar{\accidental{}}{}}
+\newcommand\mdoublesharp{\raisebox{0.5ex}{\protect\scalebox{0.7}{\doublesharp}}\@ifstar{\accidental{}}{}}
+\newcommand\mnatural{\raisebox{0.45ex}{\protect\scalebox{0.6}{\natural}}\@ifstar{\accidental{}}{}}
+
+
+\ExplSyntaxOn
+\NewDocumentCommand{\p}{m}
+ {
+  \tl_set:Nn \l_emit_note_tl { #1 }
+  \regex_replace_all:nnN { \# } { S } \l_emit_note_tl
+  \regex_split:nVN { ([A-G]+) ([Sbn]*) (\d*) } \l_emit_note_tl \l_emit_note_seq
+  %% note
+  \notename{\seq_item:Nn \l_emit_note_seq { 2 }}
+  %% Accidental
+  \str_case_x:nn { \seq_item:Nn \l_emit_note_seq { 3 } }
+   {
+    {S}{\accidental{\msharp}}
+    {SS}{\accidental{\mdoublesharp}}
+    {SSS}{\accidental{\mdoublesharp}\accidental{\msharp}}
+    {b}{\accidental{\mflat}}
+    {bb}{\accidental{\mdoubleflat}}
+    {bbb}{\accidental{\mdoubleflat\hspace*{-0.05ex}\mflat}}
+    {n}{\accidental{\mnatural}}
+   }
+   %% Variant
+  \textsubscript{\seq_item:Nn \l_emit_note_seq { 4 }}\xspace%
+ }
+\cs_generate_variant:Nn \regex_split:nnN { nVN }
+%% \tl_new:N \l_emit_note_tl
+%% \seq_new:N \l_emit_note_seq
+\ExplSyntaxOff
+
+%% Define note shortcuts
+\@for\i:={A,B,C,D,E,F,G}\do{%
+  \@for\j:={bbb,bb,b,,n,S,SS,SSS}\do{
+    \expandafter\xdef\csname p\i\j\endcsname{\p{\i\j}}%
+}}
+
+
+\newcommand{\newPitch}[2][]{
+  \expandafter\newif\csname iffb@note@#2@shade\endcsname
+  \expandafter\newif\csname iffb@note@#2@highlight\endcsname
+  \expandafter\newif\csname iffb@note@#2@split\endcsname
+    
+  \pgfkeys{
+    /intervals/#2/.cd,
+    name/.initial = #2,
+    degree/.initial =,
+    tex/.initial = #2,
+    tex small/.initial = #2,
+    semitones/.initial = 0,
+    aliases/.initial =,
+    reversed/.initial =,
+    %
+    limit/.initial={},
+    style/.style = {},
+    highlight style/.style = {},
+    split/.is if = fb@split,
+    split = false,
+    shade/.is if = fb@note@#2@shade,
+    shade = false,
+    highlight/.is if = fb@note@#2@highlight,
+    highlight = false,
+    #1
+  }
+  \expandafter\xdef\csname P#2\endcsname{\noexpand\getPitch{#2}{tex}}%
+}
+
+\newcommand{\getPitch}[2]{%
+  \pgfkeysvalueof{/intervals/#1/#2}%
+}%
+
+%% 
+%% C
+%% 
+\newPitch[%
+  degree = 1,
+  semitones = -3,
+  tex = C\mdoubleflat\flat,
+  tex small = C\mdoubleflat\mflat,  
+]{Cbbb}
+
+\newPitch[%
+  degree = 1,
+  semitones = -2,
+  tex = C\mdoubleflat,
+  tex small = C\mdoubleflat,
+]{Cbb}
+
+\newPitch[%
+  degree = 1,
+  semitones = -1,
+  tex = C\flat,
+  tex small = C\mflat,
+]{Cb}
+
+\newPitch[%
+  degree = 1,
+  semitones = 0,
+  tex = C,
+  tex small = C,
+  style/.append style = {fill=bg1, text=fg1},
+]{C}
+
+\newPitch[%
+  degree = 1,
+  semitones = 1,
+  tex = C\sharp,
+  tex small = C\msharp,
+  reversed = Db,
+  style/.append style = {fill=bg1s, text=fg1s},
+]{CS}
+
+\newPitch[%
+  degree = 1,
+  semitones = 2,
+  tex = C\doublesharp,
+  tex small = C\mdoublesharp,
+]{CSS}
+
+\newPitch[%
+  degree = 1,
+  semitones = 3,
+  tex = C\doublesharp\sharp,
+  tex small = C\mdoublesharp\msharp,
+]{CSSS}
+
+%% 
+%% D
+%% 
+\newPitch[%
+  degree = 2,
+  semitones = -1,
+  tex = D\mdoubleflat\flat,
+  tex small = D\mdoubleflat\mflat,
+]{Dbbb}
+
+\newPitch[%
+  degree = 2,
+  semitones = 0,
+  tex = D\mdoubleflat,
+  tex small = D\mdoubleflat,
+]{Dbb}
+
+\newPitch[%
+  degree = 2,
+  semitones = 1,
+  tex = D\flat,
+  tex small = D\mflat,
+]{Db}
+
+\newPitch[%
+  degree = 2,
+  semitones = 2,
+  tex = D,
+  tex small = D,
+  style/.append style = {fill=bg2, text=fg2},
+]{D}
+
+\newPitch[%
+  degree = 2,
+  semitones = 3,
+  tex = D\sharp,
+  tex small = D\msharp,
+  reversed = Eb,
+  style/.append style = {fill=bg2s, text=fg2s},
+]{DS}
+
+\newPitch[%
+  degree = 2,
+  semitones = 4,
+  tex = D\doublesharp,
+  tex small = D\mdoublesharp,
+]{DSS}
+
+\newPitch[%
+  degree = 2,
+  semitones = 3,
+  tex = D\doublesharp\sharp,
+  tex small = D\mdoublesharp\msharp,
+]{DSSS}
+
+
+
+%% 
+%% E
+%% 
+\newPitch[%
+  degree = 3,
+  semitones = 1,
+  tex = E\mdoubleflat\flat,
+  tex small = E\mdoubleflat\mflat,
+]{Ebbb}
+
+\newPitch[%
+  degree = 3,
+  semitones = 2,
+  tex = E\mdoubleflat,
+  tex small = E\mdoubleflat,
+]{Ebb}
+
+\newPitch[%
+  degree = 3,
+  semitones = 3,
+  tex = E\flat,
+  tex small = E\mflat,
+]{Eb}
+
+\newPitch[%
+  degree = 3,
+  semitones = 4,
+  tex = E,
+  tex small = E,
+  style/.append style = {fill=bg3, text=fg3},
+]{E}
+
+\newPitch[%
+  degree = 3,
+  semitones = 5,
+  tex = E\sharp,
+  tex small = E\msharp,
+  reversed = F,
+  style/.append style = {fill=bg3s, text=fg3s},
+]{ES}
+
+\newPitch[%
+  degree = 3,
+  semitones = 6,
+  tex = E\doublesharp,
+  tex small = E\mdoublesharp,
+]{ESS}
+
+\newPitch[%
+  degree = 3,
+  semitones = 7,
+  tex = E\doublesharp\sharp,
+  tex small = E\mdoublesharp\msharp,
+]{ESSS}
+
+
+
+%% 
+%% F
+%% 
+\newPitch[%
+  degree = 4,
+  semitones = 2,
+  tex = F\mdoubleflat\flat,
+  tex small = F\mdoubleflat\mflat,
+]{Fbbb}
+
+\newPitch[%
+  degree = 4,
+  semitones = 3,
+  tex = F\mdoubleflat,
+  tex small = F\mdoubleflat,
+]{Fbb}
+
+\newPitch[%
+  degree = 4,
+  semitones = 4,
+  tex = F\flat,
+  tex small = F\mflat,
+]{Fb}
+
+\newPitch[%
+  degree = 4,
+  semitones = 5,
+  tex = F,
+  tex small = F,
+  style/.append style = {fill=bg4, text=fg4},
+]{F}
+
+\newPitch[%
+  degree = 4,
+  semitones = 6,
+  tex = F\sharp,
+  tex small = F\msharp,
+  reversed = Gb,
+  style/.append style = {fill=bg4s, text=fg4s},
+]{FS}
+
+\newPitch[%
+  degree = 4,
+  semitones = 7,
+  tex = F\doublesharp,
+  tex small = F\mdoublesharp,
+]{FSS}
+
+\newPitch[%
+  degree = 4,
+  semitones = 8,
+  tex = F\doublesharp\sharp,
+  tex small = F\mdoublesharp\msharp,
+]{FSSS}
+
+%% 
+%% G
+%% 
+\newPitch[%
+  degree = 5,
+  semitones = 4,
+  tex = G\mdoubleflat\flat,
+  tex small = G\mdoubleflat\mflat,
+]{Gbbb}
+
+\newPitch[%
+  degree = 5,
+  semitones = 5,
+  tex = G\mdoubleflat,
+  tex small = G\mdoubleflat,
+]{Gbb}
+
+\newPitch[%
+  degree = 5,
+  semitones = 6,
+  tex = G\flat,
+  tex small = G\mflat,
+]{Gb}
+
+\newPitch[%
+  degree = 5,
+  semitones = 7,
+  tex = G,
+  tex small = G,
+  style/.append style = {fill=bg5, text=fg5},
+]{G}
+
+\newPitch[%
+  degree = 5,
+  semitones = 8,
+  tex = G\sharp,
+  tex small = G\msharp,
+  reversed = Ab,
+  style/.append style = {fill=bg5s, text=fg5s},
+]{GS}
+
+\newPitch[%
+  degree = 5,
+  semitones = 9,
+  tex = G\doublesharp,
+  tex small = G\doublesharp,
+]{GSS}
+
+\newPitch[%
+  degree = 5,
+  semitones = 10,
+  tex = G\doublesharp\sharp,
+  tex small = G\mdoublesharp\msharp,
+]{GSSS}
+
+
+%%
+%% A
+%% 
+\newPitch[%
+  degree = 6,
+  semitones = 6,
+  tex = A\mdoubleflat\flat,
+  tex small = A\mdoubleflat\mflat,
+]{Abbb}
+
+\newPitch[%
+  degree = 6,
+  semitones = 7,
+  tex = A\mdoubleflat,
+  tex small = A\mdoubleflat,
+]{Abb}
+
+\newPitch[%
+  degree = 6,
+  semitones = 8,
+  tex = A\flat,
+  tex small = A\mflat,
+]{Ab}
+
+\newPitch[%
+  degree = 6,
+  semitones = 9,
+  tex = A,
+  tex small = A,
+  style/.append style = {fill=bg6, text=fg6},
+]{A}
+
+\newPitch[%
+  degree = 6,
+  semitones = 10,
+  tex = A\sharp,
+  tex small = A\msharp,
+  reversed = Bb,
+  style/.append style = {fill=bg6s, text=fg6s},
+]{AS}
+
+\newPitch[%
+  degree = 6,
+  semitones = 11,
+  tex = A\doublesharp,
+  tex small = A\mdoublesharp,
+]{ASS}
+
+\newPitch[%
+  degree = 6,
+  semitones = 0,
+  tex = A\doublesharp\sharp,
+  tex small = A\mdoublesharp\msharp,
+]{ASSS}
+
+%%
+%% B
+%% 
+\newPitch[%
+  degree = 7,
+  semitones = 8,
+  tex = B\mdoubleflat\flat,
+  tex small = B\mdoubleflat\mflat,
+]{Bbbb}
+
+\newPitch[%
+  degree = 7,
+  semitones = 9,
+  tex = B\mdoubleflat,
+  tex small = B\mdoubleflat,
+]{Bbb}
+
+\newPitch[%
+  degree = 7,
+  semitones = 10,
+  tex = B\flat,
+  tex small = B\mflat,
+]{Bb}
+
+\newPitch[%
+  degree = 7,
+  semitones = 11,
+  tex = B,
+  tex small = B,
+  style/.append style = {fill=bg7, text=fg7},
+]{B}
+
+\newPitch[%
+  degree = 7,
+  semitones = 0,
+  tex = B\sharp,
+  tex small = B\msharp,
+  reversed = C,
+  style/.append style = {fill=bg7s, text=fg7s},
+]{BS}
+
+\newPitch[%
+  degree = 7,
+  semitones = 1,
+  tex = B\doublesharp,
+  tex small = B\mdoublesharp,
+]{BSS}
+
+\newPitch[%
+  degree = 7,
+  semitones = 2,
+  tex = B\doublesharp\sharp,
+  tex small = B\mdoublesharp\msharp,
+]{BSSS}
+

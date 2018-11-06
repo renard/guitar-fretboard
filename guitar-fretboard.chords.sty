@@ -1,0 +1,204 @@
+\RequirePackage{pgfkeys}
+\RequirePackage{lilyglyphs}
+\usepackage[inline]{enumitem}
+
+
+
+\newcommand{\newChord}[2][]{
+  \pgfkeys{
+    /chord/#2/.cd,
+    name/.initial = #2,
+    tex/.initial = #2,
+    tex fs/.initial = #2,
+    intervals/.initial = {},
+    #1
+  }
+}
+
+
+\ExplSyntaxOn
+\NewDocumentCommand{\getChordIntervalsTex}{m}{%
+  \tl_set:Nn \l_interval { #1 }%
+  \regex_extract_once:nVNTF { \A \*(.+) \Z } \l_interval \l_interval_seq%
+        {%
+          \tl_set:Nn \l_matched_interval {\seq_item:Nn \l_interval_seq {2}}%
+          \l_matched_interval
+          {\color{red}\expandafter\getInterval{\l_matched_interval}{tex~fs}}%
+        }%
+        {%
+          \expandafter\getInterval{\l_interval}{tex~fs}%
+        }%
+}%
+\cs_generate_variant:Nn \regex_extract_once:nnNTF { nVNTF }
+\ExplSyntaxOff
+
+
+\newcommand{\getChordIntervals}[1]{%
+  \begin{itemize*}[%
+      afterlabel={},
+      before={(},
+      after={)},
+      label={},
+      mode=unboxed,
+      itemjoin={,\space}]%
+    \edef\alist{\getChord{#1}{intervals}}%
+    \foreach \i in \alist{%
+    \item\getChordIntervalsTex{\i}%
+      %\getInterval{\i}{tex fs}
+    %%\item\expandafter\getChordIntervalsTex\expandafter{\i}
+    }%
+  \end{itemize*}%
+}%
+
+
+\newcommand{\getChord}[2]{%
+  \pgfkeysvalueof{/chord/#1/#2}%
+}%
+
+\newChord[%
+  name = Power chord,
+  tex = 5,
+  tex fs = \textsuperscript{5},
+  intervals = {1, 5},
+]{5}
+
+\newChord[%
+  name = diminished power chord,
+  tex = 5-,
+  tex fs = \textsuperscript{\flat{5}},
+  intervals = {1, b5},
+]{b5}
+
+\newChord[%
+  name = Augmented power chord,
+  tex = 5+,
+  tex fs = \textsuperscript{\sharp{5}},
+  intervals = {1, S5},
+]{S5}
+
+\newChord[%
+  name = Major,
+  tex =,
+  tex fs =,
+  intervals = {1, 3, 5},
+]{major}
+
+\newChord[%
+  name = minor,
+  tex = m,
+  tex fs = m,
+  intervals = {1, b3, 5},
+]{minor}
+
+\newChord[%
+  name = suspended 2,
+  tex = sus2,
+  tex fs = sus\textsuperscript{2},
+  intervals = {1, 2, 5},
+]{sus2}
+
+\newChord[%
+  name = suspended 4,
+  tex = sus4,
+  tex fs = sus\textsuperscript{4},
+  intervals = {1, 4, 5},
+]{sus4}
+
+\newChord[%
+  name = Augmented,
+  tex = +,
+  tex fs = +,
+  intervals = {1, 3, S5},
+]{aug}
+
+\newChord[%
+  name = diminished,
+  tex = -,
+  tex fs = \textsuperscript{o},
+  intervals = {1, 3, b5},
+]{dim}
+
+\newChord[%
+  name = 7,
+  tex = 7,
+  tex fs = \textsuperscript{7},
+  intervals = {1, 3, 5, b7},
+]{7}
+
+
+\newChord[%
+  name = Major 7,
+  tex = M7,
+  tex fs = \textsuperscript{$\Delta$},
+  intervals = {1, 3, 5, 7},
+]{major7}
+
+\newChord[%
+  name = minor 7,
+  tex = m7,
+  tex fs = m\textsuperscript{7},
+  intervals = {1, b3, 5, 7},
+]{minor7}
+
+\newChord[%
+  name = suspended 7,
+  tex = 7sus4,
+  tex fs = \textsuperscript{7}sus\textsuperscript{4},
+  intervals = {1, 4, 5, b7},
+]{7sus4}
+
+\newChord[%
+  name = minor 7 Major,
+  tex = m7maj,
+  tex fs = m\textsuperscript{$\Delta$},
+  intervals = {1, b3, 5, 7},
+]{m7maj}
+
+\newChord[%
+  name = Augmented 7 Major,
+  tex = +maj7,
+  tex fs = \textsuperscript{$\Delta$\sharp{5}},
+  intervals = {1, b3, S5, 7},
+]{7majS5}
+
+\newChord[%
+  name = Augmented 7,
+  tex = 7+,
+  tex fs = \textsuperscript{7\sharp{5}},
+  intervals = {1, 3, S5, b7},
+]{7S5}
+
+\newChord[%
+  name = diminished 7 b5,
+  tex = 7-,
+  tex fs = \textsuperscript{7\flat{5}},
+  intervals = {1, 3, b5, b7},
+]{7b5}
+
+\newChord[%
+  name = half-diminished,
+  tex = m7b5,
+  tex fs = \textsuperscript{\o},
+  intervals = {1, b3, b5, b7},
+]{m7b5}
+
+\newChord[%
+  name = diminished 7,
+  tex = 7-,
+  tex fs = \textsuperscript{o7},
+  intervals = {1, b3, b5, bb7},
+]{dim7}
+
+\newChord[%
+  name = 6,
+  tex = 6,
+  tex fs = \textsuperscript{6},
+  intervals = {1, 3, 5, 6},
+]{6}
+
+\newChord[%
+  name = minor 6,
+  tex = m6,
+  tex fs = m\textsuperscript{6},
+  intervals = {1, b3, 5, 6},
+]{m6}
