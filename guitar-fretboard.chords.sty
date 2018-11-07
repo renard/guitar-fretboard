@@ -23,10 +23,10 @@
         {%
           \tl_set:Nn \l_matched_interval {\seq_item:Nn \l_interval_seq {2}}%
           \l_matched_interval
-          {\color{red}\expandafter\getInterval{\l_matched_interval}{tex~fs}}%
+          {\color{red}\expandafter\getInterval{\l_matched_interval}{tex~small}}%
         }%
         {%
-          \expandafter\getInterval{\l_interval}{tex~fs}%
+          \expandafter\getInterval{\l_interval}{tex~small}%
         }%
 }%
 \cs_generate_variant:Nn \regex_extract_once:nnNTF { nVNTF }

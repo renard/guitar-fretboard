@@ -1,435 +1,930 @@
 \RequirePackage{pgfkeys}
+\RequirePackage{pgfplots}
 \RequirePackage{lilyglyphs}
 
 
 \makeatletter
-\newcommand{\newIntervals}[2][]{
+
+\newcommand\accidental[1]{\hspace*{0.1ex}#1}
+
+\newcommand\msharp{\raisebox{0.5ex}{\scalebox{0.6}{\sharp}}\@ifstar{\accidental{}}{}}
+\newcommand\mflat{\raisebox{0.25ex}{\scalebox{0.7}{\flat}}\@ifstar{\accidental{}}{}}
+
+\newcommand\mdoubleflat{\raisebox{0.25ex}{\protect\scalebox{0.7}{\flatflat}}\@ifstar{\accidental{}}{}}
+\newcommand\mdoublesharp{\raisebox{0.5ex}{\protect\scalebox{0.7}{\doublesharp}}\@ifstar{\accidental{}}{}}
+\newcommand\mnatural{\raisebox{0.45ex}{\protect\scalebox{0.6}{\natural}}\@ifstar{\accidental{}}{}}
+
+\newcommand{\@newInterval}[2][]{
+  \expandafter\newif\csname iffb@note@#2@shade\endcsname
+  \expandafter\newif\csname iffb@note@#2@highlight\endcsname
+  \expandafter\newif\csname iffb@note@#2@split\endcsname
   \pgfkeys{
     /intervals/#2/.cd,
     name/.initial = #2,
     degree/.initial =,
     tex/.initial = #2,
-    tex fs/.initial = #2,
+    tex small/.initial = #2,
     semitones/.initial = 0,
     reversed/.initial =,
-    aliases/.initial ={},
     limit/.initial={},
+    %
+    %% helpers to override default configuration
+    style/.style = {},
+    highlight style/.style = {},
+    split/.is if = fb@note@#2@split,
+    split = false,
+    shade/.is if = fb@note@#2@shade,
+    shade = false,
+    highlight/.is if = fb@note@#2@highlight,
+    highlight = false,
+    %
     #1,
   }
-  \edef\alist{\getInterval{#2}{aliases}}
-  \foreach \i in \alist{%
-    \foreach \k in {name, degree, tex, tex fs, semitones, reversed, limit}{%
-      \expandafter\xdef\csname pgfk@/intervals/\i/\k\endcsname{\noexpand\getInterval{#2}{\k}}
-    }
+}
+
+\newcommand{\copyInterval}[3][]{
+  \@newInterval{#3}
+  \pgfkeys{
+    /intervals/#3/.cd,
+    name = \pgfkeysvalueof{/intervals/#2/name},
+    degree = \pgfkeysvalueof{/intervals/#2/degree},
+    tex = \pgfkeysvalueof{/intervals/#2/tex},
+    tex small = \pgfkeysvalueof{/intervals/#2/tex small},
+    semitones = \pgfkeysvalueof{/intervals/#2/semitones},
+    reversed = \pgfkeysvalueof{/intervals/#2/reversed},
+    limit= \pgfkeysvalueof{/intervals/#2/limit},
+    %
+    %% helpers to override default configuration
+    style/.style = /intervals/#2/style,
+    highlight style/.style = /intervals/#2/highlight style,
+    split = \iftrue\csname fi\endcsname\csname iffb@note@#2@split\endcsname true\else false\fi,
+    shade = \iftrue\csname fi\endcsname\csname iffb@note@#2@shade\endcsname true\else false\fi,,
+    highlight = \iftrue\csname fi\endcsname\csname iffb@note@#2@highlight\endcsname true\else false\fi,,
+    %
+    #1,
   }
 }
+
+\newcommand{\newInterval}[2][]{
+  \@newInterval[#1]{#2}
+  \expandafter\xdef\csname P#2\endcsname{\noexpand\getInterval{#2}{tex}}%
+}
+
 \makeatother
+
+
+
+\newcommand{\getPitch}[2]{%
+  \pgfkeysvalueof{/intervals/#1/#2}%
+}%
 
 \newcommand{\getInterval}[2]{%
   \pgfkeysvalueof{/intervals/#1/#2}%
 }%
 
+%%%%
+%%%%
+%%%%  Intervals
+%%%%
+%%%%
+
+
 %% 
 %% Unisson
 %% 
-\newIntervals[%
+\newInterval[%
   name = Diminished unisson,
   degree = 1,
   semitones = -1,
   tex = -1,
-  tex fs = \mflat1,
+  tex small = \mflat1,
   reversed = A8,
-  aliases = {b1},
+  style/.append style = {fill=bg1b, text=fg1b},
 ]{d1}
+\copyInterval[]{d1}{b1}
 
-\newIntervals[%
+\newInterval[%
   name = Perfect unisson,
   degree = 1,
   semitones = 0,
   tex = 1,
-  tex fs = 1,
+  tex small = 1,
   reversed = 8,
+  style/.append style = {fill=bg1, text=fg1},
 ]{1}
 
-\newIntervals[%
+\newInterval[%
   name = Augmented unisson,
   degree = 1,
   semitones = 1,
   tex = +1,
-  tex fs = \msharp1,
+  tex small = \msharp1,
   reversed = d8,
-  aliases = {S1},
+  style/.append style = {fill=bg1S, text=fg1S},
 ]{A1}
+\copyInterval[]{A1}{S1}
 
 %%
 %% Second
 %% 
-\newIntervals[%
+\newInterval[%
   name = Diminished second,
   degree = 2,
   semitones = 0,
   tex = -2,
-  tex fs = \mdoubleflat{2},
+  tex small = \mdoubleflat{2},
   reversed = A7,
-  aliases = {bb2},
+  style/.append style = {fill=bg2bb, text=fg2bb},
 ]{d2}
+\copyInterval[]{d2}{bb2}
 
-\newIntervals[%
+\newInterval[%
   name = Minor second,
   degree = 2,
   semitones = 1,
   tex = m2,
-  tex fs = \mflat2,
+  tex small = \mflat2,
   reversed = 7,
-  aliases = {b2},
+  style/.append style = {fill=bg2b, text=fg2b},
 ]{m2}
+\copyInterval[]{m2}{b2}
 
-\newIntervals[%
+\newInterval[%
   name = Major second,
   degree = 2,
   semitones = 2,
   tex = 2,
-  tex fs = 2,
+  tex small = 2,
   reversed = m7,
+  style/.append style = {fill=bg2, text=fg2},
 ]{2}
 
-\newIntervals[%
+\newInterval[%
   name = Augmented second,
   degree = 2,
   semitones = 3,
   tex = +2,
-  tex fs = \msharp{2},
+  tex small = \msharp{2},
   reversed = d7,
-  aliases = {S2},
+  style/.append style = {fill=bg2s, text=fg2s},
 ]{A2}
-
+\copyInterval[]{A2}{S2}
 
 %%
 %% Third
 %% 
-\newIntervals[%
+\newInterval[%
   name = Diminished third,
   degree = 3,
   semitones = 2,
   tex = -3,
-  tex fs = \mdoubleflat{3},
+  tex small = \mdoubleflat{3},
   reversed = A6,
-  aliases = {bb3},
+  style/.append style = {fill=bg3bb, text=fg3bb},
 ]{d3}
+\copyInterval[]{d3}{bb3}
 
-\newIntervals[%
+\newInterval[%
   name = Minor third,
   degree = 3,
   semitones = 3,
   tex = m3,
-  tex fs = \mflat3,
+  tex small = \mflat3,
   reversed = 6,
-  aliases = {b3},
+  style/.append style = {fill=bg3b, text=fg3b},
 ]{m3}
+\copyInterval[]{m3}{b3}
 
-\newIntervals[%
+\newInterval[%
   name = Major third,
   degree = 3,
   semitones = 4,
   tex = 3,
-  tex fs = 3,
+  tex small = 3,
   reversed = m6,
+  style/.append style = {fill=bg3, text=fg3},
 ]{3}
 
-\newIntervals[%
+\newInterval[%
   name = Augmented third,
   degree = 3,
   semitones = 5,
   tex = +3,
-  tex fs = \msharp{3},
+  tex small = \msharp{3},
   reversed = d6,
-  aliases = {S3},
+  style/.append style = {fill=bg3s, text=fg3s},
 ]{A3}
-
+\copyInterval[]{A3}{S3}
 
 %%
 %% Fourth
 %% 
-\newIntervals[%
+\newInterval[%
   name = Diminished fourth,
   degree = 4,
   semitones = 4,
   tex = -4,
-  tex fs = \mflat{4},
+  tex small = \mflat{4},
   reversed = A5,
-  aliases = {b4},
+  style/.append style = {fill=bg3b, text=fg3b},
 ]{d4}
+\copyInterval[]{d4}{b4}
 
-\newIntervals[%
+\newInterval[%
   name = Perfect fourth,
   degree = 4,
   semitones = 5,
   tex = 4,
-  tex fs = 4,
+  tex small = 4,
   reversed = 5,
+  style/.append style = {fill=bg4, text=fg4},
 ]{4}
 
-\newIntervals[%
+\newInterval[%
   name = Augmented fourth,
   degree = 4,
   semitones = 6,
   tex = +4,
-  tex fs = \msharp{4},
+  tex small = \msharp{4},
   reversed = d5,
-  aliases = {S4},
+  style/.append style = {fill=bg4s, text=fg4s},
 ]{A4}
+\copyInterval[]{A4}{S4}
 
 %%
 %% Fifth
 %% 
-\newIntervals[%
+\newInterval[%
   name = Diminished fifth,
   degree = 5,
   semitones = 6,
   tex = -5,
-  tex fs = \mflat{5},
+  tex small = \mflat{5},
   reversed = A4,
-  aliases = {b5},
+  style/.append style = {fill=bg5b, text=fg5b},
 ]{d5}
+\copyInterval[]{d5}{b5}
 
-\newIntervals[%
+\newInterval[%
   name = Perfect fifth,
   degree = 5,
   semitones = 7,
   tex = 5,
-  tex fs = 5,
+  tex small = 5,
   reversed = 4,
+  style/.append style = {fill=bg5, text=fg5},
 ]{5}
 
-\newIntervals[%
+\newInterval[%
   name = Augmented fifth,
   degree = 5,
   semitones = 8,
   tex = +5,
-  tex fs = \msharp{5},
+  tex small = \msharp{5},
   reversed = d4,
-  aliases = {S5},
+  style/.append style = {fill=bg5s, text=fg5s},  
 ]{A5}
+\copyInterval[]{A5}{S5}
 
 %%
 %% Sixth
 %% 
-\newIntervals[%
+\newInterval[%
   name = Diminished sixth,
   degree = 6,
   semitones = 7,
   tex = -6,
-  tex fs = \mdoubleflat{6},
+  tex small = \mdoubleflat{6},
   reversed = A3,
-  aliases = {bb6},
+  style/.append style = {fill=bg6bb, text=fg6bb},
 ]{d6}
+\copyInterval[]{d6}{bb6}
 
-\newIntervals[%
+\newInterval[%
   name = Minor sixth,
   degree = 6,
   semitones = 8,
   tex = m6,
-  tex fs = \mflat6,
+  tex small = \mflat6,
   reversed = 3,
-  aliases = {b6},
+  style/.append style = {fill=bg6b, text=fg6b},
 ]{m6}
+\copyInterval[]{m6}{b6}
 
-\newIntervals[%
+\newInterval[%
   name = Major sixth,
   degree = 6,
   semitones = 9,
   tex = 6,
-  tex fs = 6,
+  tex small = 6,
   reversed = m3,
+  style/.append style = {fill=bg6, text=fg6},
 ]{6}
 
-\newIntervals[%
+\newInterval[%
   name = Augmented sixth,
   degree = 6,
   semitones = 10,
   tex = +6,
-  tex fs = \msharp{6},
+  tex small = \msharp{6},
   reversed = d3,
-  aliases = {S6},
+  style/.append style = {fill=bg6s, text=fg6s},
 ]{A6}
+\copyInterval[]{A6}{S6}
 
 %%
 %% Seventh
 %% 
-\newIntervals[%
+\newInterval[%
   name = Diminished seventh,
   degree = 7,
   semitones = 9,
   tex = -7,
-  tex fs = \mdoubleflat{7},
+  tex small = \mdoubleflat{7},
   reversed = A2,
-  aliases = {bb7},
+  style/.append style = {fill=bg7bb, text=fg7bb},
 ]{d7}
+\copyInterval[]{d7}{bb7}
 
-\newIntervals[%
+\newInterval[%
   name = Minor seventh,
   degree = 7,
   semitones = 10,
   tex = m7,
-  tex fs = \mflat7,
+  tex small = \mflat7,
   reversed = 2,
-  aliases = {b7},
+  style/.append style = {fill=bg7b, text=fg7b},  
 ]{m7}
+\copyInterval[]{m7}{b7}
 
-\newIntervals[%
+\newInterval[%
   name = Major seventh,
   degree = 7,
   semitones = 11,
   tex = 7,
-  tex fs = 7,
+  tex small = 7,
   reversed = m2,
+  style/.append style = {fill=bg7, text=fg7},
 ]{7}
 
-\newIntervals[%
+\newInterval[%
   name = Augmented seventh,
   degree = 7,
   semitones = 0,
   tex = +7,
-  tex fs = \msharp{7},
+  tex small = \msharp{7},
   reversed = d2,
-  aliases = {S6},
+  style/.append style = {fill=bg7s, text=fg7s},
 ]{A7}
+\copyInterval[]{A7}{S7}
 
 %% 
 %% Octave
 %% 
-\newIntervals[%
+\newInterval[%
   name = Diminished octave,
   degree = 8,
   semitones = -1,
   tex = -8,
-  tex fs = \mflat8,
+  tex small = \mflat8,
   reversed = A1,
-  aliases = {b8},
+  style/.append style = {fill=bg1b, text=fg1b},
 ]{d8}
+\copyInterval[]{d8}{b8}
 
-\newIntervals[%
+\newInterval[%
   name = Perfect octave,
   degree = 8,
   semitones = 0,
   tex = 8,
-  tex fs = 8,
+  tex small = 8,
   reversed = 1,
+  style/.append style = {fill=bg1, text=fg1},
 ]{8}
 
-\newIntervals[%
+\newInterval[%
   name = Augmented octave,
   degree = 8,
   semitones = 1,
   tex = +8,
-  tex fs = \msharp8,
+  tex small = \msharp8,
   reversed = d1,
-  aliases = {S8},
+  style/.append style = {fill=bg1s, text=fg1s},
 ]{A8}
+\copyInterval[]{A8}{S8}
 
 
 %%
 %% Ninth
 %% 
-\newIntervals[%
+\newInterval[%
   name = Diminished ninth,
   degree = 2,
   semitones = 0,
   tex = -9,
-  tex fs = \mdoubleflat{9},
-  aliases = {bb9},
+  tex small = \mdoubleflat{9},
+  style/.append style = {fill=bg2bb, text=fg2bb},
 ]{d9}
+\copyInterval[]{d9}{bb9}
 
-\newIntervals[%
+\newInterval[%
   name = Minor ninth,
   degree = 2,
   semitones = 1,
   tex = m9,
-  tex fs = \mflat9,
-  aliases = {b9},
+  tex small = \mflat9,
+  style/.append style = {fill=bg2b, text=fg2b},
 ]{m9}
+\copyInterval[]{m9}{b9}
 
-\newIntervals[%
+\newInterval[%
   name = Major ninth,
   degree = 2,
   semitones = 2,
   tex = 9,
-  tex fs = 9,
+  tex small = 9,
+  style/.append style = {fill=bg2, text=fg2},
 ]{9}
 
-\newIntervals[%
+\newInterval[%
   name = Augmented ninth,
   degree = 2,
   semitones = 3,
   tex = +9,
-  tex fs = \msharp{9},
-  aliases = {S9},
+  tex small = \msharp{9},
+  style/.append style = {fill=bg2s, text=fg2s},
 ]{A9}
+\copyInterval[]{A9}{S9}
 
 %%
 %% Eleventh
 %% 
-\newIntervals[%
+\newInterval[%
   name = Diminished eleventh,
   degree = 4,
   semitones = 4,
   tex = -11,
-  tex fs = \mflat{11},
-  aliases = {b11},
+  tex small = \mflat{11},
+  style/.append style = {fill=bg4b, text=fg4b},
 ]{d11}
+\copyInterval[]{d11}{b11}
 
-\newIntervals[%
+\newInterval[%
   name = Perfect eleventh,
   degree = 4,
   semitones = 5,
   tex = 11,
-  tex fs = 11,
+  tex small = 11,
+  style/.append style = {fill=bg4, text=fg4},
 ]{11}
 
-\newIntervals[%
+\newInterval[%
   name = Augmented eleventh,
   degree = 4,
   semitones = 6,
   tex = +11,
-  tex fs = \msharp{11},
-  aliases = {S11},
+  tex small = \msharp{11},
+  style/.append style = {fill=bg4s, text=fg4s},
 ]{A11}
-
+\copyInterval[]{A11}{S11}
 
 %%
 %% Thirteenth
 %% 
-\newIntervals[%
+\newInterval[%
   name = Diminished thirteenth,
   degree = 6,
   semitones = 7,
   tex = -13,
-  tex fs = \mdoubleflat{13},
-  aliases = {bb13},
+  tex small = \mdoubleflat{13},
+  style/.append style = {fill=bg6bb, text=fg6bb},
 ]{d13}
+\copyInterval[]{d13}{bb13}
 
-\newIntervals[%
+\newInterval[%
   name = Minor thirteenth,
   degree = 6,
   semitones = 8,
   tex = m13,
-  tex fs = \mflat13,
-  aliases = {b13},
+  tex small = \mflat13,
+  style/.append style = {fill=bg6b, text=fg6b},
 ]{m13}
+\copyInterval[]{m13}{b13}
 
-\newIntervals[%
+\newInterval[%
   name = Major thirteenth,
   degree = 6,
   semitones = 9,
   tex = 13,
-  tex fs = 13,
+  tex small = 13,
+  style/.append style = {fill=bg6, text=fg6},
 ]{13}
 
-\newIntervals[%
+\newInterval[%
   name = Augmented thirteenth,
   degree = 6,
   semitones = 10,
   tex = +13,
-  tex fs = \msharp{13},
-  aliases = {S13},
+  tex small = \msharp{13},
+  style/.append style = {fill=bg6s, text=fg6s},
 ]{A13}
+\copyInterval[]{A13}{S13}
+
+
+%%%%
+%%%%
+%%%%  Pitches
+%%%%
+%%%%
+
+%% 
+%% C
+%% 
+\newInterval[%
+  degree = 1,
+  semitones = -3,
+  tex = C\mdoubleflat\flat,
+  tex small = C\mdoubleflat\mflat,  
+]{Cbbb}
+
+\newInterval[%
+  degree = 1,
+  semitones = -2,
+  tex = C\mdoubleflat,
+  tex small = C\mdoubleflat,
+]{Cbb}
+
+\newInterval[%
+  degree = 1,
+  semitones = -1,
+  tex = C\flat,
+  tex small = C\mflat,
+]{Cb}
+
+\newInterval[%
+  degree = 1,
+  semitones = 0,
+  tex = C,
+  tex small = C,
+  style/.append style = {fill=bg1, text=fg1},
+]{C}
+
+\newInterval[%
+  degree = 1,
+  semitones = 1,
+  tex = C\sharp,
+  tex small = C\msharp,
+  reversed = Db,
+  style/.append style = {fill=bg1s, text=fg1s},
+]{CS}
+
+\newInterval[%
+  degree = 1,
+  semitones = 2,
+  tex = C\doublesharp,
+  tex small = C\mdoublesharp,
+]{CSS}
+
+\newInterval[%
+  degree = 1,
+  semitones = 3,
+  tex = C\doublesharp\sharp,
+  tex small = C\mdoublesharp\msharp,
+]{CSSS}
+
+%% 
+%% D
+%% 
+\newInterval[%
+  degree = 2,
+  semitones = -1,
+  tex = D\mdoubleflat\flat,
+  tex small = D\mdoubleflat\mflat,
+]{Dbbb}
+
+\newInterval[%
+  degree = 2,
+  semitones = 0,
+  tex = D\mdoubleflat,
+  tex small = D\mdoubleflat,
+]{Dbb}
+
+\newInterval[%
+  degree = 2,
+  semitones = 1,
+  tex = D\flat,
+  tex small = D\mflat,
+]{Db}
+
+\newInterval[%
+  degree = 2,
+  semitones = 2,
+  tex = D,
+  tex small = D,
+  style/.append style = {fill=bg2, text=fg2},
+]{D}
+
+\newInterval[%
+  degree = 2,
+  semitones = 3,
+  tex = D\sharp,
+  tex small = D\msharp,
+  reversed = Eb,
+  style/.append style = {fill=bg2s, text=fg2s},
+]{DS}
+
+\newInterval[%
+  degree = 2,
+  semitones = 4,
+  tex = D\doublesharp,
+  tex small = D\mdoublesharp,
+]{DSS}
+
+\newInterval[%
+  degree = 2,
+  semitones = 3,
+  tex = D\doublesharp\sharp,
+  tex small = D\mdoublesharp\msharp,
+]{DSSS}
+
+
+
+%% 
+%% E
+%% 
+\newInterval[%
+  degree = 3,
+  semitones = 1,
+  tex = E\mdoubleflat\flat,
+  tex small = E\mdoubleflat\mflat,
+]{Ebbb}
+
+\newInterval[%
+  degree = 3,
+  semitones = 2,
+  tex = E\mdoubleflat,
+  tex small = E\mdoubleflat,
+]{Ebb}
+
+\newInterval[%
+  degree = 3,
+  semitones = 3,
+  tex = E\flat,
+  tex small = E\mflat,
+]{Eb}
+
+\newInterval[%
+  degree = 3,
+  semitones = 4,
+  tex = E,
+  tex small = E,
+  style/.append style = {fill=bg3, text=fg3},
+]{E}
+
+\newInterval[%
+  degree = 3,
+  semitones = 5,
+  tex = E\sharp,
+  tex small = E\msharp,
+  reversed = F,
+  style/.append style = {fill=bg3s, text=fg3s},
+]{ES}
+
+\newInterval[%
+  degree = 3,
+  semitones = 6,
+  tex = E\doublesharp,
+  tex small = E\mdoublesharp,
+]{ESS}
+
+\newInterval[%
+  degree = 3,
+  semitones = 7,
+  tex = E\doublesharp\sharp,
+  tex small = E\mdoublesharp\msharp,
+]{ESSS}
+
+
+
+%% 
+%% F
+%% 
+\newInterval[%
+  degree = 4,
+  semitones = 2,
+  tex = F\mdoubleflat\flat,
+  tex small = F\mdoubleflat\mflat,
+]{Fbbb}
+
+\newInterval[%
+  degree = 4,
+  semitones = 3,
+  tex = F\mdoubleflat,
+  tex small = F\mdoubleflat,
+]{Fbb}
+
+\newInterval[%
+  degree = 4,
+  semitones = 4,
+  tex = F\flat,
+  tex small = F\mflat,
+]{Fb}
+
+\newInterval[%
+  degree = 4,
+  semitones = 5,
+  tex = F,
+  tex small = F,
+  style/.append style = {fill=bg4, text=fg4},
+]{F}
+
+\newInterval[%
+  degree = 4,
+  semitones = 6,
+  tex = F\sharp,
+  tex small = F\msharp,
+  reversed = Gb,
+  style/.append style = {fill=bg4s, text=fg4s},
+]{FS}
+
+\newInterval[%
+  degree = 4,
+  semitones = 7,
+  tex = F\doublesharp,
+  tex small = F\mdoublesharp,
+]{FSS}
+
+\newInterval[%
+  degree = 4,
+  semitones = 8,
+  tex = F\doublesharp\sharp,
+  tex small = F\mdoublesharp\msharp,
+]{FSSS}
+
+%% 
+%% G
+%% 
+\newInterval[%
+  degree = 5,
+  semitones = 4,
+  tex = G\mdoubleflat\flat,
+  tex small = G\mdoubleflat\mflat,
+]{Gbbb}
+
+\newInterval[%
+  degree = 5,
+  semitones = 5,
+  tex = G\mdoubleflat,
+  tex small = G\mdoubleflat,
+]{Gbb}
+
+\newInterval[%
+  degree = 5,
+  semitones = 6,
+  tex = G\flat,
+  tex small = G\mflat,
+]{Gb}
+
+\newInterval[%
+  degree = 5,
+  semitones = 7,
+  tex = G,
+  tex small = G,
+  style/.append style = {fill=bg5, text=fg5},
+]{G}
+
+\newInterval[%
+  degree = 5,
+  semitones = 8,
+  tex = G\sharp,
+  tex small = G\msharp,
+  reversed = Ab,
+  style/.append style = {fill=bg5s, text=fg5s},
+]{GS}
+
+\newInterval[%
+  degree = 5,
+  semitones = 9,
+  tex = G\doublesharp,
+  tex small = G\doublesharp,
+]{GSS}
+
+\newInterval[%
+  degree = 5,
+  semitones = 10,
+  tex = G\doublesharp\sharp,
+  tex small = G\mdoublesharp\msharp,
+]{GSSS}
+
+
+%%
+%% A
+%% 
+\newInterval[%
+  degree = 6,
+  semitones = 6,
+  tex = A\mdoubleflat\flat,
+  tex small = A\mdoubleflat\mflat,
+]{Abbb}
+
+\newInterval[%
+  degree = 6,
+  semitones = 7,
+  tex = A\mdoubleflat,
+  tex small = A\mdoubleflat,
+]{Abb}
+
+\newInterval[%
+  degree = 6,
+  semitones = 8,
+  tex = A\flat,
+  tex small = A\mflat,
+]{Ab}
+
+\newInterval[%
+  degree = 6,
+  semitones = 9,
+  tex = A,
+  tex small = A,
+  style/.append style = {fill=bg6, text=fg6},
+]{A}
+
+\newInterval[%
+  degree = 6,
+  semitones = 10,
+  tex = A\sharp,
+  tex small = A\msharp,
+  reversed = Bb,
+  style/.append style = {fill=bg6s, text=fg6s},
+]{AS}
+
+\newInterval[%
+  degree = 6,
+  semitones = 11,
+  tex = A\doublesharp,
+  tex small = A\mdoublesharp,
+]{ASS}
+
+\newInterval[%
+  degree = 6,
+  semitones = 0,
+  tex = A\doublesharp\sharp,
+  tex small = A\mdoublesharp\msharp,
+]{ASSS}
+
+%%
+%% B
+%% 
+\newInterval[%
+  degree = 7,
+  semitones = 8,
+  tex = B\mdoubleflat\flat,
+  tex small = B\mdoubleflat\mflat,
+]{Bbbb}
+
+\newInterval[%
+  degree = 7,
+  semitones = 9,
+  tex = B\mdoubleflat,
+  tex small = B\mdoubleflat,
+]{Bbb}
+
+\newInterval[%
+  degree = 7,
+  semitones = 10,
+  tex = B\flat,
+  tex small = B\mflat,
+]{Bb}
+
+\newInterval[%
+  degree = 7,
+  semitones = 11,
+  tex = B,
+  tex small = B,
+  style/.append style = {fill=bg7, text=fg7},
+]{B}
+
+\newInterval[%
+  degree = 7,
+  semitones = 0,
+  tex = B\sharp,
+  tex small = B\msharp,
+  reversed = C,
+  style/.append style = {fill=bg7s, text=fg7s},
+]{BS}
+
+\newInterval[%
+  degree = 7,
+  semitones = 1,
+  tex = B\doublesharp,
+  tex small = B\mdoublesharp,
+]{BSS}
+
+\newInterval[%
+  degree = 7,
+  semitones = 2,
+  tex = B\doublesharp\sharp,
+  tex small = B\mdoublesharp\msharp,
+]{BSSS}
+
+
