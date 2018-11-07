@@ -20,6 +20,7 @@
 
 \RequirePackage{xcolor}
 \RequirePackage{pgfkeys}
+\RequirePackage{pgfmath}
 
 \newif\iffb@color@derive
 \pgfkeys{
@@ -46,10 +47,18 @@
   % Compute foreground
   %% https://tex.stackexchange.com/questions/379893
   \extractcolorspecs{bg#2}{\modelspec}{\grayscale}
+  \convertcolorspec{\modelspec}{\grayscale}{rgb}\@tmp
+  \definecolor{RGBbg#2}{rgb}{\@tmp}
+  \extractcolorspecs{RGBbg#2}{\modelspec}{\grayscale}
+  
   \pgfmathparse{(
+    %% array({\grayscale},0)*0.299+
+    %% array({\grayscale},1)*0.587+
+    %% array({\grayscale},2)*0.114
     array({\grayscale},0)*0.2126+
     array({\grayscale},1)*0.7152+
-    array({\grayscale},2)*0.0722)>=\pgfkeysvalueof{/fb/colors/limit}?int(1):int(0)}
+    array({\grayscale},2)*0.0722
+    )>=\pgfkeysvalueof{/fb/colors/limit}?int(1):int(0)}
   \ifnum\pgfmathresult>0%
   \colorlet{fg#2}{black}
   \else % Less bright
@@ -57,8 +66,28 @@
   \fi
 }
 
+%% http://colorbrewer2.org/#type=qualitative&scheme=Set1&n=7
+
+%% #e41a1c
+%% #377eb8
+%% #4daf4a
+%% #984ea3
+%% #ff7f00
+%% #ffff33
+%% #a65628
+
+
+%%+ 10,90,80,0
+%%+ 80,30,0,0
+%%+ 70,0,80,0
+%%+ 40,65,0,0
+%% 0,50,100,0
+%% 0,0,80,0
+%% 35,60,80,0
+
 
 \setcolor{1}{000000}      
+%\setcolor{1}{0,0,0,1}      
 \setcolor[derive]{1b} {bg1!10}
 \setcolor[derive]{1bb}{bg1b!10}
 \setcolor[derive]{1s} {bg1!10}
@@ -66,36 +95,42 @@
 
 
 \setcolor{2}{377EB8}
+%\setcolor{2}{.80,.30,0,0}
 \setcolor[derive]{2b} {bg2!70!black}
 \setcolor[derive]{2bb}{bg2b!70!black}
 \setcolor[derive]{2s} {bg2!30!white}
 \setcolor[derive]{2ss}{bg2s!30!white}
 
 \setcolor[limit=0.59]{3}{4DAF4A}
+%\setcolor[limit=0.9]{3}{.70,.0,.80,0}
 \setcolor[derive]{3b} {bg3!70!black}
 \setcolor[derive]{3bb}{bg3b!70!black}
 \setcolor[derive]{3s} {bg3!30!white}
 \setcolor[derive]{3ss}{bg3s!30!white}
 
 \setcolor{4}{984EA3}
+%\setcolor{4}{.40,.65,0,0}
 \setcolor[derive]{4b} {bg4!70!black}
 \setcolor[derive]{4bb}{bg4b!70!black}
 \setcolor[derive]{4s} {bg4!30!white}
 \setcolor[derive]{4ss}{bg4s!30!white}
 
 \setcolor{5}{E41A1C}
+%\setcolor{5}{.10,.90,.80,0}
 \setcolor[derive]{5b} {bg5!70!black}
 \setcolor[derive]{5bb}{bg5b!70!black}
 \setcolor[derive]{5s} {bg5!30!white}
 \setcolor[derive]{5ss}{bg5s!30!white}
 
 \setcolor{6}{FFFF33}
+%\setcolor{6}{0,0,.80,0}
 \setcolor[derive]{6b} {bg6!70!black}
 \setcolor[derive]{6bb}{bg6b!70!black}
 \setcolor[derive]{6s} {bg6!30!white}
 \setcolor[derive]{6ss}{bg6s!30!white}
 
 \setcolor{7}{A65628}
+%\setcolor{7}{.35,.60,.80,0}
 \setcolor[derive]{7b} {bg7!70!black}
 \setcolor[derive]{7bb}{bg7b!70!black}
 \setcolor[derive]{7s} {bg7!30!white}

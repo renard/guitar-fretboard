@@ -1,0 +1,435 @@
+\RequirePackage{pgfkeys}
+\RequirePackage{lilyglyphs}
+
+
+\makeatletter
+\newcommand{\newIntervals}[2][]{
+  \pgfkeys{
+    /intervals/#2/.cd,
+    name/.initial = #2,
+    degree/.initial =,
+    tex/.initial = #2,
+    tex fs/.initial = #2,
+    semitones/.initial = 0,
+    reversed/.initial =,
+    aliases/.initial ={},
+    limit/.initial={},
+    #1,
+  }
+  \edef\alist{\getInterval{#2}{aliases}}
+  \foreach \i in \alist{%
+    \foreach \k in {name, degree, tex, tex fs, semitones, reversed, limit}{%
+      \expandafter\xdef\csname pgfk@/intervals/\i/\k\endcsname{\noexpand\getInterval{#2}{\k}}
+    }
+  }
+}
+\makeatother
+
+\newcommand{\getInterval}[2]{%
+  \pgfkeysvalueof{/intervals/#1/#2}%
+}%
+
+%% 
+%% Unisson
+%% 
+\newIntervals[%
+  name = Diminished unisson,
+  degree = 1,
+  semitones = -1,
+  tex = -1,
+  tex fs = \mflat1,
+  reversed = A8,
+  aliases = {b1},
+]{d1}
+
+\newIntervals[%
+  name = Perfect unisson,
+  degree = 1,
+  semitones = 0,
+  tex = 1,
+  tex fs = 1,
+  reversed = 8,
+]{1}
+
+\newIntervals[%
+  name = Augmented unisson,
+  degree = 1,
+  semitones = 1,
+  tex = +1,
+  tex fs = \msharp1,
+  reversed = d8,
+  aliases = {S1},
+]{A1}
+
+%%
+%% Second
+%% 
+\newIntervals[%
+  name = Diminished second,
+  degree = 2,
+  semitones = 0,
+  tex = -2,
+  tex fs = \mdoubleflat{2},
+  reversed = A7,
+  aliases = {bb2},
+]{d2}
+
+\newIntervals[%
+  name = Minor second,
+  degree = 2,
+  semitones = 1,
+  tex = m2,
+  tex fs = \mflat2,
+  reversed = 7,
+  aliases = {b2},
+]{m2}
+
+\newIntervals[%
+  name = Major second,
+  degree = 2,
+  semitones = 2,
+  tex = 2,
+  tex fs = 2,
+  reversed = m7,
+]{2}
+
+\newIntervals[%
+  name = Augmented second,
+  degree = 2,
+  semitones = 3,
+  tex = +2,
+  tex fs = \msharp{2},
+  reversed = d7,
+  aliases = {S2},
+]{A2}
+
+
+%%
+%% Third
+%% 
+\newIntervals[%
+  name = Diminished third,
+  degree = 3,
+  semitones = 2,
+  tex = -3,
+  tex fs = \mdoubleflat{3},
+  reversed = A6,
+  aliases = {bb3},
+]{d3}
+
+\newIntervals[%
+  name = Minor third,
+  degree = 3,
+  semitones = 3,
+  tex = m3,
+  tex fs = \mflat3,
+  reversed = 6,
+  aliases = {b3},
+]{m3}
+
+\newIntervals[%
+  name = Major third,
+  degree = 3,
+  semitones = 4,
+  tex = 3,
+  tex fs = 3,
+  reversed = m6,
+]{3}
+
+\newIntervals[%
+  name = Augmented third,
+  degree = 3,
+  semitones = 5,
+  tex = +3,
+  tex fs = \msharp{3},
+  reversed = d6,
+  aliases = {S3},
+]{A3}
+
+
+%%
+%% Fourth
+%% 
+\newIntervals[%
+  name = Diminished fourth,
+  degree = 4,
+  semitones = 4,
+  tex = -4,
+  tex fs = \mflat{4},
+  reversed = A5,
+  aliases = {b4},
+]{d4}
+
+\newIntervals[%
+  name = Perfect fourth,
+  degree = 4,
+  semitones = 5,
+  tex = 4,
+  tex fs = 4,
+  reversed = 5,
+]{4}
+
+\newIntervals[%
+  name = Augmented fourth,
+  degree = 4,
+  semitones = 6,
+  tex = +4,
+  tex fs = \msharp{4},
+  reversed = d5,
+  aliases = {S4},
+]{A4}
+
+%%
+%% Fifth
+%% 
+\newIntervals[%
+  name = Diminished fifth,
+  degree = 5,
+  semitones = 6,
+  tex = -5,
+  tex fs = \mflat{5},
+  reversed = A4,
+  aliases = {b5},
+]{d5}
+
+\newIntervals[%
+  name = Perfect fifth,
+  degree = 5,
+  semitones = 7,
+  tex = 5,
+  tex fs = 5,
+  reversed = 4,
+]{5}
+
+\newIntervals[%
+  name = Augmented fifth,
+  degree = 5,
+  semitones = 8,
+  tex = +5,
+  tex fs = \msharp{5},
+  reversed = d4,
+  aliases = {S5},
+]{A5}
+
+%%
+%% Sixth
+%% 
+\newIntervals[%
+  name = Diminished sixth,
+  degree = 6,
+  semitones = 7,
+  tex = -6,
+  tex fs = \mdoubleflat{6},
+  reversed = A3,
+  aliases = {bb6},
+]{d6}
+
+\newIntervals[%
+  name = Minor sixth,
+  degree = 6,
+  semitones = 8,
+  tex = m6,
+  tex fs = \mflat6,
+  reversed = 3,
+  aliases = {b6},
+]{m6}
+
+\newIntervals[%
+  name = Major sixth,
+  degree = 6,
+  semitones = 9,
+  tex = 6,
+  tex fs = 6,
+  reversed = m3,
+]{6}
+
+\newIntervals[%
+  name = Augmented sixth,
+  degree = 6,
+  semitones = 10,
+  tex = +6,
+  tex fs = \msharp{6},
+  reversed = d3,
+  aliases = {S6},
+]{A6}
+
+%%
+%% Seventh
+%% 
+\newIntervals[%
+  name = Diminished seventh,
+  degree = 7,
+  semitones = 9,
+  tex = -7,
+  tex fs = \mdoubleflat{7},
+  reversed = A2,
+  aliases = {bb7},
+]{d7}
+
+\newIntervals[%
+  name = Minor seventh,
+  degree = 7,
+  semitones = 10,
+  tex = m7,
+  tex fs = \mflat7,
+  reversed = 2,
+  aliases = {b7},
+]{m7}
+
+\newIntervals[%
+  name = Major seventh,
+  degree = 7,
+  semitones = 11,
+  tex = 7,
+  tex fs = 7,
+  reversed = m2,
+]{7}
+
+\newIntervals[%
+  name = Augmented seventh,
+  degree = 7,
+  semitones = 0,
+  tex = +7,
+  tex fs = \msharp{7},
+  reversed = d2,
+  aliases = {S6},
+]{A7}
+
+%% 
+%% Octave
+%% 
+\newIntervals[%
+  name = Diminished octave,
+  degree = 8,
+  semitones = -1,
+  tex = -8,
+  tex fs = \mflat8,
+  reversed = A1,
+  aliases = {b8},
+]{d8}
+
+\newIntervals[%
+  name = Perfect octave,
+  degree = 8,
+  semitones = 0,
+  tex = 8,
+  tex fs = 8,
+  reversed = 1,
+]{8}
+
+\newIntervals[%
+  name = Augmented octave,
+  degree = 8,
+  semitones = 1,
+  tex = +8,
+  tex fs = \msharp8,
+  reversed = d1,
+  aliases = {S8},
+]{A8}
+
+
+%%
+%% Ninth
+%% 
+\newIntervals[%
+  name = Diminished ninth,
+  degree = 2,
+  semitones = 0,
+  tex = -9,
+  tex fs = \mdoubleflat{9},
+  aliases = {bb9},
+]{d9}
+
+\newIntervals[%
+  name = Minor ninth,
+  degree = 2,
+  semitones = 1,
+  tex = m9,
+  tex fs = \mflat9,
+  aliases = {b9},
+]{m9}
+
+\newIntervals[%
+  name = Major ninth,
+  degree = 2,
+  semitones = 2,
+  tex = 9,
+  tex fs = 9,
+]{9}
+
+\newIntervals[%
+  name = Augmented ninth,
+  degree = 2,
+  semitones = 3,
+  tex = +9,
+  tex fs = \msharp{9},
+  aliases = {S9},
+]{A9}
+
+%%
+%% Eleventh
+%% 
+\newIntervals[%
+  name = Diminished eleventh,
+  degree = 4,
+  semitones = 4,
+  tex = -11,
+  tex fs = \mflat{11},
+  aliases = {b11},
+]{d11}
+
+\newIntervals[%
+  name = Perfect eleventh,
+  degree = 4,
+  semitones = 5,
+  tex = 11,
+  tex fs = 11,
+]{11}
+
+\newIntervals[%
+  name = Augmented eleventh,
+  degree = 4,
+  semitones = 6,
+  tex = +11,
+  tex fs = \msharp{11},
+  aliases = {S11},
+]{A11}
+
+
+%%
+%% Thirteenth
+%% 
+\newIntervals[%
+  name = Diminished thirteenth,
+  degree = 6,
+  semitones = 7,
+  tex = -13,
+  tex fs = \mdoubleflat{13},
+  aliases = {bb13},
+]{d13}
+
+\newIntervals[%
+  name = Minor thirteenth,
+  degree = 6,
+  semitones = 8,
+  tex = m13,
+  tex fs = \mflat13,
+  aliases = {b13},
+]{m13}
+
+\newIntervals[%
+  name = Major thirteenth,
+  degree = 6,
+  semitones = 9,
+  tex = 13,
+  tex fs = 13,
+]{13}
+
+\newIntervals[%
+  name = Augmented thirteenth,
+  degree = 6,
+  semitones = 10,
+  tex = +13,
+  tex fs = \msharp{13},
+  aliases = {S13},
+]{A13}
