@@ -358,7 +358,7 @@
     \foreach \s [count = \is ] in \fb@strings {%
       \node[string tuning] at (\fb@canvas@x@min, \fb@strings@count-\is) {%
         \pgfmathparse{array({\@pitches}, Mod(\s,12))}%
-        \expandafter\csname P\pgfmathresult\endcsname%
+        \expandafter\csname p\pgfmathresult\endcsname%
       };
     }
   \end{scope}

@@ -67,7 +67,7 @@
 
 \newcommand{\newInterval}[2][]{
   \@newInterval[#1]{#2}
-  \expandafter\xdef\csname P#2\endcsname{\noexpand\getInterval{#2}{tex}}%
+  \expandafter\xdef\csname p#2\endcsname{{\noexpand\notefont\noexpand\getInterval{#2}{tex}}\noexpand\xspace}%
 }
 
 \makeatother
