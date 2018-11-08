@@ -502,6 +502,19 @@
   }\fi
 }
 
+%% Generic high level command to place a note.
+%
+%  #1 note style override
+%  #2 The note to place (as defined with newnote)
+%  #3 X
+%  #4 Y
+%
+\newcommand{\placenote}[4][]{
+  \pgfkeys{/intervals/#2/.cd, #1}
+  \@setup@note@style[#1]{#2}
+  \@placenote[#1]{#2}{#3}{#4}
+}  
+
 
 
 
