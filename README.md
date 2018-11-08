@@ -28,10 +28,10 @@ This is an early release. APIs and options are suject to change.
       transpose = 5,
       transpose pitch,
       scale = 1,
-      legend text = {\pF Major scale (\pF, \pG, \pA, \pBb, \pC, \pD, \pE)},
-      fret numbers visible]
+      legend = {\pF Major scale (\pF, \pG, \pA, \pBb, \pC, \pD, \pE)},
+      fret numbers]
     \foreach \i in { C, D, E, F, G, F, A, B} {
-      \note[lower]{\i}
+      \note[split]{\i}
     }
   \end{fb}
 \end{document}
