@@ -3,7 +3,7 @@
 \usepackage[inline]{enumitem}
 
 
-
+\def\intervalfont{\sffamily}
 \newcommand{\newScale}[2][]{
   \pgfkeys{
     /scales/#2/.cd,
@@ -22,7 +22,6 @@
   \regex_extract_once:nVNTF { \A \*(.+) \Z } \l_interval \l_interval_seq%
         {%
           \tl_set:Nn \l_matched_interval {\seq_item:Nn \l_interval_seq {2}}%
-          \l_matched_interval
           {\color{red}\expandafter\getInterval{\l_matched_interval}{tex~small}}%
         }%
         {%
@@ -31,7 +30,6 @@
 }%
 \cs_generate_variant:Nn \regex_extract_once:nnNTF { nVNTF }
 \ExplSyntaxOff
-
 
 \newcommand{\getScaleIntervals}[1]{%
   \begin{itemize*}[%
@@ -43,9 +41,7 @@
       itemjoin={,\space}]%
     \edef\alist{\getScale{#1}{intervals}}%
     \foreach \i in \alist{%
-    \item\getScaleIntervalsTex{\i}%
-      %\getInterval{\i}{tex fs}
-    %%\item\expandafter\getScaleIntervalsTex\expandafter{\i}
+    \item\expandafter\getScaleIntervalsTex\expandafter{\i}%
     }%
   \end{itemize*}%
 }%
