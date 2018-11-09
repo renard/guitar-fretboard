@@ -1,5 +1,11 @@
 \documentclass[a4paper]{article}
 
+\newif\ifintroduction
+%\introductiontrue
+\newif\ifannexes
+\annexestrue
+
+
 \usepackage[english]{babel}
 \usepackage{fontenc}
 \usepackage[utf8]{inputenc}
@@ -96,6 +102,17 @@
   \\
 }
 
+
+\newcommand{\mychordline}[1]{
+  \texttt{#1} &
+  \getScale{#1}{name} &
+  \showChord{C}{#1} &
+  \showChordFs{C}{#1} &
+  \getScaleIntervals{#1}
+  \\
+}
+
+
 \usepackage{colortbl}
 \newcommand{\mycolorline}[1]{
   \texttt{#1} &
@@ -105,11 +122,6 @@
 }
 
 
-\newif\ifintroduction
-\introductiontrue
-
-\newif\ifannexes
-\annexestrue
 
 \begin{document}
 
@@ -208,7 +220,7 @@ helps to only show the \pG on the \nth{3} string.
   \end{fb}
 \end{tcblisting}
 
-How this the \pC chord looks like when the guitar is open \pG tuned? Again
+How this \pC chord looks like when the guitar is open \pG tuned? Again
 \pkg{guitar-fretboard} does all the magic for you as long as you ask nicely.
 
 \begin{tcblisting}{doc-code,text above listing}
@@ -224,13 +236,13 @@ As you can see, setting the \meta{tuning} option update the whole
 fretboard. This is very easy to create some new diagrams in different
 tunings.
 
-Now let's figure out how a left-handed guitarist can practice the \pC M7
+Now let's figure out how a left-handed guitarist can practice the \pC\unskip{}M7
 arpeggio (and the whole major scale) in open \pG tuning:
 
 \begin{tcblisting}{doc-code,text above listing}
   \begin{fb}[frets before = 2, frets after = 2,
       tuning = \tuning{guitar/open g}, left handed,
-      legend = {\pC M7 arpeggio in open \pG tuning},
+      legend = {\pC\unskip{}M7 arpeggio in open \pG tuning},
       fret numbers, scale=0.35]
     \foreach \i in {C, E, G, B} {
       \note{\i}
@@ -476,6 +488,12 @@ the \refCom{note} command.
   any \docAuxKey{/tikz} style since \oarg{options} is processed by
   \cs{tikzset}.
 \end{docCommand}
+
+\begin{docCommand}{placenote}{\oarg{options}\marg{id}\marg{string}\marg{fret}}
+  Similar to \refCom{note} but place note \docValue{id} at \docValue{string}
+  on \docValue{fret}.
+\end{docCommand}
+
 
 \begin{docCommand}{tuning}{\marg{id}}
   Retrieves the tuning referenced by \marg{id} under the
@@ -799,6 +817,35 @@ All semitones are relative to \pC.
   \end{longtable}
 \end{small}
 
+\subsection{Chords}
+\begin{small}
+  \centering
+  \begin{longtable}{l|l|l|l|l}
+    id & name & tex & tex fs & interval  \\
+    \hline
+    \mychordline   {M}
+    \mychordline   {m}
+    \mychordline   {5}
+    \mychordline   {b5}
+    \mychordline   {S5}
+    \mychordline   {sus2}
+    \mychordline   {sus4}
+    \mychordline   {aug}
+    \mychordline   {dim}
+    \mychordline   {7}
+    \mychordline   {M7}
+    \mychordline   {m7}
+    \mychordline   {7sus4}
+    \mychordline   {m7maj}
+    \mychordline   {7majS5}
+    \mychordline   {7S5}
+    \mychordline   {7b5}
+    \mychordline   {m7b5}
+    \mychordline   {dim7}
+    \mychordline   {6}
+    \mychordline   {m6}
+  \end{longtable}
+\end{small}
 
 \subsection{Colors}
 
