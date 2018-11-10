@@ -67,18 +67,13 @@
 
 \newcommand{\FBnewNote}[2][]{
   \@FBnewNote[#1]{#2}
-  \expandafter\xdef\csname p#2\endcsname{{\noexpand\notefont\noexpand\getInterval{#2}{tex}}\noexpand\xspace}%
+  \expandafter\xdef\csname p#2\endcsname{{\noexpand\notefont\noexpand\FBgetNote{#2}{tex}}\noexpand\xspace}%
 }
 
 \makeatother
 
 
-
-\newcommand{\getPitch}[2]{%
-  \pgfkeysvalueof{/fb/notes/#1/#2}%
-}%
-
-\newcommand{\getInterval}[2]{%
+\newcommand{\FBgetNote}[2]{%
   \pgfkeysvalueof{/fb/notes/#1/#2}%
 }%
 

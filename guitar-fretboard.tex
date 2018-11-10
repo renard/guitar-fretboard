@@ -79,11 +79,11 @@
 
 \newcommand{\mypitchline}[1]{
   \texttt{#1} &
-  \getPitch{#1}{degree} &
-  \getPitch{#1}{semitones} &
-  \getPitch{#1}{tex} &
-  \getPitch{#1}{tex small} &
-  \texttt{\getPitch{#1}{reversed}} &
+  \FBgetNote{#1}{degree} &
+  \FBgetNote{#1}{semitones} &
+  \FBgetNote{#1}{tex} &
+  \FBgetNote{#1}{tex small} &
+  \texttt{\FBgetNote{#1}{reversed}} &
   \texttt{\textbackslash{P#1}}
   \\
 }
@@ -91,14 +91,14 @@
 
 \newcommand{\myintervalline}[1]{
   \texttt{#1} &
-  %% \texttt{\getInterval{#1}{aliases}} &
-  \getInterval{#1}{degree} &
-  \getInterval{#1}{semitones} &
-  \getInterval{#1}{name} &
+  %% \texttt{\FBgetNote{#1}{aliases}} &
+  \FBgetNote{#1}{degree} &
+  \FBgetNote{#1}{semitones} &
+  \FBgetNote{#1}{name} &
   %% \csname I#1\endcsname &
-  \getInterval{#1}{tex} &
-  \getInterval{#1}{tex small} &
-  \getInterval{#1}{reversed} 
+  \FBgetNote{#1}{tex} &
+  \FBgetNote{#1}{tex small} &
+  \FBgetNote{#1}{reversed} 
   \\
 }
 
@@ -535,8 +535,8 @@ want to define your own notes.
 
   \begin{docKey}[fb/notes/NOTE][]{tex small}{=tex}{}
     Same as \refKey{/fb/notes/NOTE/tex} but used for fretboard limited
-    space. Flats and sharps are smaller (\getInterval{CS}{tex}{} and
-    \getInterval{CS}{tex small}).
+    space. Flats and sharps are smaller (\FBgetNote{CS}{tex}{} and
+    \FBgetNote{CS}{tex small}).
   \end{docKey}
 
   \begin{docKey}[fb/notes/NOTE][]{semitones}{=0}{0}
@@ -585,7 +585,7 @@ want to define your own notes.
   \oarg{options}. See \refCom{FBnewNote}.
 \end{docCommand}
 
-\begin{docCommand}{getInterval}{\marg{id}\marg{key}}
+\begin{docCommand}{FBgetNote}{\marg{id}\marg{key}}
   Retrieves the \marg{key} value of the note \marg{id}.
 \end{docCommand}
 

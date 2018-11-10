@@ -399,10 +399,10 @@
 
   
   % Check if the note is limited to a specific string or not
-  \edef\note@limit{\getInterval{#2}{limit}}
+  \edef\note@limit{\FBgetNote{#2}{limit}}
   \@getlen{\note@limit@count}{\note@limit}
   \ifnum\note@limit@count >0%
-    \edef\@strings@limit{\getInterval{#2}{limit}}
+    \edef\@strings@limit{\FBgetNote{#2}{limit}}
     \else
     \edef\@strings@limit{1,...,\fb@strings@count}
   \fi
@@ -418,7 +418,7 @@
   % First compute static parts:
   \pgfmathtruncatemacro{\@base@semitones}{
     %% Add note semitones from C
-    \getInterval{#2}{semitones}
+    \FBgetNote{#2}{semitones}
     %% Finaly apply a transposition if needed.
     +\pgfkeysvalueof{/fb/transpose}
   }
@@ -485,9 +485,9 @@
 % You might want use \placenote instead
 \newcommand{\@placenote}[4][]{
   \node[note] at (#3, #4){%
-    \getInterval{#2}{tex small}%
+    \FBgetNote{#2}{tex small}%
     \iffb@note@has@reversed%
-    \nodepart[]{lower}\getInterval{\@note@reversed@text}{tex small}%
+    \nodepart[]{lower}\FBgetNote{\@note@reversed@text}{tex small}%
     \fi%
   };%
   
@@ -495,9 +495,9 @@
   %% https://tex.stackexchange.com/questions/46377
   \iftrue\csname fi\endcsname\csname iffb@note@#2@shade\endcsname{%
     \node[note, note shade] at (#3, #4) {
-    \getInterval{#2}{tex small}%
+    \FBgetNote{#2}{tex small}%
     \iffb@note@has@reversed%
-    \nodepart[]{lower}\getInterval{\@note@reversed@text}{tex small}%
+    \nodepart[]{lower}\FBgetNote{\@note@reversed@text}{tex small}%
     \fi%
     };
   }\fi

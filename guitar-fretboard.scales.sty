@@ -22,10 +22,10 @@
   \regex_extract_once:nVNTF { \A \*(.+) \Z } \l_interval \l_interval_seq%
         {%
           \tl_set:Nn \l_matched_interval {\seq_item:Nn \l_interval_seq {2}}%
-          {\color{red}\intervalfont\expandafter\getInterval{\l_matched_interval}{tex~small}}%
+          {\color{red}\intervalfont\expandafter\FBgetNote{\l_matched_interval}{tex~small}}%
         }%
         {%
-          \intervalfont\expandafter\getInterval{\l_interval}{tex~small}%
+          \intervalfont\expandafter\FBgetNote{\l_interval}{tex~small}%
         }%
 }%
 \cs_generate_variant:Nn \regex_extract_once:nnNTF { nVNTF }
@@ -47,10 +47,10 @@
 }%
 
 \newcommand{\showChord}[2]{
-  \getInterval{#1}{tex small}\getScale{#2}{tex}
+  \FBgetNote{#1}{tex small}\getScale{#2}{tex}
 }
 \newcommand{\showChordFs}[2]{
-  \getInterval{#1}{tex small}\getScale{#2}{tex fs}
+  \FBgetNote{#1}{tex small}\getScale{#2}{tex fs}
 }
 
 \newcommand{\getScale}[2]{%
