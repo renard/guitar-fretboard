@@ -19,7 +19,7 @@
   \expandafter\newif\csname iffb@note@#2@highlight\endcsname
   \expandafter\newif\csname iffb@note@#2@split\endcsname
   \pgfkeys{
-    /intervals/#2/.cd,
+    /fb/notes/#2/.cd,
     name/.initial = #2,
     degree/.initial =,
     tex/.initial = #2,
@@ -45,18 +45,18 @@
 \newcommand{\copyInterval}[3][]{
   \@newInterval{#3}
   \pgfkeys{
-    /intervals/#3/.cd,
-    name = \pgfkeysvalueof{/intervals/#2/name},
-    degree = \pgfkeysvalueof{/intervals/#2/degree},
-    tex = \pgfkeysvalueof{/intervals/#2/tex},
-    tex small = \pgfkeysvalueof{/intervals/#2/tex small},
-    semitones = \pgfkeysvalueof{/intervals/#2/semitones},
-    reversed = \pgfkeysvalueof{/intervals/#2/reversed},
-    limit= \pgfkeysvalueof{/intervals/#2/limit},
+    /fb/notes/#3/.cd,
+    name = \pgfkeysvalueof{/fb/notes/#2/name},
+    degree = \pgfkeysvalueof{/fb/notes/#2/degree},
+    tex = \pgfkeysvalueof{/fb/notes/#2/tex},
+    tex small = \pgfkeysvalueof{/fb/notes/#2/tex small},
+    semitones = \pgfkeysvalueof{/fb/notes/#2/semitones},
+    reversed = \pgfkeysvalueof{/fb/notes/#2/reversed},
+    limit= \pgfkeysvalueof{/fb/notes/#2/limit},
     %
     %% helpers to override default configuration
-    style/.style = /intervals/#2/style,
-    highlight style/.style = /intervals/#2/highlight style,
+    style/.style = /fb/notes/#2/style,
+    highlight style/.style = /fb/notes/#2/highlight style,
     split = \iftrue\csname fi\endcsname\csname iffb@note@#2@split\endcsname true\else false\fi,
     shade = \iftrue\csname fi\endcsname\csname iffb@note@#2@shade\endcsname true\else false\fi,,
     highlight = \iftrue\csname fi\endcsname\csname iffb@note@#2@highlight\endcsname true\else false\fi,,
@@ -75,11 +75,11 @@
 
 
 \newcommand{\getPitch}[2]{%
-  \pgfkeysvalueof{/intervals/#1/#2}%
+  \pgfkeysvalueof{/fb/notes/#1/#2}%
 }%
 
 \newcommand{\getInterval}[2]{%
-  \pgfkeysvalueof{/intervals/#1/#2}%
+  \pgfkeysvalueof{/fb/notes/#1/#2}%
 }%
 
 %%%%

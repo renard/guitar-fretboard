@@ -213,7 +213,7 @@
 \def\@pitches{"C","CS","D","Eb","E","F","FS","G","GS","A","Bb","B"}
 \newcommand{\transposepitch}[2]{%
   \pgfmathparse{array({\@pitches},
-    Mod(\pgfkeysvalueof{/intervals/#1/semitones}+#2,12))}
+    Mod(\pgfkeysvalueof{/fb/notes/#1/semitones}+#2,12))}
     \let\newpitch=\pgfmathresult%
 }%
 
@@ -374,17 +374,17 @@
 
 \newcommand{\note}[2][]{
   \begin{scope}
-  \pgfkeys{/intervals/#2/.cd, #1}
+  \pgfkeys{/fb/notes/#2/.cd, #1}
 
 
   %% \notblank requires a macro and not a command result
-  \pgfkeysgetvalue{/intervals/#2/reversed}{\@note@reversed@text}
+  \pgfkeysgetvalue{/fb/notes/#2/reversed}{\@note@reversed@text}
 
   %% Do we need to transpose the note?
   \let\newpitch=#2
   \iffb@transpose@pitch  
   \transposepitch{#2}{\pgfkeysvalueof{/fb/transpose}}
-  \pgfkeysgetvalue{/intervals/\newpitch/reversed}{\@note@reversed@text}
+  \pgfkeysgetvalue{/fb/notes/\newpitch/reversed}{\@note@reversed@text}
   \fi
 
   
@@ -461,12 +461,12 @@
 \newcommand{\@setup@note@style}[2][]{
   %% initialize note style
   \tikzset{
-    note/.append style = {/intervals/#2/style},
+    note/.append style = {/fb/notes/#2/style},
   }
   \iftrue\csname fi\endcsname\csname iffb@note@#2@highlight\endcsname%
   \tikzset{note/.append style = {
       note highlight,
-      /intervals/#2/highlight style}}
+      /fb/notes/#2/highlight style}}
   \fi%
   \iffb@note@has@reversed
   \tikzset{note/.append style = {note split}}
@@ -511,7 +511,7 @@
 %  #4 Y
 %
 \newcommand{\placenote}[4][]{
-  \pgfkeys{/intervals/#2/.cd, #1}
+  \pgfkeys{/fb/notes/#2/.cd, #1}
   \@setup@note@style[#1]{#2}
   \@placenote[#1]{#2}{#3}{#4}
 }  

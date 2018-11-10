@@ -438,7 +438,7 @@ the \refCom{note} command.
   
   \begin{docKey}[fb][]{split}{=boolean}{false}
     Set to false to show 2 labels in the notes when applicable (only when
-    \refKey{/intervals/NOTE/reversed} is set). If note is a pitch both flat
+    \refKey{/fb/notes/NOTE/reversed} is set). If note is a pitch both flat
     and sharp pitch are shown such as \pEb and \pFS. In the case of an
     interval, the reversed interval is shown.
   \end{docKey}
@@ -512,39 +512,39 @@ want to define your own notes.
   intervals.
 
   The newly created note will be placed under the
-  \docAuxKey*{/intervals/NOTE} key path.
+  \docAuxKey*{/fb/notes/NOTE} key path.
   
   In addition you can add some \oarg{options} to the new note. From here a
   pitch or an interval is referenced as a note.
 
-  \begin{docKey}[intervals/NOTE][]{name}{=name}{}
+  \begin{docKey}[fb/notes/NOTE][]{name}{=name}{}
     The full textual name of the note that can be used for specific usage.
   \end{docKey}
 
-  \begin{docKey}[intervals/NOTE][]{degree}{=degree}{}
-    the note degree in the \pC major scale reference (1 or \pC, 2 for \pD, 3
+  \begin{docKey}[fb/notes/NOTE][]{degree}{=degree}{}
+    The note degree in the \pC major scale reference (1 or \pC, 2 for \pD, 3
     for \pE, etc). the degree does not care about semitones, just about the
     note base name.
   \end{docKey}
 
-  \begin{docKey}[intervals/NOTE][]{tex}{=tex}{}
+  \begin{docKey}[fb/notes/NOTE][]{tex}{=tex}{}
     the note representation in a musical environment. This key is used by
     the \cs{pX} command where \texttt{X} is the note \marg{id}. See the
     annexes for further details.
   \end{docKey}
 
-  \begin{docKey}[intervals/NOTE][]{tex small}{=tex}{}
-    Same as \refKey{/intervals/NOTE/tex} but used for fretboard limited
+  \begin{docKey}[fb/notes/NOTE][]{tex small}{=tex}{}
+    Same as \refKey{/fb/notes/NOTE/tex} but used for fretboard limited
     space. Flats and sharps are smaller (\getInterval{CS}{tex}{} and
     \getInterval{CS}{tex small}).
   \end{docKey}
 
-  \begin{docKey}[intervals/NOTE][]{semitones}{=0}{0}
+  \begin{docKey}[fb/notes/NOTE][]{semitones}{=0}{0}
     Semitone distance from the \pC note. This is used to determine the
     note's place on the fretboard.
   \end{docKey}
 
-  \begin{docKey}[intervals/NOTE][]{reversed}{=note ref}{}
+  \begin{docKey}[fb/notes/NOTE][]{reversed}{=note ref}{}
     The reference to the reversed interval \marg{id} or equivalent note name.
   \end{docKey}
 
@@ -552,29 +552,29 @@ want to define your own notes.
   the fretboard using the \refCom{note} command to override default
   behaviors.
 
-  \begin{docKey}[intervals/NOTE][]{limit}{={list, of, strings}}{}
+  \begin{docKey}[fb/notes/NOTE][]{limit}{={list, of, strings}}{}
     A list of strings (order does not matter) to limit the note placement on
     the fretboard. For example if you only want to place the note on both
     \nth{5} and \nth{2} string, use \brackets{2,5} (or \brackets{5,2}).
   \end{docKey}
 
-  \begin{docKey}[intervals/NOTE][]{style}{={style}}{}
+  \begin{docKey}[fb/notes/NOTE][]{style}{={style}}{}
     A complement style definition to \refKey{/tikz/note}.
   \end{docKey}
 
-  \begin{docKey}[intervals/NOTE][]{highlight style}{={style}}{}
+  \begin{docKey}[fb/notes/NOTE][]{highlight style}{={style}}{}
     A complement style definition to \refKey{/tikz/note highlight}.
   \end{docKey}
 
-  \begin{docKey}[intervals/NOTE][]{split}{={boolean}}{false}
+  \begin{docKey}[fb/notes/NOTE][]{split}{={boolean}}{false}
     Split that specific note if set to true.
   \end{docKey}
 
-  \begin{docKey}[intervals/NOTE][]{shade}{={boolean}}{false}
+  \begin{docKey}[fb/notes/NOTE][]{shade}{={boolean}}{false}
     Shade that specific note if set to true.
   \end{docKey}
 
-  \begin{docKey}[intervals/NOTE][]{highlight}{={boolean}}{false}
+  \begin{docKey}[fb/notes/NOTE][]{highlight}{={boolean}}{false}
     Highlight that specific note if set to true.
   \end{docKey}
 
