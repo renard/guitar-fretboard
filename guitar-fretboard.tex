@@ -154,13 +154,13 @@ It comes with all battery included to allow you to:
 As an example here is the Major scale in key of \pC:
 
 \begin{tcblisting}{doc-code,text above listing}
-  \begin{fb}[frets before = 2, frets after = 2,
-      legend = {Major scale (1, 2, 3, 4, 5, 6, 7)},
+  \begin{fretboard}[frets before = 2, frets after = 2,
+      title = {Major scale (1, 2, 3, 4, 5, 6, 7)},
       scale=0.35, fret numbers]
     \foreach \i in {1, 2, 3, 4, 5, 6, 7} {
       \note[split]{\i}
     }
-  \end{fb}
+  \end{fretboard}
 \end{tcblisting}
 
 The major scale consists of following intervals from the tonic (root) note:
@@ -177,16 +177,16 @@ transposition is semitone-based and may not be always accurate in terms of
 harmony since intervals are not used in the process.
 
 \begin{tcblisting}{doc-code,text above listing}
-  \begin{fb}[frets before = 2, frets after = 2,
+  \begin{fretboard}[frets before = 2, frets after = 2,
       transpose = 5,
       transpose pitch,
-      legend = {\pF Major scale\\\Large (\pF, \pG, \pA, \pBb, \pC, \pD, \pE)},
+      title = {\pF Major scale\\\Large (\pF, \pG, \pA, \pBb, \pC, \pD, \pE)},
       scale=0.35,
       fret numbers]
     \foreach \i in { C, D, E, F, G, F, A, B} {
       \note[split]{\i}
     }
-  \end{fb}
+  \end{fretboard}
 \end{tcblisting}
 
 
@@ -196,8 +196,8 @@ shapes showing up. If you are playing in \pC Major, the scale can also be
 displayed. This helps you to find new embellishments when soloing:
 
 \begin{tcblisting}{doc-code,text above listing, center upper}
-  \begin{fb}[frets before = 2, frets after = 2,
-      legend = {\pC Chord (and \pC major scale)},
+  \begin{fretboard}[frets before = 2, frets after = 2,
+      title = {\pC Chord (and \pC major scale)},
       scale = 0.35,
       fret numbers]
     \foreach \i in {C, E, G} {
@@ -206,7 +206,7 @@ displayed. This helps you to find new embellishments when soloing:
     \foreach \i in {D, F, A, B} {
       \note[shade]{\i}
     }
-  \end{fb}
+  \end{fretboard}
 \end{tcblisting}
 
 The \pC chord can also be displayed in a more classical way. Use the
@@ -214,22 +214,22 @@ The \pC chord can also be displayed in a more classical way. Use the
 helps to only show the \pG on the \nth{3} string.
 
 \begin{tcblisting}{doc-code,text above listing}
-  \begin{fb}[frets min = 0, frets max = 3, fret numbers,
-      legend = {\pC}, chord, scale=0.35]
+  \begin{fretboard}[frets min = 0, frets max = 3, fret numbers,
+      title = {\pC}, chord, scale=0.35]
     \note{C} \note{E} \note[limit={3}]{G}
-  \end{fb}
+  \end{fretboard}
 \end{tcblisting}
 
 How this \pC chord looks like when the guitar is open \pG tuned? Again
 \pkg{guitar-fretboard} does all the magic for you as long as you ask nicely.
 
 \begin{tcblisting}{doc-code,text above listing}
-  \begin{fb}[frets min = 0, frets max = 3,
+  \begin{fretboard}[frets min = 0, frets max = 3,
       chord, tuning = \tuning{guitar/open g},
-      legend = {\pC Chord (open \pG)},
+      title = {\pC Chord (open \pG)},
       fret numbers, scale=0.35]
     \note{C} \note[limit={1,4}]{E} \note{G}
-  \end{fb}
+  \end{fretboard}
 \end{tcblisting}
 
 As you can see, setting the \meta{tuning} option update the whole
@@ -240,9 +240,9 @@ Now let's figure out how a left-handed guitarist can practice the \pC\unskip{}M7
 arpeggio (and the whole major scale) in open \pG tuning:
 
 \begin{tcblisting}{doc-code,text above listing}
-  \begin{fb}[frets before = 2, frets after = 2,
+  \begin{fretboard}[frets before = 2, frets after = 2,
       tuning = \tuning{guitar/open g}, left handed,
-      legend = {\pC\unskip{}M7 arpeggio in open \pG tuning},
+      title = {\pC\unskip{}M7 arpeggio in open \pG tuning},
       fret numbers, scale=0.35]
     \foreach \i in {C, E, G, B} {
       \note{\i}
@@ -250,7 +250,7 @@ arpeggio (and the whole major scale) in open \pG tuning:
     \foreach \i in {D, F, A} {
       \note[shade]{\i}
     }
-  \end{fb}
+  \end{fretboard}
 \end{tcblisting}
 
 
@@ -259,15 +259,15 @@ notes (the note that colors the mode, you want to play that note). Here is
 an example with a generic Phrygian mode:
 
 \begin{tcblisting}{doc-code,text above listing}
-  \begin{fb}[frets min=2, frets max=6,
+  \begin{fretboard}[frets min=2, frets max=6,
       transpose = -5,
-      legend = {Phrygian scale}, scale=0.35]
+      title = {Phrygian scale}, scale=0.35]
     \foreach \i in {1,b2, 3, 4, 5,b6,b7} {
       \note{\i}
     }
     \note[highlight]{b2}
     \note[highlight, shade, limit={1}]{b2}
-  \end{fb}
+  \end{fretboard}
 \end{tcblisting}
 
 \fi
@@ -287,7 +287,7 @@ have a look to the \pkg{guitar-fretboard} definition file if you are curious
 about it.
 
 The main point is that you can override them globally using the \cs{tikzset}
-command or just when you need in the \refEnv{fb} environment or when using
+command or just when you need in the \refEnv{fretboard} environment or when using
 the \refCom{note} command.
 
 \begin{docKey}[tikz][]{fretboard}{=style}{}
@@ -341,13 +341,13 @@ the \refCom{note} command.
   \refKey{/fb/frets after} to help focus on the main part of the neck.
 \end{docKey}
 
-\begin{docKey}[tikz][]{legend}{=style}{}
-  This style is used for the diagram legend. By default the font is given
+\begin{docKey}[tikz][]{title}{=style}{}
+  This style is used for the diagram title. By default the font is given
   by the \cs{labelfont} command.
 \end{docKey}
 
-\begin{docKey}[tikz][]{legend position}{=style}{\{ shift = \{(0, -0.75)\}\}}
-  Same as \refKey{/tikz/fret numbers position} but for the diagram legend.
+\begin{docKey}[tikz][]{title position}{=style}{\{ shift = \{(0, -0.75)\}\}}
+  Same as \refKey{/tikz/fret numbers position} but for the diagram title.
 
   Be careful when you change it because in chord mode, $(-0.75,~0.75)$ is
   added to this value. Again you may need to experiment several values if
@@ -380,7 +380,7 @@ the \refCom{note} command.
 
 \subsection{Fretboard}
 
-\begin{docEnvironment}{fb}{\oarg{options}}
+\begin{docEnvironment}{fretboard}{\oarg{options}}
 
   This is the main part of the \pkg{guitar-fretboard} engine which is
   responsible to draw the frets, the strings, the labels and put everything
@@ -443,8 +443,8 @@ the \refCom{note} command.
     interval, the reversed interval is shown.
   \end{docKey}
   
-  \begin{docKey}[fb][]{legend}{=text}{}
-    If not blank, the \docValue{text} content is used for the diagram legend.
+  \begin{docKey}[fb][]{title}{=text}{}
+    If not blank, the \docValue{text} content is used for the diagram title.
   \end{docKey}
 
   \begin{docKey}[fb][]{transpose}{=semitone}{0}
@@ -482,7 +482,7 @@ the \refCom{note} command.
 
 \begin{docCommand}{note}{\oarg{options}\marg{id}}
   Place the note referenced by \marg{id} on the current fretboard. This
-  command only makes sense in the \refEnv{fb} environment.
+  command only makes sense in the \refEnv{fretboard} environment.
 
   You can override any parameter set in the \refCom{newInterval} command or
   any \docAuxKey{/tikz} style since \oarg{options} is processed by
@@ -643,10 +643,10 @@ A very simple example can be:
 \documentclass[]{standalone}
 \usepackage{guitar-fretboard}
 \begin{document}
-\begin{fb}[frets min=0, frets max=4, fret numbers,
-    left handed, legend = {\pC}]%
+\begin{fretboard}[frets min=0, frets max=4, fret numbers,
+    left handed, title = {\pC}]%
   \note{C} \note{E} \note{G}
-\end{fb}%
+\end{fretboard}%
 \end{document}
 \end{example}
 

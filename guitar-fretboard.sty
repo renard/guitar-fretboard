@@ -48,7 +48,7 @@
 \def\notefont{\sffamily\bfseries}
 \def\fretfont{\sffamily}
 \def\stringfont{\sffamily\bfseries}
-\def\legendfont{\sffamily}
+\def\titlefont{\sffamily}
 \def\intervalfont{\sffamily}
 
 \pgfkeys{/tikz/.cd,
@@ -94,12 +94,12 @@
     line width = 0pt,
     outer sep=0pt,
   },
-  legend/.style = {
+  title/.style = {
     anchor=south,
     align=center,
-    font=\legendfont\Huge
+    font=\titlefont\Huge
   },
-  legend position/.style = {
+  title position/.style = {
     shift = {(0, -0.75)},
   },
   %
@@ -187,7 +187,7 @@
   split/.is if = fb@split,
   split = false,
   %
-  legend/.initial = {},
+  title/.initial = {},
   %
   transpose/.initial = 0,
   transpose pitch/.is if = fb@transpose@pitch,
@@ -235,7 +235,7 @@
 }%
 
 
-\newenvironment{fb}[1][]{%
+\newenvironment{fretboard}[1][]{%
   \pgfkeys{/fb/.cd, #1}%
 
   \edef\fb@strings{\pgfkeysvalueof{/fb/tuning}}%
@@ -260,7 +260,7 @@
       rotate = -90,
       shift = {(0, 0.15)},
     },
-    legend position/.append style = {
+    title position/.append style = {
       shift = {(-0.75, 0.75)},
     },
   }%
@@ -337,10 +337,10 @@
   \fb@strings@count+1);
   \fi
 
-  %% Add a legend
-  \pgfkeysgetvalue{/fb/legend}{\@@fb@legend}
-  \expandafter\notblank\expandafter{\@@fb@legend}{%
-    \begin{scope}[legend position]
+  %% Add a title
+  \pgfkeysgetvalue{/fb/title}{\@@fb@title}
+  \expandafter\notblank\expandafter{\@@fb@title}{%
+    \begin{scope}[title position]
       \iffb@chord
       \node (l) at (\fb@canvas@x@min-\pgfkeysvalueof{/fb/frets offset}, 1) {};
       \node (r) at (\fb@canvas@x@min-\pgfkeysvalueof{/fb/frets offset}, \fb@strings@count) {};
@@ -348,8 +348,8 @@
       \node[] (l) at (\fb@canvas@x@min, 1) {};
       \node[] (r) at (\fb@canvas@x@max, 1) {};
       \fi
-      \node[legend] at ($(l)!0.5!(r)$)%
-           {\pgfkeysvalueof{/fb/legend}};
+      \node[title] at ($(l)!0.5!(r)$)%
+           {\pgfkeysvalueof{/fb/title}};
     \end{scope}
   }%
   
