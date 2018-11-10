@@ -14,7 +14,7 @@
 \newcommand\mdoublesharp{\raisebox{0.5ex}{\protect\scalebox{0.7}{\doublesharp}}\@ifstar{\accidental{}}{}}
 \newcommand\mnatural{\raisebox{0.45ex}{\protect\scalebox{0.6}{\natural}}\@ifstar{\accidental{}}{}}
 
-\newcommand{\@newInterval}[2][]{
+\newcommand{\@FBnewNote}[2][]{
   \expandafter\newif\csname iffb@note@#2@shade\endcsname
   \expandafter\newif\csname iffb@note@#2@highlight\endcsname
   \expandafter\newif\csname iffb@note@#2@split\endcsname
@@ -42,8 +42,8 @@
   }
 }
 
-\newcommand{\copyInterval}[3][]{
-  \@newInterval{#3}
+\newcommand{\FBcopyNote}[3][]{
+  \@FBnewNote{#3}
   \pgfkeys{
     /fb/notes/#3/.cd,
     name = \pgfkeysvalueof{/fb/notes/#2/name},
@@ -65,8 +65,8 @@
   }
 }
 
-\newcommand{\newInterval}[2][]{
-  \@newInterval[#1]{#2}
+\newcommand{\FBnewNote}[2][]{
+  \@FBnewNote[#1]{#2}
   \expandafter\xdef\csname p#2\endcsname{{\noexpand\notefont\noexpand\getInterval{#2}{tex}}\noexpand\xspace}%
 }
 
@@ -92,7 +92,7 @@
 %% 
 %% Unisson
 %% 
-\newInterval[%
+\FBnewNote[%
   name = Diminished unisson,
   degree = 1,
   semitones = -1,
@@ -101,9 +101,9 @@
   reversed = A8,
   style/.append style = {fill=bg1b, text=fg1b},
 ]{d1}
-\copyInterval[]{d1}{b1}
+\FBcopyNote[]{d1}{b1}
 
-\newInterval[%
+\FBnewNote[%
   name = Perfect unisson,
   degree = 1,
   semitones = 0,
@@ -113,7 +113,7 @@
   style/.append style = {fill=bg1, text=fg1},
 ]{1}
 
-\newInterval[%
+\FBnewNote[%
   name = Augmented unisson,
   degree = 1,
   semitones = 1,
@@ -122,12 +122,12 @@
   reversed = d8,
   style/.append style = {fill=bg1S, text=fg1S},
 ]{A1}
-\copyInterval[]{A1}{S1}
+\FBcopyNote[]{A1}{S1}
 
 %%
 %% Second
 %% 
-\newInterval[%
+\FBnewNote[%
   name = Diminished second,
   degree = 2,
   semitones = 0,
@@ -136,9 +136,9 @@
   reversed = A7,
   style/.append style = {fill=bg2bb, text=fg2bb},
 ]{d2}
-\copyInterval[]{d2}{bb2}
+\FBcopyNote[]{d2}{bb2}
 
-\newInterval[%
+\FBnewNote[%
   name = Minor second,
   degree = 2,
   semitones = 1,
@@ -147,9 +147,9 @@
   reversed = 7,
   style/.append style = {fill=bg2b, text=fg2b},
 ]{m2}
-\copyInterval[]{m2}{b2}
+\FBcopyNote[]{m2}{b2}
 
-\newInterval[%
+\FBnewNote[%
   name = Major second,
   degree = 2,
   semitones = 2,
@@ -159,7 +159,7 @@
   style/.append style = {fill=bg2, text=fg2},
 ]{2}
 
-\newInterval[%
+\FBnewNote[%
   name = Augmented second,
   degree = 2,
   semitones = 3,
@@ -168,12 +168,12 @@
   reversed = d7,
   style/.append style = {fill=bg2s, text=fg2s},
 ]{A2}
-\copyInterval[]{A2}{S2}
+\FBcopyNote[]{A2}{S2}
 
 %%
 %% Third
 %% 
-\newInterval[%
+\FBnewNote[%
   name = Diminished third,
   degree = 3,
   semitones = 2,
@@ -182,9 +182,9 @@
   reversed = A6,
   style/.append style = {fill=bg3bb, text=fg3bb},
 ]{d3}
-\copyInterval[]{d3}{bb3}
+\FBcopyNote[]{d3}{bb3}
 
-\newInterval[%
+\FBnewNote[%
   name = Minor third,
   degree = 3,
   semitones = 3,
@@ -193,9 +193,9 @@
   reversed = 6,
   style/.append style = {fill=bg3b, text=fg3b},
 ]{m3}
-\copyInterval[]{m3}{b3}
+\FBcopyNote[]{m3}{b3}
 
-\newInterval[%
+\FBnewNote[%
   name = Major third,
   degree = 3,
   semitones = 4,
@@ -205,7 +205,7 @@
   style/.append style = {fill=bg3, text=fg3},
 ]{3}
 
-\newInterval[%
+\FBnewNote[%
   name = Augmented third,
   degree = 3,
   semitones = 5,
@@ -214,12 +214,12 @@
   reversed = d6,
   style/.append style = {fill=bg3s, text=fg3s},
 ]{A3}
-\copyInterval[]{A3}{S3}
+\FBcopyNote[]{A3}{S3}
 
 %%
 %% Fourth
 %% 
-\newInterval[%
+\FBnewNote[%
   name = Diminished fourth,
   degree = 4,
   semitones = 4,
@@ -228,9 +228,9 @@
   reversed = A5,
   style/.append style = {fill=bg3b, text=fg3b},
 ]{d4}
-\copyInterval[]{d4}{b4}
+\FBcopyNote[]{d4}{b4}
 
-\newInterval[%
+\FBnewNote[%
   name = Perfect fourth,
   degree = 4,
   semitones = 5,
@@ -240,7 +240,7 @@
   style/.append style = {fill=bg4, text=fg4},
 ]{4}
 
-\newInterval[%
+\FBnewNote[%
   name = Augmented fourth,
   degree = 4,
   semitones = 6,
@@ -249,12 +249,12 @@
   reversed = d5,
   style/.append style = {fill=bg4s, text=fg4s},
 ]{A4}
-\copyInterval[]{A4}{S4}
+\FBcopyNote[]{A4}{S4}
 
 %%
 %% Fifth
 %% 
-\newInterval[%
+\FBnewNote[%
   name = Diminished fifth,
   degree = 5,
   semitones = 6,
@@ -263,9 +263,9 @@
   reversed = A4,
   style/.append style = {fill=bg5b, text=fg5b},
 ]{d5}
-\copyInterval[]{d5}{b5}
+\FBcopyNote[]{d5}{b5}
 
-\newInterval[%
+\FBnewNote[%
   name = Perfect fifth,
   degree = 5,
   semitones = 7,
@@ -275,7 +275,7 @@
   style/.append style = {fill=bg5, text=fg5},
 ]{5}
 
-\newInterval[%
+\FBnewNote[%
   name = Augmented fifth,
   degree = 5,
   semitones = 8,
@@ -284,12 +284,12 @@
   reversed = d4,
   style/.append style = {fill=bg5s, text=fg5s},  
 ]{A5}
-\copyInterval[]{A5}{S5}
+\FBcopyNote[]{A5}{S5}
 
 %%
 %% Sixth
 %% 
-\newInterval[%
+\FBnewNote[%
   name = Diminished sixth,
   degree = 6,
   semitones = 7,
@@ -298,9 +298,9 @@
   reversed = A3,
   style/.append style = {fill=bg6bb, text=fg6bb},
 ]{d6}
-\copyInterval[]{d6}{bb6}
+\FBcopyNote[]{d6}{bb6}
 
-\newInterval[%
+\FBnewNote[%
   name = Minor sixth,
   degree = 6,
   semitones = 8,
@@ -309,9 +309,9 @@
   reversed = 3,
   style/.append style = {fill=bg6b, text=fg6b},
 ]{m6}
-\copyInterval[]{m6}{b6}
+\FBcopyNote[]{m6}{b6}
 
-\newInterval[%
+\FBnewNote[%
   name = Major sixth,
   degree = 6,
   semitones = 9,
@@ -321,7 +321,7 @@
   style/.append style = {fill=bg6, text=fg6},
 ]{6}
 
-\newInterval[%
+\FBnewNote[%
   name = Augmented sixth,
   degree = 6,
   semitones = 10,
@@ -330,12 +330,12 @@
   reversed = d3,
   style/.append style = {fill=bg6s, text=fg6s},
 ]{A6}
-\copyInterval[]{A6}{S6}
+\FBcopyNote[]{A6}{S6}
 
 %%
 %% Seventh
 %% 
-\newInterval[%
+\FBnewNote[%
   name = Diminished seventh,
   degree = 7,
   semitones = 9,
@@ -344,9 +344,9 @@
   reversed = A2,
   style/.append style = {fill=bg7bb, text=fg7bb},
 ]{d7}
-\copyInterval[]{d7}{bb7}
+\FBcopyNote[]{d7}{bb7}
 
-\newInterval[%
+\FBnewNote[%
   name = Minor seventh,
   degree = 7,
   semitones = 10,
@@ -355,9 +355,9 @@
   reversed = 2,
   style/.append style = {fill=bg7b, text=fg7b},  
 ]{m7}
-\copyInterval[]{m7}{b7}
+\FBcopyNote[]{m7}{b7}
 
-\newInterval[%
+\FBnewNote[%
   name = Major seventh,
   degree = 7,
   semitones = 11,
@@ -367,7 +367,7 @@
   style/.append style = {fill=bg7, text=fg7},
 ]{7}
 
-\newInterval[%
+\FBnewNote[%
   name = Augmented seventh,
   degree = 7,
   semitones = 0,
@@ -376,12 +376,12 @@
   reversed = d2,
   style/.append style = {fill=bg7s, text=fg7s},
 ]{A7}
-\copyInterval[]{A7}{S7}
+\FBcopyNote[]{A7}{S7}
 
 %% 
 %% Octave
 %% 
-\newInterval[%
+\FBnewNote[%
   name = Diminished octave,
   degree = 8,
   semitones = -1,
@@ -390,9 +390,9 @@
   reversed = A1,
   style/.append style = {fill=bg1b, text=fg1b},
 ]{d8}
-\copyInterval[]{d8}{b8}
+\FBcopyNote[]{d8}{b8}
 
-\newInterval[%
+\FBnewNote[%
   name = Perfect octave,
   degree = 8,
   semitones = 0,
@@ -402,7 +402,7 @@
   style/.append style = {fill=bg1, text=fg1},
 ]{8}
 
-\newInterval[%
+\FBnewNote[%
   name = Augmented octave,
   degree = 8,
   semitones = 1,
@@ -411,13 +411,13 @@
   reversed = d1,
   style/.append style = {fill=bg1s, text=fg1s},
 ]{A8}
-\copyInterval[]{A8}{S8}
+\FBcopyNote[]{A8}{S8}
 
 
 %%
 %% Ninth
 %% 
-\newInterval[%
+\FBnewNote[%
   name = Diminished ninth,
   degree = 2,
   semitones = 0,
@@ -425,9 +425,9 @@
   tex small = \mdoubleflat{9},
   style/.append style = {fill=bg2bb, text=fg2bb},
 ]{d9}
-\copyInterval[]{d9}{bb9}
+\FBcopyNote[]{d9}{bb9}
 
-\newInterval[%
+\FBnewNote[%
   name = Minor ninth,
   degree = 2,
   semitones = 1,
@@ -435,9 +435,9 @@
   tex small = \mflat9,
   style/.append style = {fill=bg2b, text=fg2b},
 ]{m9}
-\copyInterval[]{m9}{b9}
+\FBcopyNote[]{m9}{b9}
 
-\newInterval[%
+\FBnewNote[%
   name = Major ninth,
   degree = 2,
   semitones = 2,
@@ -446,7 +446,7 @@
   style/.append style = {fill=bg2, text=fg2},
 ]{9}
 
-\newInterval[%
+\FBnewNote[%
   name = Augmented ninth,
   degree = 2,
   semitones = 3,
@@ -454,12 +454,12 @@
   tex small = \msharp{9},
   style/.append style = {fill=bg2s, text=fg2s},
 ]{A9}
-\copyInterval[]{A9}{S9}
+\FBcopyNote[]{A9}{S9}
 
 %%
 %% Eleventh
 %% 
-\newInterval[%
+\FBnewNote[%
   name = Diminished eleventh,
   degree = 4,
   semitones = 4,
@@ -467,9 +467,9 @@
   tex small = \mflat{11},
   style/.append style = {fill=bg4b, text=fg4b},
 ]{d11}
-\copyInterval[]{d11}{b11}
+\FBcopyNote[]{d11}{b11}
 
-\newInterval[%
+\FBnewNote[%
   name = Perfect eleventh,
   degree = 4,
   semitones = 5,
@@ -478,7 +478,7 @@
   style/.append style = {fill=bg4, text=fg4},
 ]{11}
 
-\newInterval[%
+\FBnewNote[%
   name = Augmented eleventh,
   degree = 4,
   semitones = 6,
@@ -486,12 +486,12 @@
   tex small = \msharp{11},
   style/.append style = {fill=bg4s, text=fg4s},
 ]{A11}
-\copyInterval[]{A11}{S11}
+\FBcopyNote[]{A11}{S11}
 
 %%
 %% Thirteenth
 %% 
-\newInterval[%
+\FBnewNote[%
   name = Diminished thirteenth,
   degree = 6,
   semitones = 7,
@@ -499,9 +499,9 @@
   tex small = \mdoubleflat{13},
   style/.append style = {fill=bg6bb, text=fg6bb},
 ]{d13}
-\copyInterval[]{d13}{bb13}
+\FBcopyNote[]{d13}{bb13}
 
-\newInterval[%
+\FBnewNote[%
   name = Minor thirteenth,
   degree = 6,
   semitones = 8,
@@ -509,9 +509,9 @@
   tex small = \mflat13,
   style/.append style = {fill=bg6b, text=fg6b},
 ]{m13}
-\copyInterval[]{m13}{b13}
+\FBcopyNote[]{m13}{b13}
 
-\newInterval[%
+\FBnewNote[%
   name = Major thirteenth,
   degree = 6,
   semitones = 9,
@@ -520,7 +520,7 @@
   style/.append style = {fill=bg6, text=fg6},
 ]{13}
 
-\newInterval[%
+\FBnewNote[%
   name = Augmented thirteenth,
   degree = 6,
   semitones = 10,
@@ -528,7 +528,7 @@
   tex small = \msharp{13},
   style/.append style = {fill=bg6s, text=fg6s},
 ]{A13}
-\copyInterval[]{A13}{S13}
+\FBcopyNote[]{A13}{S13}
 
 
 %%%%
@@ -540,28 +540,28 @@
 %% 
 %% C
 %% 
-\newInterval[%
+\FBnewNote[%
   degree = 1,
   semitones = -3,
   tex = C\mdoubleflat\flat,
   tex small = C\mdoubleflat\mflat,  
 ]{Cbbb}
 
-\newInterval[%
+\FBnewNote[%
   degree = 1,
   semitones = -2,
   tex = C\mdoubleflat,
   tex small = C\mdoubleflat,
 ]{Cbb}
 
-\newInterval[%
+\FBnewNote[%
   degree = 1,
   semitones = -1,
   tex = C\flat,
   tex small = C\mflat,
 ]{Cb}
 
-\newInterval[%
+\FBnewNote[%
   degree = 1,
   semitones = 0,
   tex = C,
@@ -569,7 +569,7 @@
   style/.append style = {fill=bg1, text=fg1},
 ]{C}
 
-\newInterval[%
+\FBnewNote[%
   degree = 1,
   semitones = 1,
   tex = C\sharp,
@@ -578,14 +578,14 @@
   style/.append style = {fill=bg1s, text=fg1s},
 ]{CS}
 
-\newInterval[%
+\FBnewNote[%
   degree = 1,
   semitones = 2,
   tex = C\doublesharp,
   tex small = C\mdoublesharp,
 ]{CSS}
 
-\newInterval[%
+\FBnewNote[%
   degree = 1,
   semitones = 3,
   tex = C\doublesharp\sharp,
@@ -595,28 +595,28 @@
 %% 
 %% D
 %% 
-\newInterval[%
+\FBnewNote[%
   degree = 2,
   semitones = -1,
   tex = D\mdoubleflat\flat,
   tex small = D\mdoubleflat\mflat,
 ]{Dbbb}
 
-\newInterval[%
+\FBnewNote[%
   degree = 2,
   semitones = 0,
   tex = D\mdoubleflat,
   tex small = D\mdoubleflat,
 ]{Dbb}
 
-\newInterval[%
+\FBnewNote[%
   degree = 2,
   semitones = 1,
   tex = D\flat,
   tex small = D\mflat,
 ]{Db}
 
-\newInterval[%
+\FBnewNote[%
   degree = 2,
   semitones = 2,
   tex = D,
@@ -624,7 +624,7 @@
   style/.append style = {fill=bg2, text=fg2},
 ]{D}
 
-\newInterval[%
+\FBnewNote[%
   degree = 2,
   semitones = 3,
   tex = D\sharp,
@@ -633,14 +633,14 @@
   style/.append style = {fill=bg2s, text=fg2s},
 ]{DS}
 
-\newInterval[%
+\FBnewNote[%
   degree = 2,
   semitones = 4,
   tex = D\doublesharp,
   tex small = D\mdoublesharp,
 ]{DSS}
 
-\newInterval[%
+\FBnewNote[%
   degree = 2,
   semitones = 3,
   tex = D\doublesharp\sharp,
@@ -652,28 +652,28 @@
 %% 
 %% E
 %% 
-\newInterval[%
+\FBnewNote[%
   degree = 3,
   semitones = 1,
   tex = E\mdoubleflat\flat,
   tex small = E\mdoubleflat\mflat,
 ]{Ebbb}
 
-\newInterval[%
+\FBnewNote[%
   degree = 3,
   semitones = 2,
   tex = E\mdoubleflat,
   tex small = E\mdoubleflat,
 ]{Ebb}
 
-\newInterval[%
+\FBnewNote[%
   degree = 3,
   semitones = 3,
   tex = E\flat,
   tex small = E\mflat,
 ]{Eb}
 
-\newInterval[%
+\FBnewNote[%
   degree = 3,
   semitones = 4,
   tex = E,
@@ -681,7 +681,7 @@
   style/.append style = {fill=bg3, text=fg3},
 ]{E}
 
-\newInterval[%
+\FBnewNote[%
   degree = 3,
   semitones = 5,
   tex = E\sharp,
@@ -690,14 +690,14 @@
   style/.append style = {fill=bg3s, text=fg3s},
 ]{ES}
 
-\newInterval[%
+\FBnewNote[%
   degree = 3,
   semitones = 6,
   tex = E\doublesharp,
   tex small = E\mdoublesharp,
 ]{ESS}
 
-\newInterval[%
+\FBnewNote[%
   degree = 3,
   semitones = 7,
   tex = E\doublesharp\sharp,
@@ -709,28 +709,28 @@
 %% 
 %% F
 %% 
-\newInterval[%
+\FBnewNote[%
   degree = 4,
   semitones = 2,
   tex = F\mdoubleflat\flat,
   tex small = F\mdoubleflat\mflat,
 ]{Fbbb}
 
-\newInterval[%
+\FBnewNote[%
   degree = 4,
   semitones = 3,
   tex = F\mdoubleflat,
   tex small = F\mdoubleflat,
 ]{Fbb}
 
-\newInterval[%
+\FBnewNote[%
   degree = 4,
   semitones = 4,
   tex = F\flat,
   tex small = F\mflat,
 ]{Fb}
 
-\newInterval[%
+\FBnewNote[%
   degree = 4,
   semitones = 5,
   tex = F,
@@ -738,7 +738,7 @@
   style/.append style = {fill=bg4, text=fg4},
 ]{F}
 
-\newInterval[%
+\FBnewNote[%
   degree = 4,
   semitones = 6,
   tex = F\sharp,
@@ -747,14 +747,14 @@
   style/.append style = {fill=bg4s, text=fg4s},
 ]{FS}
 
-\newInterval[%
+\FBnewNote[%
   degree = 4,
   semitones = 7,
   tex = F\doublesharp,
   tex small = F\mdoublesharp,
 ]{FSS}
 
-\newInterval[%
+\FBnewNote[%
   degree = 4,
   semitones = 8,
   tex = F\doublesharp\sharp,
@@ -764,28 +764,28 @@
 %% 
 %% G
 %% 
-\newInterval[%
+\FBnewNote[%
   degree = 5,
   semitones = 4,
   tex = G\mdoubleflat\flat,
   tex small = G\mdoubleflat\mflat,
 ]{Gbbb}
 
-\newInterval[%
+\FBnewNote[%
   degree = 5,
   semitones = 5,
   tex = G\mdoubleflat,
   tex small = G\mdoubleflat,
 ]{Gbb}
 
-\newInterval[%
+\FBnewNote[%
   degree = 5,
   semitones = 6,
   tex = G\flat,
   tex small = G\mflat,
 ]{Gb}
 
-\newInterval[%
+\FBnewNote[%
   degree = 5,
   semitones = 7,
   tex = G,
@@ -793,7 +793,7 @@
   style/.append style = {fill=bg5, text=fg5},
 ]{G}
 
-\newInterval[%
+\FBnewNote[%
   degree = 5,
   semitones = 8,
   tex = G\sharp,
@@ -802,14 +802,14 @@
   style/.append style = {fill=bg5s, text=fg5s},
 ]{GS}
 
-\newInterval[%
+\FBnewNote[%
   degree = 5,
   semitones = 9,
   tex = G\doublesharp,
   tex small = G\doublesharp,
 ]{GSS}
 
-\newInterval[%
+\FBnewNote[%
   degree = 5,
   semitones = 10,
   tex = G\doublesharp\sharp,
@@ -820,28 +820,28 @@
 %%
 %% A
 %% 
-\newInterval[%
+\FBnewNote[%
   degree = 6,
   semitones = 6,
   tex = A\mdoubleflat\flat,
   tex small = A\mdoubleflat\mflat,
 ]{Abbb}
 
-\newInterval[%
+\FBnewNote[%
   degree = 6,
   semitones = 7,
   tex = A\mdoubleflat,
   tex small = A\mdoubleflat,
 ]{Abb}
 
-\newInterval[%
+\FBnewNote[%
   degree = 6,
   semitones = 8,
   tex = A\flat,
   tex small = A\mflat,
 ]{Ab}
 
-\newInterval[%
+\FBnewNote[%
   degree = 6,
   semitones = 9,
   tex = A,
@@ -849,7 +849,7 @@
   style/.append style = {fill=bg6, text=fg6},
 ]{A}
 
-\newInterval[%
+\FBnewNote[%
   degree = 6,
   semitones = 10,
   tex = A\sharp,
@@ -858,14 +858,14 @@
   style/.append style = {fill=bg6s, text=fg6s},
 ]{AS}
 
-\newInterval[%
+\FBnewNote[%
   degree = 6,
   semitones = 11,
   tex = A\doublesharp,
   tex small = A\mdoublesharp,
 ]{ASS}
 
-\newInterval[%
+\FBnewNote[%
   degree = 6,
   semitones = 0,
   tex = A\doublesharp\sharp,
@@ -875,28 +875,28 @@
 %%
 %% B
 %% 
-\newInterval[%
+\FBnewNote[%
   degree = 7,
   semitones = 8,
   tex = B\mdoubleflat\flat,
   tex small = B\mdoubleflat\mflat,
 ]{Bbbb}
 
-\newInterval[%
+\FBnewNote[%
   degree = 7,
   semitones = 9,
   tex = B\mdoubleflat,
   tex small = B\mdoubleflat,
 ]{Bbb}
 
-\newInterval[%
+\FBnewNote[%
   degree = 7,
   semitones = 10,
   tex = B\flat,
   tex small = B\mflat,
 ]{Bb}
 
-\newInterval[%
+\FBnewNote[%
   degree = 7,
   semitones = 11,
   tex = B,
@@ -904,7 +904,7 @@
   style/.append style = {fill=bg7, text=fg7},
 ]{B}
 
-\newInterval[%
+\FBnewNote[%
   degree = 7,
   semitones = 0,
   tex = B\sharp,
@@ -913,14 +913,14 @@
   style/.append style = {fill=bg7s, text=fg7s},
 ]{BS}
 
-\newInterval[%
+\FBnewNote[%
   degree = 7,
   semitones = 1,
   tex = B\doublesharp,
   tex small = B\mdoublesharp,
 ]{BSS}
 
-\newInterval[%
+\FBnewNote[%
   degree = 7,
   semitones = 2,
   tex = B\doublesharp\sharp,

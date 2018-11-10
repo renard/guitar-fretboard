@@ -484,7 +484,7 @@ the \refCom{note} command.
   Place the note referenced by \marg{id} on the current fretboard. This
   command only makes sense in the \refEnv{fretboard} environment.
 
-  You can override any parameter set in the \refCom{newInterval} command or
+  You can override any parameter set in the \refCom{FBnewNote} command or
   any \docAuxKey{/tikz} style since \oarg{options} is processed by
   \cs{tikzset}.
 \end{docCommand}
@@ -503,7 +503,7 @@ the \refCom{note} command.
 From here are some commands you don't need for you daily usage except if you
 want to define your own notes.
 
-\begin{docCommand}{newInterval}{\oarg{options}\marg{id}}
+\begin{docCommand}{FBnewNote}{\oarg{options}\marg{id}}
   Create a new note identified by \marg{id}. It should respect the
   \pkg{pgfkeys} key syntax. It's better to only use alphanumerical
   characters. By an arbitrary convention, flats are replaced by \texttt{b}
@@ -580,9 +580,9 @@ want to define your own notes.
 
 \end{docCommand}
 
-\begin{docCommand}{copyInterval}{\oarg{options}\marg{src}\marg{to}}
+\begin{docCommand}{FBcopyNote}{\oarg{options}\marg{src}\marg{to}}
   Copies the note \marg{src} to \marg{to} and override parameters given in
-  \oarg{options}. See \refCom{newInterval}.
+  \oarg{options}. See \refCom{FBnewNote}.
 \end{docCommand}
 
 \begin{docCommand}{getInterval}{\marg{id}\marg{key}}
