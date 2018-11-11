@@ -112,6 +112,37 @@
   \\
 }
 
+\makeatletter
+\newcommand{\ListSemitones}[1]{%
+  \begin{itemize*}[%
+      afterlabel={},
+      before={(},
+      after={)},
+      label={},
+      mode=unboxed,
+      itemjoin={,\space}]%
+    \edef\@current@tuning{\pgfkeysvalueof{/fb/tunings/#1}}%
+    \foreach \i in \@current@tuning{%
+      \item\i
+    }%
+  \end{itemize*}%
+}%
+
+\newcommand{\FBnotesFromList}[1]{%
+    \edef\@current@tuning{\pgfkeysvalueof{/fb/tunings/#1}}%
+    \foreach \i in \@current@tuning{%
+      \@transposepitch{C}{\i}%
+      \csname p\newpitch\endcsname%
+    }%
+}%
+\makeatother
+
+\newcommand{\mytuningline}[1]{
+  \texttt{#1} &       
+  \FBnotesFromList{#1} &
+  \ListSemitones{#1}
+  \\
+}
 
 \usepackage{colortbl}
 \newcommand{\mycolorline}[1]{
@@ -852,6 +883,27 @@ All semitones are relative to \pC.
   \end{longtable}
 %% \end{small}
 
+\subsection{Tunings}
+%% \begin{small}
+%%   \centering
+\begin{longtable}{l|l|l}
+    id & Notes & semitones from \pC  \\
+    \mytuningline   {guitar/standard}
+    \mytuningline   {guitar/dadgad}
+    \mytuningline   {guitar/drop d}
+    \mytuningline   {guitar/double drop d}
+    \mytuningline   {guitar/open g}
+    \mytuningline   {guitar/7 string}
+    \hline
+    \mytuningline   {bass/standard}
+    \mytuningline   {bass/5 string}
+    \mytuningline   {bass/5 string tenor}
+    \mytuningline   {bass/6 string}
+    \hline
+    \mytuningline   {ukulele/standard}
+\end{longtable}
+  
+  
 \subsection{Colors}
 
 \begin{small}
