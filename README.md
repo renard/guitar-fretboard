@@ -24,16 +24,16 @@ This is an early release. APIs and options are suject to change.
 \documentclass[convert]{standalone}
 \usepackage{guitar-fretboard}
 \begin{document}
-  \begin{fb}[frets before = 2, frets after = 2,
+  \begin{fretboard}[frets before = 2, frets after = 2,
       transpose = 5,
       transpose pitch,
       scale = 1,
       legend = {\pF Major scale (\pF, \pG, \pA, \pBb, \pC, \pD, \pE)},
       fret numbers]
     \foreach \i in { C, D, E, F, G, F, A, B} {
-      \note[split]{\i}
+      \FBnote[split]{\i}
     }
-  \end{fb}
+  \end{fretboard}
 \end{document}
 ```
 
