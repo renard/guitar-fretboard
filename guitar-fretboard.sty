@@ -211,7 +211,7 @@
 
 %% Pitch order used to when showing the string names
 \def\@pitches{"C","CS","D","Eb","E","F","FS","G","GS","A","Bb","B"}
-\newcommand{\transposepitch}[2]{%
+\newcommand{\@transposepitch}[2]{%
   \pgfmathparse{array({\@pitches},
     Mod(\pgfkeysvalueof{/fb/notes/#1/semitones}+#2,12))}
     \let\newpitch=\pgfmathresult%
@@ -383,7 +383,7 @@
   %% Do we need to transpose the note?
   \let\newpitch=#2
   \iffb@transpose@pitch  
-  \transposepitch{#2}{\pgfkeysvalueof{/fb/transpose}}
+  \@transposepitch{#2}{\pgfkeysvalueof{/fb/transpose}}
   \pgfkeysgetvalue{/fb/notes/\newpitch/reversed}{\@note@reversed@text}
   \fi
 
