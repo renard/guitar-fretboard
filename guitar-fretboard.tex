@@ -139,7 +139,7 @@ The \pkg{guitar-fretboard} package can be used to generate some nice-looking
 guitar fretboard diagrams. Those diagrams can highlight scales, arpeggios or
 more generic intervals on the guitar neck.
 
-It comes with all battery included to allow you to:
+It comes with batteries included to allow you to:
 
 \begin{itemize}
   \item Create scale diagrams in any tonality for any strung instruments
@@ -166,15 +166,15 @@ As an example here is the Major scale in key of \pC:
 The major scale consists of following intervals from the tonic (root) note:
 perfect unison, major second, major third, perfect fourth, perfect fifth,
 major sixth and major seventh. These intervals are represented as
-\brackets{1,2,3,4,5,6,7}. Each interval has its own color for an easier
-lookup and memorization.
+\brackets{1, 2, 3, 4, 5, 6, 7}. Each interval has its own color for an
+easier lookup and memorization.
 
 The note names can be displayed instead of intervals. The \pF Major scale is
 composed of \pF, \pG, \pA, \pBb, \pC, \pD and \pE. The \pF scale is the same
 as \pC but raised up by 5 semitones. \pkg{guitar-fretboard} is able to
 transpose and convert the pitch name accordingly. Please note that the pitch
-transposition is semitone-based and may not be always accurate in terms of
-harmony since intervals are not used in the process.
+transposition is semitone-based and intervals are not used in the
+process. Hence note names may not be always accurate in terms of harmony.
 
 \begin{tcblisting}{doc-code,text above listing}
   \begin{fretboard}[frets before = 2, frets after = 2,
@@ -232,7 +232,7 @@ How this \pC chord looks like when the guitar is open \pG tuned? Again
   \end{fretboard}
 \end{tcblisting}
 
-As you can see, setting the \meta{tuning} option update the whole
+As you can see, setting the \meta{tuning} option updates the whole
 fretboard. This is very easy to create some new diagrams in different
 tunings.
 
@@ -255,8 +255,8 @@ arpeggio (and the whole major scale) in open \pG tuning:
 
 
 If you want to display a scale mode you can also emphasis the characteristic
-notes (the note that colors the mode, you want to play that note). Here is
-an example with a generic Phrygian mode:
+note (the note that colors the mode, you want to play this particular
+note). Here is an example with a generic Phrygian mode:
 
 \begin{tcblisting}{doc-code,text above listing}
   \begin{fretboard}[frets min=2, frets max=6,
@@ -282,7 +282,7 @@ and colors defined in \pkg{guitar-fretboard}.
 \subsection{Styles}
 
 Several global \pkg{tikz} styles are defined and can be overridden if they
-don't fit your needs. All thier default values are not listed here, please
+don't fit your needs. All their default values are not listed here, please
 have a look to the \pkg{guitar-fretboard} definition file if you are curious
 about it.
 
@@ -290,7 +290,7 @@ The main point is that you can override them globally using the \cs{tikzset}
 command or just when you need in the \refEnv{fretboard} environment or when using
 the \refCom{note} command.
 
-\begin{docKey}[tikz][]{fretboard}{=style}{}
+\begin{docKey}[tikz][]{fretboard}{=\meta{style}}{}
   The style to be passed to the Tikz picture. From here you can change the
   background color and many other things supported by the \pkg{tikzpicture}
   environment.
@@ -301,17 +301,17 @@ the \refCom{note} command.
   in scale mode. In chord mode, the \pkg{x} \pkg{y} ratio is 1.2.
 \end{docKey}
 
-\begin{docKey}[tikz][]{fret}{=style}{}
+\begin{docKey}[tikz][]{fret}{=\meta{style}}{}
   This style is used to draw the frets. You can change it is you want
   colored frets or larger lines to draw the frets.
 \end{docKey}
 
-\begin{docKey}[tikz][]{fret numbers}{=style}{}
+\begin{docKey}[tikz][]{fret numbers}{=\meta{style}}{}
   This style is used for the fret numbering. By default the font is given by
   the \cs{fretfont} command.
 \end{docKey}
 
-\begin{docKey}[tikz][]{fret numbers position}{=style}{\{ shift = \{(0, 0.75)\}\}}
+\begin{docKey}[tikz][]{fret numbers position}{=\meta{style}}{\texttt{\{ shift = \{(0, 0.75)\}\}}}
   This style is used is a tikz scope to shift the fret numbers. the default
   value should fit all cases. If you want to place the fret numbers
   somewhere else, you can use this option but you might need to try several
@@ -321,32 +321,32 @@ the \refCom{note} command.
   $(0,~-0.75)$ to reset the position.
 \end{docKey}
 
-\begin{docKey}[tikz][]{string tuning}{=style}{}
+\begin{docKey}[tikz][]{string tuning}{=\meta{style}}{}
   This style is used for the string labeling. By default the font is given
   by the \cs{stringfont} command.
 \end{docKey}
 
-\begin{docKey}[tikz][]{string tuning position}{=style}{\{ shift = \{(-0.75, 1)\}\}}
+\begin{docKey}[tikz][]{string tuning position}{=\meta{style}}{\texttt{\{ shift = \{(-0.75, 1)\}\}}}
   Same as \refKey{/tikz/fret numbers position} but for the string labels.
 \end{docKey}
 
-\begin{docKey}[tikz][]{string}{=style}{}
+\begin{docKey}[tikz][]{string}{=\meta{style}}{}
   Same as \refKey{/tikz/fret} but for the strings. You can control
   everything but the sting width which is overridden by both
   \refKey{/fb/string width} and \refKey{/fb/string factor}.
 \end{docKey}
 
-\begin{docKey}[tikz][]{overlay}{=style}{}
+\begin{docKey}[tikz][]{overlay}{=\meta{style}}{}
   This style is used to fade out the \refKey{/fb/frets before} and
   \refKey{/fb/frets after} to help focus on the main part of the neck.
 \end{docKey}
 
-\begin{docKey}[tikz][]{title}{=style}{}
+\begin{docKey}[tikz][]{title}{=\meta{style}}{}
   This style is used for the diagram title. By default the font is given
   by the \cs{labelfont} command.
 \end{docKey}
 
-\begin{docKey}[tikz][]{title position}{=style}{\{ shift = \{(0, -0.75)\}\}}
+\begin{docKey}[tikz][]{title position}{=\meta{style}}{\{ shift = \{(0, -0.75)\}\}}
   Same as \refKey{/tikz/fret numbers position} but for the diagram title.
 
   Be careful when you change it because in chord mode, $(-0.75,~0.75)$ is
@@ -354,24 +354,24 @@ the \refCom{note} command.
   you really want to customize the label position..
 \end{docKey}
 
-\begin{docKey}[tikz][]{note}{=style}{}
+\begin{docKey}[tikz][]{note}{=\meta{style}}{}
   This style is used when drawing a note on the fretboard. By default the
   \cs{notefont} is used.
 \end{docKey}
 
-\begin{docKey}[tikz][]{note split}{=style}{}
+\begin{docKey}[tikz][]{note split}{=\meta{style}}{}
   This style is used when drawing a split note on the fretboard. Used in
   addition of \refKey{/tikz/note} to draw a circle split and reduce the font
   size.
 \end{docKey}
 
-\begin{docKey}[tikz][]{note shade}{=style}{}
+\begin{docKey}[tikz][]{note shade}{=\meta{style}}{}
   This style is used when shading a non important note on the
   fretboard. Used in addition of \refKey{/tikz/note} to add an overlay to
   the note.
 \end{docKey}
 
-\begin{docKey}[tikz][]{note highlight}{=style}{}
+\begin{docKey}[tikz][]{note highlight}{=\meta{style}}{}
   This style is used when highlighting an important note on the
   fretboard. Used in addition of \refKey{/tikz/note} to mark to
   the note.
