@@ -158,7 +158,7 @@ As an example here is the Major scale in key of \pC:
       title = {Major scale (1, 2, 3, 4, 5, 6, 7)},
       scale=0.35, fret numbers]
     \foreach \i in {1, 2, 3, 4, 5, 6, 7} {
-      \note[split]{\i}
+      \FBnote[split]{\i}
     }
   \end{fretboard}
 \end{tcblisting}
@@ -184,7 +184,7 @@ process. Hence note names may not be always accurate in terms of harmony.
       scale=0.35,
       fret numbers]
     \foreach \i in { C, D, E, F, G, F, A, B} {
-      \note[split]{\i}
+      \FBnote[split]{\i}
     }
   \end{fretboard}
 \end{tcblisting}
@@ -201,10 +201,10 @@ displayed. This helps you to find new embellishments when soloing:
       scale = 0.35,
       fret numbers]
     \foreach \i in {C, E, G} {
-      \note{\i}
+      \FBnote{\i}
     }
     \foreach \i in {D, F, A, B} {
-      \note[shade]{\i}
+      \FBnote[shade]{\i}
     }
   \end{fretboard}
 \end{tcblisting}
@@ -216,7 +216,7 @@ helps to only show the \pG on the \nth{3} string.
 \begin{tcblisting}{doc-code,text above listing}
   \begin{fretboard}[frets min = 0, frets max = 3, fret numbers,
       title = {\pC}, chord, scale=0.35]
-    \note{C} \note{E} \note[limit={3}]{G}
+    \FBnote{C} \FBnote{E} \FBnote[limit={3}]{G}
   \end{fretboard}
 \end{tcblisting}
 
@@ -228,7 +228,7 @@ How this \pC chord looks like when the guitar is open \pG tuned? Again
       chord, tuning = \tuning{guitar/open g},
       title = {\pC Chord (open \pG)},
       fret numbers, scale=0.35]
-    \note{C} \note[limit={1,4}]{E} \note{G}
+    \FBnote{C} \FBnote[limit={1,4}]{E} \FBnote{G}
   \end{fretboard}
 \end{tcblisting}
 
@@ -245,10 +245,10 @@ arpeggio (and the whole major scale) in open \pG tuning:
       title = {\pC\unskip{}M7 arpeggio in open \pG tuning},
       fret numbers, scale=0.35]
     \foreach \i in {C, E, G, B} {
-      \note{\i}
+      \FBnote{\i}
     }
     \foreach \i in {D, F, A} {
-      \note[shade]{\i}
+      \FBnote[shade]{\i}
     }
   \end{fretboard}
 \end{tcblisting}
@@ -263,10 +263,10 @@ note). Here is an example with a generic Phrygian mode:
       transpose = -5,
       title = {Phrygian scale}, scale=0.35]
     \foreach \i in {1,b2, 3, 4, 5,b6,b7} {
-      \note{\i}
+      \FBnote{\i}
     }
-    \note[highlight]{b2}
-    \note[highlight, shade, limit={1}]{b2}
+    \FBnote[highlight]{b2}
+    \FBnote[highlight, shade, limit={1}]{b2}
   \end{fretboard}
 \end{tcblisting}
 
@@ -288,7 +288,7 @@ about it.
 
 The main point is that you can override them globally using the \cs{tikzset}
 command or just when you need in the \refEnv{fretboard} environment or when using
-the \refCom{note} command.
+the \refCom{FBnote} command.
 
 \begin{docKey}[tikz][]{fretboard}{=\meta{style}}{}
   The style to be passed to the Tikz picture. From here you can change the
@@ -480,7 +480,7 @@ the \refCom{note} command.
 
 \subsection{Useful commands}
 
-\begin{docCommand}{note}{\oarg{options}\marg{id}}
+\begin{docCommand}{FBnote}{\oarg{options}\marg{id}}
   Place the note referenced by \marg{id} on the current fretboard. This
   command only makes sense in the \refEnv{fretboard} environment.
 
@@ -490,7 +490,7 @@ the \refCom{note} command.
 \end{docCommand}
 
 \begin{docCommand}{placenote}{\oarg{options}\marg{id}\marg{string}\marg{fret}}
-  Similar to \refCom{note} but place note \docValue{id} at \docValue{string}
+  Similar to \refCom{FBnote} but place note \docValue{id} at \docValue{string}
   on \docValue{fret}.
 \end{docCommand}
 
@@ -549,7 +549,7 @@ want to define your own notes.
   \end{docKey}
 
   From this point all other options are only useful when placing a note on
-  the fretboard using the \refCom{note} command to override default
+  the fretboard using the \refCom{FBnote} command to override default
   behaviors.
 
   \begin{docKey}[fb/notes/NOTE][]{limit}{={list, of, strings}}{}
@@ -645,7 +645,7 @@ A very simple example can be:
 \begin{document}
 \begin{fretboard}[frets min=0, frets max=4, fret numbers,
     left handed, title = {\pC}]%
-  \note{C} \note{E} \note{G}
+  \FBnote{C} \FBnote{E} \FBnote{G}
 \end{fretboard}%
 \end{document}
 \end{example}
