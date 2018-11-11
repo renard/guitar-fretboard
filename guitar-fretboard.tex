@@ -36,6 +36,11 @@
     colback=white,
     enhanced,
   },
+  warning/.style =  {%
+    colback=red!5!white,
+    colframe=red!45!white,
+    boxrule=0.5pt,
+  },
 }
 
 
@@ -161,6 +166,15 @@
 \date{This file describes version \fbfileversion\  (\fbfiledate)}
 \maketitle
 \tableofcontents
+
+
+\begin{tcolorbox}[warning,before={\vspace{1cm}}]
+  \pkg{guitar-fretboard} is still in an early development stage. High-level
+  functions are stable enough to be used. Low-level functions and storage
+  are subject to change, especially the note definition. That said with
+  high-level functions you can yet do a lot of things.
+\end{tcolorbox}
+
 
 \ifintroduction
 
@@ -531,8 +545,17 @@ the \refCom{FBnote} command.
   \docAuxKey*{/fb/tunings} path. See annexes for all pre-defined tunings.
 \end{docCommand}
 
+
+\subsection{Other commands}
+
 From here are some commands you don't need for you daily usage except if you
 want to define your own notes.
+
+\begin{tcolorbox}[warning]
+Warning internal nomenclature is subject to change. Don't use command from
+here unless you really know what you are doing.
+\end{tcolorbox}
+
 
 \begin{docCommand}{FBnewNote}{\oarg{options}\marg{id}}
   Create a new note identified by \marg{id}. It should respect the
@@ -888,6 +911,7 @@ All semitones are relative to \pC.
 %%   \centering
 \begin{longtable}{l|l|l}
     id & Notes & semitones from \pC  \\
+    \hline
     \mytuningline   {guitar/standard}
     \mytuningline   {guitar/dadgad}
     \mytuningline   {guitar/drop d}
