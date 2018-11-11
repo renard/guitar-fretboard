@@ -159,6 +159,17 @@
 
 
 
+\newcommand{\TikZ}{Ti\textcolor{orange}{\emph{k}}Z\xspace}
+%% \newcommand{\PGF}{\textsc{PGF}}
+
+\newcommand{\unstable}{%
+  \begin{tcolorbox}[warning]%
+    This option is susceptible to change. Do not use directly it in large
+    documents.
+  \end{tcolorbox}%
+}%
+
+
 \begin{document}
 
 \title{the \pkg{guitar-fretboard} package }
@@ -320,13 +331,13 @@ note). Here is an example with a generic Phrygian mode:
 
 \section{Definitions}
 
-Under the hood all computations are made using semitones (from 0 to 11)
-relative to \pC. In the annexes you can find all pitches (notes), intervals
+Under the hood all computations are semitones-based (from 0 to 11), relative
+to \pC. In the annexes you can find all pitches (notes), intervals, tunings,
 and colors defined in \pkg{guitar-fretboard}.
 
 \subsection{Styles}
 
-Several global \pkg{tikz} styles are defined and can be overridden if they
+Several global \TikZ styles are defined and can be overridden if they
 don't fit your needs. All their default values are not listed here, please
 have a look to the \pkg{guitar-fretboard} definition file if you are curious
 about it.
@@ -336,7 +347,7 @@ command or just when you need in the \refEnv{fretboard} environment or when usin
 the \refCom{FBnote} command.
 
 \begin{docKey}[tikz][]{fretboard}{=\meta{style}}{}
-  The style to be passed to the Tikz picture. From here you can change the
+  Style passed to the \TikZ picture. From here you can change the
   background color and many other things supported by the \pkg{tikzpicture}
   environment.
 
@@ -347,17 +358,17 @@ the \refCom{FBnote} command.
 \end{docKey}
 
 \begin{docKey}[tikz][]{fret}{=\meta{style}}{}
-  This style is used to draw the frets. You can change it is you want
-  colored frets or larger lines to draw the frets.
+  Style used to draw the frets. You can change it if you want colored frets
+  or larger lines for the frets.
 \end{docKey}
 
 \begin{docKey}[tikz][]{fret numbers}{=\meta{style}}{}
-  This style is used for the fret numbering. By default the font is given by
+  Style is used for the fret numbering. By default the font is given by
   the \cs{fretfont} command.
 \end{docKey}
 
 \begin{docKey}[tikz][]{fret numbers position}{=\meta{style}}{\texttt{\{ shift = \{(0, 0.75)\}\}}}
-  This style is used is a tikz scope to shift the fret numbers. the default
+  Style used as a \TikZ scope to shift the fret numbers. The default
   value should fit all cases. If you want to place the fret numbers
   somewhere else, you can use this option but you might need to try several
   values.
@@ -367,8 +378,8 @@ the \refCom{FBnote} command.
 \end{docKey}
 
 \begin{docKey}[tikz][]{string tuning}{=\meta{style}}{}
-  This style is used for the string labeling. By default the font is given
-  by the \cs{stringfont} command.
+  Style used for the string labeling. By default the font is given by the
+  \cs{stringfont} command.
 \end{docKey}
 
 \begin{docKey}[tikz][]{string tuning position}{=\meta{style}}{\texttt{\{ shift = \{(-0.75, 1)\}\}}}
@@ -376,23 +387,24 @@ the \refCom{FBnote} command.
 \end{docKey}
 
 \begin{docKey}[tikz][]{string}{=\meta{style}}{}
-  Same as \refKey{/tikz/fret} but for the strings. You can control
-  everything but the sting width which is overridden by both
+  Identical to \refKey{/tikz/fret} but for the strings. You can control
+  everything but the string width which is overridden by both
   \refKey{/fb/string width} and \refKey{/fb/string factor}.
 \end{docKey}
 
 \begin{docKey}[tikz][]{overlay}{=\meta{style}}{}
-  This style is used to fade out the \refKey{/fb/frets before} and
+  Style used to fade out the \refKey{/fb/frets before} and
   \refKey{/fb/frets after} to help focus on the main part of the neck.
 \end{docKey}
 
 \begin{docKey}[tikz][]{title}{=\meta{style}}{}
-  This style is used for the diagram title. By default the font is given
-  by the \cs{labelfont} command.
+  Style used for the diagram title. By default the font is given by the
+  \cs{labelfont} command.
 \end{docKey}
 
-\begin{docKey}[tikz][]{title position}{=\meta{style}}{\{ shift = \{(0, -0.75)\}\}}
-  Same as \refKey{/tikz/fret numbers position} but for the diagram title.
+\begin{docKey}[tikz][]{title position}{=\meta{style}}{\texttt{\{ shift = \{(0, -0.75)\}\}}}
+  Identical to \refKey{/tikz/fret numbers position} but for the diagram
+  title.
 
   Be careful when you change it because in chord mode, $(-0.75,~0.75)$ is
   added to this value. Again you may need to experiment several values if
@@ -400,26 +412,24 @@ the \refCom{FBnote} command.
 \end{docKey}
 
 \begin{docKey}[tikz][]{note}{=\meta{style}}{}
-  This style is used when drawing a note on the fretboard. By default the
+  Style used for drawing a note on the fretboard. By default the
   \cs{notefont} is used.
 \end{docKey}
 
 \begin{docKey}[tikz][]{note split}{=\meta{style}}{}
-  This style is used when drawing a split note on the fretboard. Used in
+  Style is used for drawing a split note on the fretboard. Used in
   addition of \refKey{/tikz/note} to draw a circle split and reduce the font
   size.
 \end{docKey}
 
 \begin{docKey}[tikz][]{note shade}{=\meta{style}}{}
-  This style is used when shading a non important note on the
-  fretboard. Used in addition of \refKey{/tikz/note} to add an overlay to
-  the note.
+  Style used for shading a non important note on the fretboard. Used in
+  addition of \refKey{/tikz/note} to add an overlay to the note.
 \end{docKey}
 
 \begin{docKey}[tikz][]{note highlight}{=\meta{style}}{}
-  This style is used when highlighting an important note on the
-  fretboard. Used in addition of \refKey{/tikz/note} to mark to
-  the note.
+  Style used for highlighting an important note on the fretboard. Used in
+  addition of \refKey{/tikz/note} to mark to the note.
 \end{docKey}
 
 
@@ -428,79 +438,79 @@ the \refCom{FBnote} command.
 \begin{docEnvironment}{fretboard}{\oarg{options}}
 
   This is the main part of the \pkg{guitar-fretboard} engine which is
-  responsible to draw the frets, the strings, the labels and put everything
-  together.
+  responsible for drawing the frets, the strings, the labels and putting
+  everything together.
 
   You can control the default settings by defining several options all
   relative to the \docAuxKey*{/fb} path.
 
-  \begin{docKey}[fb][]{tuning}{=tuning}{\{\FBtuning{guitar/standard}\}}
+  \begin{docKey}[fb][]{tuning}{=\meta{tuning}}{\texttt{\{\FBtuning{guitar/standard}\}}}
     The instrument tuning. You can select a pre-defined tuning with the
     \refCom{FBtuning} command or provide your own. Each string is identified by
     a semitone value (relative to \pC). The strings order is from low to
     high.
   \end{docKey}
 
-  \begin{docKey}[fb][]{frets min}{=0}{0}
+  \begin{docKey}[fb][]{frets min}{=\meta{number}}{0}
     The value of the lowest fret on the main fretboard section.
   \end{docKey}
 
-  \begin{docKey}[fb][]{frets max}{=12}{12}
+  \begin{docKey}[fb][]{frets max}{=\meta{number}}{12}
     The value of the highest fret on the main fretboard section.
   \end{docKey}
 
-  \begin{docKey}[fb][]{frets before}{=0}{0}
-    Number of frets to extend the fretboard before the main part. This are
+  \begin{docKey}[fb][]{frets before}{=\meta{number}}{0}
+    Number of frets to extend the fretboard before the main part. This area
     will be shaded.
   \end{docKey}
 
-  \begin{docKey}[fb][]{frets after}{=0}{0}
-    Number of frets to extend the fretboard after the main part. This are
+  \begin{docKey}[fb][]{frets after}{=\meta{number}}{0}
+    Number of frets to extend the fretboard after the main part. This area
     will be shaded.
   \end{docKey}
 
-  \begin{docKey}[fb][]{frets offset}{=0.5}{0.5}
-    By default the frets are shifted from the grid to make note placement
-    easier. Do not change this value or your fretboard will be mangled.
+  \begin{docKey}[fb][]{frets offset}{=\meta{distance}}{0.5}
+    By default the frets are shifted from the grid for an easier note
+    placement. Do not change this value or your fretboard will be mangled.
   \end{docKey}
 
-  \begin{docKey}[fb][]{frets numbers}{=boolean}{false}
+  \begin{docKey}[fb][]{frets numbers}{=\meta{boolean}}{false}
     Set to true to show the fret numbers.
   \end{docKey}
 
-  \begin{docKey}[fb][]{string width}{=0.5pt}{0.5pt}
+  \begin{docKey}[fb][]{string width}{=\meta{width}}{0.5pt}
     The width of the higher string.
   \end{docKey}
 
-  \begin{docKey}[fb][]{string factor}{=0.75pt}{0.75pt}
+  \begin{docKey}[fb][]{string factor}{=\meta{width}}{0.75pt}
     The string width growing factor when drawing frets from highest to
     lower.
   \end{docKey}
 
-  \begin{docKey}[fb][]{show tuning}{=boolean}{true}
+  \begin{docKey}[fb][]{show tuning}{=\meta{boolean}}{true}
     Set to false to hide the string labels at the top of the neck.
   \end{docKey}
   
-  \begin{docKey}[fb][]{split}{=boolean}{false}
+  \begin{docKey}[fb][]{split}{=\meta{boolean}}{false}
     Set to false to show 2 labels in the notes when applicable (only when
     \refKey{/fb/notes/NOTE/reversed} is set). If note is a pitch both flat
     and sharp pitch are shown such as \pEb and \pFS. In the case of an
     interval, the reversed interval is shown.
   \end{docKey}
   
-  \begin{docKey}[fb][]{title}{=text}{}
-    If not blank, the \docValue{text} content is used for the diagram title.
+  \begin{docKey}[fb][]{title}{=\meta{text}}{}
+    If not blank, the \meta{text} content is used for the diagram title.
   \end{docKey}
 
-  \begin{docKey}[fb][]{transpose}{=semitone}{0}
-    Number of semitone to use to transpose the whole fretboard diagram. If
-    your diagram is the \pC major scale and you want to show the \pF major
-    scale, you will need to change all the notes you entered. Using the
-    transposing option, \pkg{guitar-fretboard} will do the job for you by
-    setting a 5-semitone transposition.
+  \begin{docKey}[fb][]{transpose}{=\meta{semitone}}{0}
+    Number of semitone to use when transposing the whole fretboard
+    diagram. If your diagram is the \pC major scale and you want to show the
+    \pF major scale, you will need to change all the notes you
+    entered. Using the transposing option, \pkg{guitar-fretboard} will do
+    the job for you by setting a 5-semitone transposition.
   \end{docKey}
 
-  \begin{docKey}[fb][]{transpose pitch}{=boolean}{false}
+  \begin{docKey}[fb][]{transpose pitch}{=\meta{boolean}}{false}
     When transposing a pitched diagram you may want to display the correct
     note name on their frets. So you need to transpose pitches or let
     \pkg{guitar-fretboard} do the job for you. Be careful when you use
@@ -508,17 +518,19 @@ the \refCom{FBnote} command.
     in terms of harmony).
   \end{docKey}
 
-  \begin{docKey}[fb][]{chord}{=boolean}{false}
-    Display the diagram in chord mode (rotate the whole diagram by
-    90\textsuperscript{o} counter-clockwise and change the fret ratio.
+  \begin{docKey}[fb][]{chord}{=\meta{boolean}}{false}
+    Displays the diagram in chord mode (rotate the whole diagram by
+    90\textsuperscript{o} counter-clockwise and change the fret \texttt{x}
+    \texttt{y} ratio.
   \end{docKey}
 
-  \begin{docKey}[fb][]{scale}{=ratio}{1}
-    Scale ratio used to resize the diagram.
+  \begin{docKey}[fb][]{scale}{=\meta{ratio}}{1}
+    Scale ratio used to resize the whole diagram. Use this option if your
+    diagram does not fit in your document.
   \end{docKey}
 
-  \begin{docKey}[fb][]{left handed}{=boolean}{false}
-    Display the diagram for left-handed guitarists.
+  \begin{docKey}[fb][]{left handed}{=\meta{boolean}}{false}
+    Displays the diagram for left-handed musicians.
   \end{docKey}
 
 \end{docEnvironment}
@@ -526,7 +538,7 @@ the \refCom{FBnote} command.
 \subsection{Useful commands}
 
 \begin{docCommand}{FBnote}{\oarg{options}\marg{id}}
-  Place the note referenced by \marg{id} on the current fretboard. This
+  Places the note referenced by \marg{id} on the current fretboard. This
   command only makes sense in the \refEnv{fretboard} environment.
 
   You can override any parameter set in the \refCom{FBnewNote} command or
@@ -535,8 +547,8 @@ the \refCom{FBnote} command.
 \end{docCommand}
 
 \begin{docCommand}{FBnoteAt}{\oarg{options}\marg{id}\marg{string}\marg{fret}}
-  Similar to \refCom{FBnote} but place note \docValue{id} at \docValue{string}
-  on \docValue{fret}.
+  Similar to \refCom{FBnote} but place note \meta{id} at \meta{string}
+  on \meta{fret}.
 \end{docCommand}
 
 
@@ -558,89 +570,98 @@ here unless you really know what you are doing.
 
 
 \begin{docCommand}{FBnewNote}{\oarg{options}\marg{id}}
-  Create a new note identified by \marg{id}. It should respect the
+  Creates a new note identified by \meta{id}. It should respect the
   \pkg{pgfkeys} key syntax. It's better to only use alphanumerical
   characters. By an arbitrary convention, flats are replaced by \texttt{b}
   and sharps by \texttt{S}. Thus a \pCS is referenced as \texttt{CS} and
   \pDb by \texttt{Db}. See the annexes for all defined pitches and
   intervals.
 
-  The newly created note will be placed under the
-  \docAuxKey*{/fb/notes/NOTE} key path.
-  
-  In addition you can add some \oarg{options} to the new note. From here a
-  pitch or an interval is referenced as a note.
+  The newly created note is placed under the \docAuxKey*{/fb/notes/NOTE} key
+  path. In addition you can add some \oarg{options} to the new note.
 
-  \begin{docKey}[fb/notes/NOTE][]{name}{=name}{}
+
+  From here a pitch or an interval is referenced as a note.
+
+  \begin{docKey}[fb/notes/NOTE][]{name}{=\meta{name}}{}
     The full textual name of the note that can be used for specific usage.
   \end{docKey}
 
-  \begin{docKey}[fb/notes/NOTE][]{degree}{=degree}{}
+  \begin{docKey}[fb/notes/NOTE][]{degree}{=\meta{degree}}{}
     The note degree in the \pC major scale reference (1 or \pC, 2 for \pD, 3
     for \pE, etc). the degree does not care about semitones, just about the
     note base name.
   \end{docKey}
 
-  \begin{docKey}[fb/notes/NOTE][]{tex}{=tex}{}
-    the note representation in a musical environment. This key is used by
-    the \cs{pX} command where \texttt{X} is the note \marg{id}. See the
+  \begin{docKey}[fb/notes/NOTE][]{tex}{=\meta{tex}}{}
+
+    \unstable
+
+    The note representation in a musical environment. This key is used by
+    the \cs{pX} command where \texttt{X} is the note \meta{id}. See the
     annexes for further details.
   \end{docKey}
 
-  \begin{docKey}[fb/notes/NOTE][]{tex small}{=tex}{}
-    Same as \refKey{/fb/notes/NOTE/tex} but used for fretboard limited
+  \begin{docKey}[fb/notes/NOTE][]{tex small}{=\meta{tex}}{}
+    \unstable
+    
+    Identical to \refKey{/fb/notes/NOTE/tex} but used for fretboard limited
     space. Flats and sharps are smaller (\FBgetNote{CS}{tex}{} and
     \FBgetNote{CS}{tex small}).
   \end{docKey}
 
-  \begin{docKey}[fb/notes/NOTE][]{semitones}{=0}{0}
+  \begin{docKey}[fb/notes/NOTE][]{semitones}{=\meta{number}}{0}
     Semitone distance from the \pC note. This is used to determine the
     note's place on the fretboard.
   \end{docKey}
 
-  \begin{docKey}[fb/notes/NOTE][]{reversed}{=note ref}{}
-    The reference to the reversed interval \marg{id} or equivalent note name.
+  \begin{docKey}[fb/notes/NOTE][]{reversed}{=\meta{note ref}}{}
+
+    \unstable
+    
+    The reference to the reversed interval \meta{id} or equivalent note
+    name.
   \end{docKey}
 
   From this point all other options are only useful when placing a note on
   the fretboard using the \refCom{FBnote} command to override default
   behaviors.
 
-  \begin{docKey}[fb/notes/NOTE][]{limit}{={list, of, strings}}{}
+  \begin{docKey}[fb/notes/NOTE][]{limit}{=\meta{list of strings}}{}
     A list of strings (order does not matter) to limit the note placement on
     the fretboard. For example if you only want to place the note on both
     \nth{5} and \nth{2} string, use \brackets{2,5} (or \brackets{5,2}).
   \end{docKey}
 
-  \begin{docKey}[fb/notes/NOTE][]{style}{={style}}{}
+  \begin{docKey}[fb/notes/NOTE][]{style}{=\meta{style}}{}
     A complement style definition to \refKey{/tikz/note}.
   \end{docKey}
 
-  \begin{docKey}[fb/notes/NOTE][]{highlight style}{={style}}{}
+  \begin{docKey}[fb/notes/NOTE][]{highlight style}{=\meta{style}}{}
     A complement style definition to \refKey{/tikz/note highlight}.
   \end{docKey}
 
-  \begin{docKey}[fb/notes/NOTE][]{split}{={boolean}}{false}
+  \begin{docKey}[fb/notes/NOTE][]{split}{=\meta{boolean}}{false}
     Split that specific note if set to true.
   \end{docKey}
 
-  \begin{docKey}[fb/notes/NOTE][]{shade}{={boolean}}{false}
+  \begin{docKey}[fb/notes/NOTE][]{shade}{=\meta{boolean}}{false}
     Shade that specific note if set to true.
   \end{docKey}
 
-  \begin{docKey}[fb/notes/NOTE][]{highlight}{={boolean}}{false}
+  \begin{docKey}[fb/notes/NOTE][]{highlight}{=\meta{boolean}}{false}
     Highlight that specific note if set to true.
   \end{docKey}
 
 \end{docCommand}
 
 \begin{docCommand}{FBcopyNote}{\oarg{options}\marg{src}\marg{to}}
-  Copies the note \marg{src} to \marg{to} and override parameters given in
-  \oarg{options}. See \refCom{FBnewNote}.
+  Copies the note \meta{src} to \meta{to} and override parameters given in
+  \meta{options}. See \refCom{FBnewNote}.
 \end{docCommand}
 
 \begin{docCommand}{FBgetNote}{\marg{id}\marg{key}}
-  Retrieves the \marg{key} value of the note \marg{id}.
+  Retrieves the \meta{key} value of the note \meta{id}.
 \end{docCommand}
 
 
@@ -664,19 +685,19 @@ Colors are predefined (see annexes for the full list).
   
   Some options can be passed to to \cs{FBnewColor} command:
 
-  \begin{docKey}[fb/colors][]{limit}{=limit}{0.5}
+  \begin{docKey}[fb/colors][]{limit}{=\meta{limit}}{0.5}
     The luminance limit. If the background color's luminance if greater than
     \meta{limit}, the foreground color is set to black, white otherwise.
 
     You shouldn't change it unless you experiment some strange behaviors.
   \end{docKey}
 
-  \begin{docKey}[fb/colors][]{model}{=model}{HTML}
+  \begin{docKey}[fb/colors][]{model}{=\meta{model}}{HTML}
     The color model to use. See the \pkg{xcolor} documentation for further
     information.
   \end{docKey}
   
-  \begin{docKey}[fb/colors][]{derive}{=boolean}{false}
+  \begin{docKey}[fb/colors][]{derive}{=\meta{boolean}}{false}
     If true, the new color is based on an existing color passed in the
     \meta{spec} argument. Otherwise, a new color is created.
   \end{docKey}
@@ -687,7 +708,7 @@ Colors are predefined (see annexes for the full list).
 \section{Tips}
 
 Inserting a lot of diagrams in a document can take long time to build since
-\pkg{tikz} is not very fast. If your diagrams do not change very often, you
+\TikZ is not very fast. If your diagrams do not change very often, you
 can generate a standalone PDF and include it in your document.
 
 A very simple example can be:
