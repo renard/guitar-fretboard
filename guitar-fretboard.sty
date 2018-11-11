@@ -151,7 +151,7 @@
   standard/.initial = {4, 9, 2, 7},
 }
 
-\newcommand{\tuning}[1]{
+\newcommand{\FBtuning}[1]{
   \pgfkeysvalueof{/fb/tunings/#1}
 }
 
@@ -167,7 +167,7 @@
 \pgfkeys{
   /fb/.cd,
   %
-  tuning/.initial = \tuning{guitar/standard},
+  tuning/.initial = \FBtuning{guitar/standard},
   %
   frets min/.initial = 0,
   frets max/.initial = 12,
@@ -510,7 +510,7 @@
 %  #3 X
 %  #4 Y
 %
-\newcommand{\placenote}[4][]{
+\newcommand{\FBnoteAt}[4][]{
   \pgfkeys{/fb/notes/#2/.cd, #1}
   \@setup@note@style[#1]{#2}
   \@placenote[#1]{#2}{#3}{#4}

@@ -225,7 +225,7 @@ How this \pC chord looks like when the guitar is open \pG tuned? Again
 
 \begin{tcblisting}{doc-code,text above listing}
   \begin{fretboard}[frets min = 0, frets max = 3,
-      chord, tuning = \tuning{guitar/open g},
+      chord, tuning = \FBtuning{guitar/open g},
       title = {\pC Chord (open \pG)},
       fret numbers, scale=0.35]
     \FBnote{C} \FBnote[limit={1,4}]{E} \FBnote{G}
@@ -241,7 +241,7 @@ arpeggio (and the whole major scale) in open \pG tuning:
 
 \begin{tcblisting}{doc-code,text above listing}
   \begin{fretboard}[frets before = 2, frets after = 2,
-      tuning = \tuning{guitar/open g}, left handed,
+      tuning = \FBtuning{guitar/open g}, left handed,
       title = {\pC\unskip{}M7 arpeggio in open \pG tuning},
       fret numbers, scale=0.35]
     \foreach \i in {C, E, G, B} {
@@ -389,9 +389,9 @@ the \refCom{FBnote} command.
   You can control the default settings by defining several options all
   relative to the \docAuxKey*{/fb} path.
 
-  \begin{docKey}[fb][]{tuning}{=tuning}{\{\tuning{guitar/standard}\}}
+  \begin{docKey}[fb][]{tuning}{=tuning}{\{\FBtuning{guitar/standard}\}}
     The instrument tuning. You can select a pre-defined tuning with the
-    \refCom{tuning} command or provide your own. Each string is identified by
+    \refCom{FBtuning} command or provide your own. Each string is identified by
     a semitone value (relative to \pC). The strings order is from low to
     high.
   \end{docKey}
@@ -489,13 +489,13 @@ the \refCom{FBnote} command.
   \cs{tikzset}.
 \end{docCommand}
 
-\begin{docCommand}{placenote}{\oarg{options}\marg{id}\marg{string}\marg{fret}}
+\begin{docCommand}{FBnoteAt}{\oarg{options}\marg{id}\marg{string}\marg{fret}}
   Similar to \refCom{FBnote} but place note \docValue{id} at \docValue{string}
   on \docValue{fret}.
 \end{docCommand}
 
 
-\begin{docCommand}{tuning}{\marg{id}}
+\begin{docCommand}{FBtuning}{\marg{id}}
   Retrieves the tuning referenced by \marg{id} under the
   \docAuxKey*{/fb/tunings} path. See annexes for all pre-defined tunings.
 \end{docCommand}
